@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+Add student | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+
+    {% if user.is_superuser %}
+    {% include 'inc/sidebar.html' %}
+    {% include 'inc/message.html' %}
+   
+    <h4 class="card-title">Add Student</h4>
+    <form method='POST' action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Student</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mt-1">
+                    <div class="col-lg-4">
+                        <label for="studentid" class="form-label text-white">Student ID</label>
+                        <input type="text" class="form-control text-white bg-dark" id="studentid" name="studentid">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="studentname" class="form-label text-white">Student Name</label>
+                        <input type="text" class="form-control text-white bg-dark" id="studentname" name="name">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="fname" class="form-label text-white">First Name</label>
+                        <input type="text" class="form-control text-white bg-dark" id="fname" name="fname">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="lname" class="form-label text-white">Last Name</label>
+                        <input type="text" class="form-control text-white bg-dark" id="lname" name="lname">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="mobilenumber" class="form-label text-white">Mobile Number</label>
+                        <input type="number" class="form-control bg-dark text-white" id="mobilenumber" name="mobilenumber">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="gmail" class="form-label text-white">e-mail</label>
+                        <input type="email" class="form-control bg-dark text-white" id="gmail" name="gmail">
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-lg-4">
+                        <label for="studentphoto" class="form-label text-white">Student Photo</label>
+                        <input class="form-control bg-dark text-white" type="file" id="studentphoto" name="studentphoto">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="mobilenumber" class="form-label text-white">Batch Details</label>
+                        <select class="form-control bg-dark text-white" name="Batchid" id="">
+                            <option>Select Batch</option>
+                            {% for batch in batches %}
+                            <option value="{{batch.ID}}">{{batch.Name}} | {{batch.Course_details.LevelID.Name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="Address" class="form-label text-white">Address</label>
+                        <input type="text" class="form-control bg-dark text-white" id="Address" name="Address">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'students' %}" class="btn btn-secondary">Close</a>
+                <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Save Student</button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+{% endblock %}
+
+
+<!--  jQuery first, then Popper.js, then Bootstrap JS -->
+
+

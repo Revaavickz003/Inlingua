@@ -1,0 +1,189 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+{{student_details.StudentID.name}} Details | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+{% include 'inc/sidebar.html' %}
+
+<style>
+    input{
+        border: 1px solid #505050 !important;
+    }
+    button{
+        background-color: #FF751A !important;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="col-xl-4 mt-4">
+            <div class="card mb-4 mb-xl-0 bg-dark">
+                <div class="card-header text-white">Profile Picture</div>
+                <div class="card-body text-center">
+                    <form action="{% url 'profileupdate' id=student_details.StudentID.id %}" method="post"  enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="file-input">
+                            {% if student_details.StudentID.user_img %}
+                            <img src="{{ student_details.StudentID.user_img.url }}" alt="" width="197px" height="197px"id="profile-image" style="cursor: pointer; border-radius: 50%;">
+                            {% else %}
+                            <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="defalt image" width="190px" height="190px" style="cursor: pointer; border-radius: 50%;">
+                            {% endif %}
+                        </label>
+                        <input type="file" name="changeimg" id="file-input" style="display: none;" accept="image/*" onchange="previewImage(this)">
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <input type="submit" class="btn text-white" style="background-color: #FF751A;" value="Save Profile pic">
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            function previewImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('profile-image').src = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            function uploadImage() {
+                var fileInput = document.getElementById('file-input');
+                fileInput.click();
+            }
+        </script>
+        
+        <div class="col-xl-8 mt-4">
+            <div class="card mb-4 bg-dark">
+                <div class="card-header text-white">Basic Details</div>
+                <div class="card-body">
+                    <form action="{% url 'basicdetailsupdate' id=student_details.StudentID.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-white" for="studentname">Name</label>
+                                <input class="form-control bg-dark text-white" id="studentname" name="studentname" type="text" value="{{student_details.StudentID.name}}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-white" for="mobilenumber">Mobile Number</label>
+                                <input class="form-control bg-dark text-white" id="mobilenumber" name="mobilenumber" type="number" value="{{student_details.StudentID.Mobile_Number}}">
+                            </div>
+                        </div>
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-white" for="fname">First Name</label>
+                                <input class="form-control bg-dark text-white" id="fname" name="fname" type="text"  value="{{student_details.StudentID.first_name}}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-white" for="lname">Last Name</label>
+                                <input class="form-control bg-dark text-white" id="lname" name="lname" type="text" value="{{student_details.StudentID.last_name}}">
+                            </div>
+                        </div>
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-white" for="email">Email Id</label>
+                                <input class="form-control bg-dark text-white" id="email" name="email" type="email"  value="{{student_details.StudentID.email}}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-white" for="Location" >Location</label>
+                                <input class="form-control bg-dark text-white" id="Location" name="Location" type="text" value="{{student_details.StudentID.Address}}">
+                            </div>
+                        </div>
+                        <input type="submit" class="btn text-white" style="background-color: #FF751A;" value="Update Basic details">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <div class="card mb-4 bg-dark">
+            <div class="card-header text-white d-flex align-items-center justify-content-between">Course Details
+                <div class="d-flex w-50 align-items-center justify-content-end">
+                    <form action="{% url 'studentbatchdetals' id=student_details.StudentID.id %}" method="post" class="d-flex w-100 d-none" id="changecourseform">
+                        {% csrf_token %}
+                        <div class="w-75">
+                            <select class="form-control bg-dark text-white" name="Batchid" id="">
+                                <option>Select Batch</option>
+                                {% for batch in batches %}
+                                <option value="{{batch.ID}}">{{batch.Name}} | {{batch.Course_details.LevelID.Name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <input type="submit" class="btn text-white mx-2" style="background-color: #FF751A;" value="Update Course">
+                        <input id="clearbtn" type="button"  class="btn btn-outline-secondary" value="Clear">
+                    </form>
+                    <input id="editcoursebtn" type="submit" class="btn text-white mx-2" style="background-color: #FF751A;" value="Edit Course">
+                    <a id="trashbtn" href="" class="btn btn-outline-secondary">Trash Data</a>
+                </div>
+            </div>
+            <script>
+                const editcoursebtn = document.getElementById('editcoursebtn');
+                const changecourseform = document.getElementById("changecourseform");
+                const trashbtn = document.getElementById('trashbtn');
+                const clearbtn = document.getElementById('clearbtn');
+                editcoursebtn.addEventListener('click', () => {
+                    editcoursebtn.classList.add('d-none')
+                    trashbtn.classList.add('d-none')
+                    clearbtn.classList.remove('d-none')
+                    changecourseform.classList.remove('d-none')
+                })
+                clearbtn.addEventListener('click', () => {
+                    location.reload();
+                });
+
+            </script>
+            <div class="card-body">
+                <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="Language">Language</label>
+                        <input class="form-control bg-dark text-white" id="Language" name="Language" readonly type="text" value="{{student_details.BatchID.Course_details.LanguageID.Name}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="Course">Course</label>
+                        <input class="form-control bg-dark text-white" id="Course" name="Course" readonly type="text"   value="{{student_details.BatchID.Course_details.Name}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="Batch">Batch</label>
+                        <input class="form-control bg-dark text-white" id="Batch" name="Batch" readonly type="text"  value="{{student_details.BatchID.Name}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="Trainer">Trainer</label>
+                        <input class="form-control bg-dark text-white" id="Trainer" name="Trainer" readonly type="text"  value="{{student_details.BatchID.TrainerId.LoginId.name}}">
+                    </div>
+                </div>
+            </div>
+            <hr class="text-white">
+            <div class="card-header text-white">History</div>
+            <div class="card-body">
+                <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="createdby">Created By</label>
+                        <input class="form-control bg-dark text-white" id="createdby" readonly name="createdby" type="text"  value="{{student_details.StudentID.created_by}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="createddate">Craeted Date</label>
+                        <input class="form-control bg-dark text-white" id="createddate" readonly name="createddate" type="text"  value="{{student_details.StudentID.date_joined}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="updatedby">Updated By</label>
+                        <input class="form-control bg-dark text-white" id="updatedby" readonly name="updatedby" type="text"  value="{{student_details.StudentID.updated_by}}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small mb-1 text-white" for="updateddate">Updated Date</label>
+                        <input class="form-control bg-dark text-white" id="updateddate" readonly name="updateddate" type="text"  value="{{student_details.StudentID.updated_date}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

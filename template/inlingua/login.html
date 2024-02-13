@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+  Login Page | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+<div class="login-page">
+  <div class="container pt-5">
+    <div class="container-1  d-flex align-items-center justify-content-between"  style="position: relative;">
+      <div class="mesg-container m-0" style="position: absolute;">
+        {% include 'inc/message.html' %}
+      </div>
+      <a href="{% url 'home' %}" class="btn btn-outline-primary float-start px-4"><i class='bx bx-left-arrow-alt'></i></a>
+      <img class="d-none d-md-block" src="{% static 'img/imgs/L1.png' %}" alt="img" width="200px">
+    </div>
+  </div>
+  <div class="container">
+    <div class="container d-lg-none mt-5  d-flex align-items-center justify-content-center ">
+      <img src="{% static 'img/imgs/element 1.png' %}" alt="" width="250px">
+    </div>
+    <div class="container login-container">
+      <div class="row">
+        <div class="col-md-4">
+          <p class="text-white m-0 p-0" style="font-size: 40px; font-weight: normal; line-height: 40px;">Welcome to</p>
+          <h3  class="text-white m-0" style="font-size: 40px;"><strong>Inlingua Portal</strong></h3>
+          <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="input-container">
+              <input type="text" id="username" name="username" placeholder="Email address" required />
+            </div>
+            <div class="input-container" style="position: relative;">
+              <input type="password" id="password" name="password" placeholder="Password" required/>
+              <i class="fa fa-eye" id="eyebtn" aria-hidden="true" style="position: absolute; top: 30%; right: 15px; cursor: pointer;"></i>
+            </div>
+            <div class="input-container">
+              <button type="submit" >Login</button>
+            </div>
+            <a class="btn btn-outline-primary  mt-3 w-100"  href="{% url 'password_reset' %}">Forgotten your password?</a></p>
+          </form>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-6  d-flex align-items-center justify-content-center ">
+          <img class="d-none d-lg-block" src="{% static 'img/imgs/element 1.png' %}" alt="" width="350px">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const eyebtn = document.getElementById("eyebtn");
+  const passwordInput = document.querySelector('input[name=password]');
+  eyebtn.addEventListener("click", function () {
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      eyebtn.classList.remove("fa-eye");
+      eyebtn.classList.add("fa-eye-slash");
+    }
+    else{
+      passwordInput.type = "password";
+      eyebtn.classList.remove("fa-eye-slash");
+      eyebtn.classList.add("fa-eye");
+    }
+  })
+</script>
+{% endblock %}
+

@@ -1,0 +1,93 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+{{student_details.StudentID.name}} Payment page | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+{% if user.is_superuser %}
+{% include 'inc/sidebar.html' %}
+<h4>{{student_details.StudentID.name}} Payment</h4> 
+<div class="modal-content mt-3 bg-dark">
+    <div class="modal-header">
+        <h5 class="modal-title text-white" id="staticBackdropLabel">Payment</h5>
+    </div>
+    <div class="modal-body">
+        <form action="" method="post" >
+            {% csrf_token %}
+            <div class="row">
+                <div class="form-group col-6 mt-2">
+                    <label for="PaymentTypeId" class="text-white">Payment Type</label>
+                    <select class="form-control bg-dark text-white mt-2" id="PaymentTypeId" name="PaymentTypeId">
+                    <option >Select a payment type</option>
+                    {% for item in paytypes %}
+                    <option value="{{item.ID}}">{{item.Name}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-6 mt-2">
+                    <label for="PaymentMethodId"  class="text-white">Payment Method</label>
+                    <select class="form-control bg-dark text-white mt-2" id="PaymentMethodId" name="PaymentMethodId">
+                    <option >Select a payment Method</option>
+                    {% for item in paymentmethod %}
+                    <option value="{{item.ID}}">{{item.Name}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-6 mt-2">
+                    <label for="TransactionId" class="text-white">Transsaction Id</label>
+                    <input type="number" class="form-control bg-dark text-white mt-2" id="TransactionId" placeholder="000000000000" name="TransactionId">
+                </div>
+                <div class="form-group col-6 mt-2">
+                    <label for="Amount" class="text-white">Amount</label>
+                    <input type="number" class="form-control bg-dark text-white mt-2" id="Amount" placeholder="35000.00" name="Amount">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 mt-3">
+                    <div class=" mt-2" for="Discount">
+                        <label for="Discount" class="text-white">Discount</label>
+                        <input type="checkbox" name="Discount" id="Discount">
+                    </div>
+                </div>
+            </div>
+            <div class="d-none" id="Descount-container">
+                <div class="row">
+                    <hr class="text-white">
+                    <div class="form-group col-6 mt-2">
+                        <label for="DiscountedPayment" class="text-white">Descount Amount</label>
+                        <input type="number" class="form-control bg-dark text-white mt-2" id="DiscountedPayment" placeholder="35000.00" name="DiscountedPayment">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-12 mt-2">
+                        <label for="Description" class="text-white">Descount Descripstion</label><br>
+                        <textarea class="form-control bg-dark text-white mt-2" name="" id="" cols="100" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Save Payment</button>
+            </div>
+        </form>
+        
+    </div>
+    
+</div>
+<script>
+    const Discount = document.getElementById('Discount');
+    const DescountContainer = document.getElementById("Descount-container");
+    Discount.addEventListener('change', (e) => {
+        if(e.target.checked){
+            DescountContainer.classList.remove('d-none')
+            }else{
+                DescountContainer.classList.add('d-none')
+                }
+                })
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,268 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+
+{% if request.path == "/crm/trainers/" %}
+Trainers List
+{% else %}
+Trainer {{training_Staff.TrainerId.Name}} Details 
+{% endif %}
+| inlingua
+{% endblock %}
+
+
+{% block style %}
+{% endblock %}
+
+{% block container %}
+{% include 'inc/sidebar.html' %}
+{% include 'inc/message.html' %}
+
+
+<h4 class="card-title">Trainers</h4>
+{% if training_Staff %}
+<!-- Search Box -->
+<div class="row mb-3">
+    <div class="col-md-6 col-lg-4 mt-3">
+        <div class="input-group">
+            <input type="search" class="form-control rounded" placeholder="Search Trainers" aria-label="Search" aria-describedby="search-addon" />
+            <input type="submit" class="btn text-white" value="Serach" style="background-color: #FF751A;">
+          </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if request.path == "/crm/trainers/" %}
+    <a href="{% url 'addtrainers' %}" class="btn text-white mb-3" style="background-color: #FF751A;">Add Trainer</a>
+    {% if training_Staff %}
+    <!-- Language with Trainers -->
+        <div class="row g-3">
+            {% for language in languages %}
+                <a href="{% url 'language_view' name=language.Name %}" class="col-12 col-md-4 d-flex flex-column">
+                    <div >
+                        <div class="card">
+                            <div class="card-body bg-dark p-4 text-white" style="border-radius: 5px;">
+                                <i class='bx bx-book text-white h1'></i>
+                                {% for trainer_head in trainer_heads %}
+                                {% if trainer_head.LanguageID.Name == language.Name %}
+                                <p class="text-primary m-0 p-0">{{trainer_head.TrainerId.LoginId.name}} | {{trainer_head.userid}}</p>
+                                {% endif %}
+                                {% endfor %}
+                                
+                                <h3 class="card-title" style="color: #FF751A;"> {{language.Name }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <!-- Trainer Table -->
+        <div class="table-responsive mt-3 p-4 bg-dark d-none d-md-block" style="border-radius: 5px;">
+            <table class="table table-dark table-borderless ">
+                <thead style="border-bottom: 1px solid rgb(88, 88, 88);">
+                    <tr>
+                        <th scope="col">Trainer Name</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">Level Id</th>
+                        <th scope="col">Certificate Number</th>
+                        <th scope="col">Certificate Valid Till</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    {% for training_Staff in training_Staff %}
+                    {{training_Staff.TrainerId.LoginId.user_img}}
+                    <tr style="border-bottom: 1px solid #333333;">
+                        <td scope="row">
+                            <a href="{% url 'trainer' id=training_Staff.ID %}" class="d-flex align-items-center">
+                                <div class="header_img">
+                                    {% if training_Staff.TrainerId.LoginId.user_img %}
+                                        <img src="{{ training_Staff.TrainerId.LoginId.user_img.url }}" alt="User Img" style="width: 35px; height: 35px; border-radius: 50%;">
+                                    {% else %}
+                                        <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img" style="width: 35px; height: 35px; border-radius: 50%;">
+                                    {% endif %}
+                                </div>{{training_Staff.TrainerId.LoginId.name}}
+                            </a>
+                        </td>
+                        <td scope="row">{{ training_Staff.LanguageID.Name }}</td>
+                        <td scope="row">{{ training_Staff.LevelId.Code }}</td>
+                        <td scope="row">{{ training_Staff.CertificateNumber }}</td>
+                        <td scope="row">{{ training_Staff.CertificateValidTill|date:"M. d, Y, g:i A" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+{% else %}
+
+    {%  if training.TrainerHead %}
+    <a href="{% url 'removehead' id=training.ID %} " class="btn btn-secondary mb-3">Remove Trainer Head</a>
+    {% else %}
+    <a href="{% url 'addhead' id=training.ID %} " class="btn btn-secondary mb-3">Add Trainer Head</a> 
+    {% endif %}
+    <style>
+        input{
+            border: 1px solid #505050 !important;
+        }
+        button{
+            background-color: #FF751A !important;
+        }
+    </style>
+    <div>
+        <div class="row">
+            <div class="col-xl-4 ">
+                <div class="card mb-4 bg-dark">
+                    <div class="card-header text-white">Profile Picture</div>
+                    <div class="card-body text-center"
+                    >
+                        <form action="{% url 'trainerprofile' id=training.TrainerId.LoginId.id %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <label for="file-input">
+                                {% if training.TrainerId.LoginId.user_img %}
+                                    <img src="{{ training.TrainerId.LoginId.user_img.url }}" alt="User Img"
+                                    width="180px" height="180px"
+                                    id="profile-image"
+                                    style="cursor: pointer;
+                                    border-radius: 50%;">
+                                {% else %}
+                                    <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img" 
+                                    width="180px" height="180px"
+                                    id="profile-image"
+                                    style="cursor: pointer;
+                                    border-radius: 50%;">
+                                {% endif %}
+                            </label>
+                            <input type="file" name="trainerprofile" id="file-input" style="display: none;" accept="image/*" onchange="previewImage(this)">
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <input type="submit" class="btn text-white" style="background-color: #FF751A;" value="Save Profile pic">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                function previewImage(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            document.getElementById('profile-image').src = e.target.result;
+                        }
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            
+                function uploadImage() {
+                    var fileInput = document.getElementById('file-input');
+                    fileInput.click();
+                }
+            </script>
+            <div class="col-xl-8">
+                <div class="card mb-4 bg-dark">
+                    <div class="card-header text-white">Basic Details</div>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'trainerbasicdetails' id=training.TrainerId.LoginId.id %}">
+                            {% csrf_token %}
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1 text-white" for="trainerid">Trainer ID</label>
+                                    <input class="form-control bg-dark text-white" id="trainerid" type="text" name="trainerid" readonly placeholder="Enter Employee Id" value="{{training.userid}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1 text-white" for="trainername">Name</label>
+                                    <input class="form-control bg-dark text-white" id="trainername" name="trainername" type="text" placeholder="Enter Employee Name" value="{{training.TrainerId.Name}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1 text-white" for="inputUsername">Role</label>
+                                    <input class="form-control bg-dark text-white" id="inputUsername" readonly type="text" placeholder="Enter Employee Name" value="{{training.TrainerId.LoginId.role_id.Name}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1 text-white" for="location">Location</label>
+                                    <input class="form-control bg-dark text-white" id="location" name="location" type="text" placeholder="Enter your location" value="{{training.TrainerId.LoginId.Address}}">
+                                </div>
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="small mb-1 text-white" for="mobilenumber">Mobile Number</label>
+                                    <input class="form-control bg-dark text-white" id="mobilenumber" name="mobilenumber" type="number" placeholder="Enter Employee Mobile Number" value="{{training.TrainerId.LoginId.Mobile_Number}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1 text-white" for="email">Email address</label>
+                                    <input class="form-control bg-dark text-white" id="email" name="email" type="email" placeholder="Enter your email address" value="{{training.TrainerId.LoginId.email}}">
+                                </div>
+                            </div>
+                            <button class="btn text-white" type="submit">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="card mb-4 bg-dark">
+                <div class="card-header text-white">Account Details</div>
+                <div class="card-body">
+                    <form>
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="small mb-1 text-white" for="alanguage">Language</label>
+                                <input class="form-control bg-dark text-white" id="alanguage" readonly type="text" placeholder="Enter your location"  value="{{training.LanguageID.Name}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small mb-1 text-white" for="languavecode">Language Level Code</label>
+                                <input class="form-control bg-dark text-white" id="languavecode" readonly type="text" placeholder="Enter your location"  value="{{training.LevelId.Code}}">
+                            </div>
+                        </div>
+                        <div class="row gx-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="small mb-1 text-white" for="Certificatenumber">Certificate Number</label>
+                                <input class="form-control bg-dark text-white" id="Certificatenumber" readonly type="text" placeholder="Enter Employee Name" value="{{training.CertificateNumber}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small mb-1 text-white" for="CertifyingAuthority">Certifying Authority</label>
+                                <input class="form-control bg-dark text-white" id="CertifyingAuthority" readonly type="text" placeholder="Enter Employee Name" value="{{training.CertifyingAuthority}}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="small mb-1 text-white" for="Certificatevalidtill">Certificate Valid Till</label>
+                                <input class="form-control bg-dark text-white" id="Certificatevalidtill" readonly type="text" placeholder="Enter Employee Mobile Number" value="{{training.CertificateValidTill}}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if training_batches %}
+        <h4 class="card-title">Batch Details</h4>
+        <div class="row g-3 h-100 mb-3">
+            {% for training_batche in training_batches %}
+            <div class="col-6 d-flex flex-column" style="border-radius: 5px;">
+                <div class="card-body bg-dark p-4 text-white" style="border-radius: 5px;">
+                    <h3 class="mb-3" style="color: #FF751A;">{{training_batche.Name}}</h3>
+                    <p class="mb-3" class="m-0">Language : <a href="">{{training_batche.Course_details.LanguageID.Name}}</a></p>
+                    <div class="d-flex ">
+                        <p class="m-0" style="margin-right: 10px !important;">Start Date : <span style="color: #FF751A;">{{training_batche.Course_details.StartDate}}</span></p>
+                        <p >End Date : <span style="color: #FF751A;">{{training_batche.Course_details.EndtDate}}</span></p>
+                    </div>
+                    <div class="d-flex">
+                        <p class="m-0" style="margin-right: 10px !important;">Class Start : <span style="color: #FF751A;">{{training_batche.Course_details.StartTime}}</span></p>
+                    <p class="m-0">Class End : <span style="color: #FF751A;">{{training_batche.Course_details.EndTime}}</span></p>
+                    </div>
+                    
+
+                    <h5 class="card-title mt-2 text-white">Students</h5>
+                    {% for Student_detail in Student_details %}
+                        {% if Student_detail.BatchID.ID == training_batche.ID %}
+                            <a href="{% url 'studentdetails' id=Student_detail.ID %}">{{Student_detail.StudentID.name}}</a><br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div> 
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

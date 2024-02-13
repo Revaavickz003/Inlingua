@@ -1,0 +1,561 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+{% if BatchInfo %}
+Edit {{BatchInfo.Name}} Batch
+{% else %}
+Batchs, Courses and Levels 
+{% endif %}
+ | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+    {% if user.is_superuser %}
+        {% include 'inc/sidebar.html' %}
+        <div class="container-fluid  mt-3">
+            {% include 'inc/message.html' %}
+        </div>
+
+{% if request.path == "/crm/courceandlevels_table/" %}
+        <!-- Batch Model -->
+        <div style="position: relative; width: 100%; height: 100%;">
+            <div class="modal  fade" id="addbatch" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="height: 100vh; width: 100%; backdrop-filter: blur(3px); position: absolute;" >
+                <div class="modal-dialog modal-lg ">
+                    <form method='POST' action="{% url 'add_batchs' %}">
+                        {% csrf_token %}
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Batch</h5>
+                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="batchname" class="form-label text-white">Batch Name</label>
+                                        <input type="text" class="form-control text-white bg-dark" id="batchname" name="batchname">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="Courses_Details" class="form-label text-white">Courses Details</label>
+                                        <select class="form-select form-select bg-dark text-white" id="Courses_Details" name="Courses_Details">
+                                            <option selected>Select a Course</option>
+                                            {% for courses in All_courses %}
+                                            <option value="{{ courses.ID}}">{{ courses.Name }} | {{ courses.LevelID.Name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="Trainer" class="form-label text-white">Trainer</label>
+                                        <select class="form-select form-select bg-dark text-white" name="Trainer" id="Trainer">
+                                            <option selected>Select a Trainer</option>
+                                            {% for training in training_staff%}
+                                            <option value="{{training.TrainerId.ID}}">{{training.TrainerId.Name}} | {{training.userid}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="gmeeturl" class="form-label text-white">G-meet url</label>
+                                        <input type="text" class="form-control bg-dark text-white" id="gmeeturl" name="gmeeturl">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="satrdate" class="form-label text-white">Start Date</label>
+                                        <input class="form-control bg-dark text-white" type="date" id="satrdate" name="satrdate">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="End-Date" class="form-label text-white">End Date</label>
+                                        <input class="form-control bg-dark text-white" type="date" id="End-Date" name="EndDate">
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="classduraition" class="form-label text-white">Duration</label>
+                                        <input type="number" class="form-control bg-dark text-white" id="classduraition" name="classduraition">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="start_time" class="form-label text-white">Start Time</label>
+                                        <input type="time" class="form-control bg-dark text-white" id="start_time" name="start_time">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="end_time" class="form-label text-white">End Time</label>
+                                        <input type="time" class="form-control bg-dark text-white" id="end_time" name="end_time">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Save Batch</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Batch Model end -->
+        <!-- Course Model start -->
+        <div style="position: relative; width: 100%; height: 100%;">
+            <div class="modal fade" id="addcourse" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="height: 100vh; width: 100%; backdrop-filter: blur(3px); position: absolute;" >
+                <div class="modal-dialog modal-lg">
+                    
+                    <form method='POST' action="{% url 'add_course' %}">
+                        {% csrf_token %}
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Couse</h5>
+                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="coursename" class="form-label text-white">Course Name</label>
+                                        <input type="text" class="form-control text-white bg-dark" id="coursename" name="coursename">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="levelid" class="form-label text-white">Level Details</label>
+                                        <select class="form-select form-select bg-dark text-white" id="levelid" name="levelid">
+                                            <option selected>Select a Level</option>
+                                            {% for level in All_level %}
+                                            <option value="{{ level.ID }}">{{ level.Code }} | {{ level.Name }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="languageid" class="form-label text-white">Language Details</label>
+                                        <select class="form-select form-select bg-dark text-white" name="languageid" id="languageid">
+                                            <option selected>Select a Language</option>
+                                            {% for languages in All_languages%}
+                                            <option value="{{languages.ID}}">{{languages.Name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="duration" class="form-label text-white">Course Duration</label>
+                                        <input type="number" class="form-control bg-dark text-white" id="duration" name="duration">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="cast" class="form-label text-white">Cast</label>
+                                        <input type="number" class="form-control bg-dark text-white" id="cast" name="cast">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="satrdate" class="form-label text-white">Start Date</label>
+                                        <input class="form-control bg-dark text-white" type="date" id="satrdate" name="satrdate">
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="End-Date" class="form-label text-white">End Date</label>
+                                        <input class="form-control bg-dark text-white" type="date" id="End-Date" name="EndDate">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="start_time" class="form-label text-white">Start Time</label>
+                                        <input type="time" class="form-control bg-dark text-white" id="start_time" name="start_time">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="end_time" class="form-label text-white">End Time</label>
+                                        <input type="time" class="form-control bg-dark text-white" id="end_time" name="end_time">
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-4">
+                                        <label for="coursemetrials" class="form-label text-white">Course Metirials</label>
+                                        <input class="form-control bg-dark text-white" type="file" id="coursemetrials" name="coursemetrials">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="coursestatus" class="form-label text-white">Course Status</label>
+                                        <input type="number" class="form-control bg-dark text-white" id="coursestatus" name="coursestatus">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="Duscription" class="form-label text-white">Duscription</label>
+                                        <textarea class="form-control bg-dark text-white" name="Duscription" id="Duscription" rows="1"></textarea>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Save Cources</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Coursev Model End -->
+        <!-- Level Model Satrt -->
+        <div style="position: relative; width: 100%; height: 100%;">
+            <div class="modal fade" id="addlevel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="height: 100vh; width: 100%; backdrop-filter: blur(3px); position: absolute;" >
+                <div class="modal-dialog">
+                    <form action="{% url 'add_level' %}" method='POST'>
+                        {% csrf_token %}
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Batch</h5>
+                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3 mt-1">
+                                    <div class="col-6">
+                                        <label for="levelname" class="form-label text-white">Level Name</label>
+                                        <input type="text" class="form-control text-white bg-dark" id="levelname" name="levelname">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="levelcode" class="form-label text-white">Level Code</label>
+                                        <input type="text" class="form-control text-white bg-dark" id="levelcode" name="levelcode">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Save Level</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Level Model End -->
+
+        
+        <div class="container-fluid  mt-3" >
+            <div class="row g-3 h-100 mt-1">
+                <div class="col-4  mt-3 d-flex flex-column">
+                    <div class="card h-100">
+                        <div class="card-body bg-dark p-4" style="border-radius: 5px;">
+                            <h3 class="card-title text-white">Batch</h3>
+                            {% for batches in All_batches%}
+                            <a href="{% url 'edit_batchs' id=batches.ID %}" class="">{{batches.Name}}</a><br>
+                            {% endfor %}
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addbatch">
+                                Add Batch
+                                </button><br> 
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4  mt-3 d-flex flex-column">
+                    <div class="card h-100">
+                        <div class="card-body bg-dark p-4" style="border-radius: 5px;">
+                            <h3 class="card-title text-white">Cources</h3>
+                            {% for courses in All_courses%}
+                            <a href="{% url 'edit_cources' id=courses.ID %}" class="">{{courses.Name}} | {{courses.LevelID.Name}}</a><br>
+                            {% endfor %}
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addcourse">
+                                Add Course
+                                </button><br>
+                            
+                                <!-- Modal -->
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4  mt-3 d-flex flex-column">
+                    <div class="card h-100">
+                        <div class="card-body bg-dark p-4" style="border-radius: 5px;">
+                            <h3 class="card-title text-white">Levels</h3>
+                            {% for level in All_level%}
+                            <a href="{% url 'edit_level' id=level.ID %}" class="">{{level.Name}} | {{level.Code}}</a><br>
+                            {% endfor %}
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addlevel">
+                                Add Level
+                                </button><br>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% elif request.path == url_with_id %}
+
+        <style>
+            input,select{
+                border: 1px solid #444444 !important;
+            }
+        </style>
+        <form method='POST' action="">
+            {% csrf_token %}
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white" id="staticBackdropLabel">
+                        {% if BatchInfo %}
+                            Edit Batch
+                        {% elif course_info %}
+                            Edit Coures 
+                        {% elif level_info %}
+                            Edit Level 
+                        {% endif %}
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3 mt-1">
+                        <div class="col-4">
+                            <label for="batchname" class="form-label text-white">
+                                {% if BatchInfo %}
+                                    Batch Name
+                                {% elif course_info %}
+                                    Coures Name 
+                                {% elif level_info %}
+                                    Level Name
+                                {% endif %}
+                        </label>
+                            <input type="text" class="form-control text-white bg-dark" id="batchname" 
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.Name}}"
+                            {% elif course_info %}
+                                value="{{course_info.Name}}" 
+                            {% elif level_info %}
+                                value="{{level_info.Name}}"
+                            {% endif %}
+
+                            name="batchname">
+                        </div>
+
+                        {% if BatchInfo %}
+                        <div class="col-4">
+                            <label for="Courses_Details" class="form-label text-white">Course</label>
+                            <select class="form-select form-select bg-dark text-white" id="Courses_Details" name="Courses_Details">
+                                <option selected>Select a Course</option>
+                                {% for courses in all_course %}
+                                <option
+                                {% if BatchInfo.Course_details.Name == courses.Name %}
+                                        selected
+                                {% endif %}
+                                value="{{ courses.ID}}">{{ courses.Name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% elif course_info %}
+                        <div class="col-4">
+                            <label for="Courses_Details" class="form-label text-white">Level</label>
+                            <select class="form-select form-select bg-dark text-white" id="Courses_Details" name="Level_Details">
+                                <option selected>Select a Level</option>
+                                {% for level in all_level %}
+                                    <option value="{{ level.ID }}"
+                                        {% if course_info.LevelID.Name == level.Name %}
+                                            selected
+                                        {% endif %}
+                                    >{{ level.Name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        {% if BatchInfo %}
+                        <div class="col-4">
+                            <label for="Trainer" class="form-label text-white">Trainer</label>
+                            <select class="form-select form-select bg-dark text-white" name="Trainer" id="Trainer">
+                                <option selected>Select a Trainer</option>
+                                {% for Trainer in all_Trainer%}
+                                <option
+                                {% if BatchInfo.TrainerId.Name == Trainer.Name %}
+                                        selected
+                                {% endif %}
+                                value="{{Trainer.ID}}">{{Trainer.Name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% elif course_info %}
+                        <div class="col-4">
+                            <label for="Trainer" class="form-label text-white">Language</label>
+                            <select class="form-select form-select bg-dark text-white" name="language_details" id="Trainer">
+                                <option selected>Select a Language</option>
+                                {% for language in all_language %}
+                                <option
+                                {% if course_info.LanguageID.Name == language.Name %}
+                                    selected
+                                {% endif %}
+                                value="{{language.ID}}">{{language.Name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="col-4">
+                            <label for="gmeeturl" class="form-label text-white">
+                                {% if BatchInfo %}
+                                    G-meet url
+                                {% elif course_info %}
+                                    Description
+                                {% elif level_info %}
+                                    Level code
+                                {% endif %}
+                            </label>
+                            <input type="text" class="form-control bg-dark text-white" id="gmeeturl" 
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.MeetingURL}}"
+                                readonly
+                            {% elif course_info %}
+                                value="{{course_info.Description}}"
+                                readonly
+                            {% elif level_info %}
+                                value="{{level_info.Code}}"
+                            {% endif %}
+                            name="gmeeturl" 
+                            >
+                        </div>
+
+                        {% if course_info %}
+                        <div class="col-4">
+                            <label for="satrdate" class="form-label text-white">Course status</label>
+                            <div class="progress" style="height: 8px;">
+                                <div
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    style="width: {{course_info.Course_status}}%;
+                                    background-color: chocolate;"
+                                    aria-valuenow="25"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    
+                                >
+                                </div>
+                            </div>
+                            <p class="m-0 p-0 text-white">{{course_info.Course_status}} / 100</p>
+                        </div>
+                        <div class="col-4">
+                            <label for="satrdate" class="form-label text-white">Course Metirials</label>
+                            <div class="form-control bg-dark"
+                                style="border: 1px solid #444444;">
+                                <a href="#" class="">
+                                    {% if course_info.Course_metirials %}
+                                        {{course_info.Course_metirials}}
+                                    {% else %}
+                                        No Files
+                                    {% endif %}</a>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <label for="satrdate" class="form-label text-white">Cast</label>
+                            <input class="form-control bg-dark text-white" type="text" id="satrdate"  
+                            value="{{ course_info.Cost}}"
+                             name="satrdate" readonly>
+                        </div>
+                        {% endif %}
+                        {% if BatchInfo or course_info %}
+                        <div class="col-4">
+                            <label for="satrdate" class="form-label text-white">Start Date</label>
+                            <input class="form-control bg-dark text-white" type="text" id="satrdate"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.StartDate}}"
+                            {% elif course_info %}
+                                value="{{course_info.StartDate}}"
+                            {% endif %} 
+                            name="satrdate" readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="End-Date" class="form-label text-white">End Date</label>
+                            <input class="form-control bg-dark text-white" type="text" id="End-Date" 
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.EndDate}}"
+                            {% elif course_info %}
+                                value="{{course_info.EndtDate}}"
+                            {% endif %}
+                             name="EndDate" readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="classduraition" class="form-label text-white">Duration</label>
+                            <input type="text" class="form-control bg-dark text-white" id="classduraition"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.Duration}}"
+                            {% elif course_info %}
+                                value="{{course_info.Duration}}"
+                            {% endif %}
+                            name="classduraition" readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="start_time" class="form-label text-white">Start Time</label>
+                            <input type="text" class="form-control bg-dark text-white" id="start_time"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.StartTime}}"
+                            {% elif course_info %}
+                                value="{{course_info.StartTime}}"
+                            {% endif %}
+                            name="start_time" readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="end_time" class="form-label text-white">End Time</label>
+                            <input type="text" class="form-control bg-dark text-white" id="end_time" 
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.EndTime}}"
+                            {% elif course_info %}
+                                value="{{course_info.EndTime}}"
+                            {% endif %}
+                            name="end_time" readonly>
+                        </div>
+                        {% endif %}
+                        <div class="col-4">
+                            <label for="classduraition" class="form-label text-white">CreatedBy</label>
+                            <input type="text" class="form-control bg-dark text-white" id="classduraition"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.CreatedBy}}"
+                            {% elif course_info %}
+                                value="{{course_info.CreatedBy}}" 
+                            {% elif level_info %}
+                                value="{{level_info.CreatedBy}}"
+                            {% endif %}
+                            readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="start_time" class="form-label text-white">CreatedDate</label>
+                            <input type="text" class="form-control bg-dark text-white" id="start_time"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.CreatedDate}}"
+                            {% elif course_info %}
+                                value="{{course_info.CreatedDate}}" 
+                            {% elif level_info %}
+                                value="{{level_info.CreatedDate}}"
+                            {% endif %}
+                            readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="classduraition" class="form-label text-white">UpdatedBy</label>
+                            <input type="text" class="form-control bg-dark text-white" id="classduraition"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.UpdatedBy}}"
+                            {% elif course_info %}
+                                value="{{course_info.UpdatedBy}}" 
+                            {% elif level_info %}
+                                value="{{level_info.UpdatedBy}}"
+                            {% endif %}
+                            readonly>
+                        </div>
+                        <div class="col-4">
+                            <label for="end_time" class="form-label text-white">UpdatedDate</label>
+                            <input type="text" class="form-control bg-dark text-white" id="end_time"  
+                            {% if BatchInfo %}
+                                value="{{BatchInfo.UpdatedDate}}"
+                            {% elif course_info %}
+                                value="{{course_info.UpdatedDate}}" 
+                            {% elif level_info %}
+                                value="{{level_info.UpdatedDate}}"
+                            {% endif %}
+                            readonly>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'courceandlevels_table' %}" class="btn btn-secondary">Close</a>
+                    <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Update 
+                    {% if BatchInfo %}
+                        Batch
+                    {% elif course_info %}
+                        Course
+                    {% elif level_info %}
+                        Level
+                    {% endif %}</button>
+                </div>
+            </div>
+        </form>
+        
+{% endif %}
+{% endif %}
+{% endblock %}

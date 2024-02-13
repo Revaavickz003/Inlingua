@@ -1,0 +1,37 @@
+/* Mobile responsiveness */
+@media only screen and (max-width: 767px) {
+    body{
+        height: 100vh !important;
+    }
+    .container-form {
+        margin-left: 0%;
+        padding: 16px;
+        margin-top: 50%;
+    }
+
+    .container-form .msg-box form .input-container {
+        width: 100%;
+    }
+
+    .container-form .msg-box p {
+        font-size: 32px;
+        line-height: 20px;
+    }
+
+    .container-form .msg-box h3 {
+        font-size: 42px;
+    }
+    .profile-container .row .col-lg-8 .student-details{
+        display: block;
+    }
+    .profile-container .row .col-lg-8 .student-details .container-fuild{
+        width: 100% !important;
+        display: block !important;
+    }
+    .profile-container .row .col-lg-8 .student-details .container-fuild .profile-name h3{
+        font-size: xx-large;
+    }
+    .profile-container .row .col-lg-8 .student-details .container-fuild .profile-name .today-date{
+        width: 100%;
+    }
+}

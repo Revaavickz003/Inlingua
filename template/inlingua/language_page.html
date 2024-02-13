@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+{{languages.Name}} Trainers | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+{% include 'inc/sidebar.html' %}
+
+<h4 class="card-title">{{languages.Name}} Trainers</h4>
+
+
+<div class="row">
+    <div class="col-4 mt-3">
+        <div class="input-group">
+            <input type="search" class="form-control rounded" placeholder="Search Trainers" aria-label="Search" aria-describedby="search-addon" />
+            <input type="submit" class="btn text-white" value="Serach" style="background-color: #FF751A;">
+          </div>
+    </div>
+</div>
+<div class="row g-3 h-100 mt-1">
+    {% for Trainer in Trainer %}
+    <div class="col-4 mt-3 d-flex flex-column" style="border-radius: 5px;">
+        <div class="card-body bg-dark p-4 text-white" style="border-radius: 5px; position: relative;">
+            {% if Trainer.TrainerHead %}
+            <span class="p-1 text-white" style="background-color: #FF751A; border-radius: 5px; position: absolute; top: 0; right: 0; margin: 1rem;">Head</span>
+            {% endif %}
+            <div class="d-flex align-items-end justify-content-start">
+                <div class="profile" style="margin-right:1rem">
+                    {% if Trainer.TrainerId.LoginId.user_img %}
+                        <img src="{{ Trainer.TrainerId.LoginId.user_img.url }}" alt="User Img"
+                        width="100px" height="100px"
+                        style="border-radius: 50%;">
+                    {% else %}
+                        <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img" 
+                        width="100px" height="100px"
+                        style="border-radius: 50%;">
+                    {% endif %}
+                </div>
+                <div class="profile-name w-100 mt-3">
+                    <h3>{{Trainer.TrainerId.Name}}</h3>
+                    <p class="m-0 mb-2">{{Trainer.LanguageID.Name}} Trainer</p>
+                    Trainer ID : {{Trainer.userid}}
+                </div>
+            </div>
+            <div class="get-certifite mt-3">
+                <a href="{% url 'trainer' id=Trainer.ID %}" style="background-color:#FF751A;" class="btn btn-dark">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

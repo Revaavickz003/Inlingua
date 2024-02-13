@@ -1,0 +1,182 @@
+.login-page{
+    height: 100vh;
+    width: 100vw;
+    background-image: url(../img/imgs/inling.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.login-container{
+    margin-top: 100px;
+}
+.login-container form .input-container{
+    background-color: #fff;
+    margin-bottom: 10px;
+    height: 2.5rem;
+    border-radius: 20px;
+    position: relative;
+    
+}
+.login-container form .input-container input,
+.login-container form .input-container button{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    padding: 0 20px;
+}
+.login-container form .input-container button{
+    background-color: #FF751A;
+    color: #FFF;
+}
+/* media code */
+@media screen and (max-width: 640px){
+    .login-container{
+        margin-top: 10px;
+    }
+}
+
+
+/* -------------------------------------------------------------- */
+/* ------------------------- Home page Style---------------------- */
+/* ---------------------------------------------------------------- */
+
+.home-nav-barcontainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    background: linear-gradient(93deg, #F0F0F0 1.87%, #F0F0F0 100%);
+    padding: 10px;
+}
+
+.home-nav-barcontainer .message-container{
+    background-color: #fff;
+    padding:  7px 7px 0px 7px;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.home-nav-barcontainer .message-container i{
+    color: #BDBDBD;
+    font-size: xx-large;
+}
+
+.home-nav-barcontainer .message-container .msg-count{
+    position: absolute;
+    line-height: 26px;
+    font-weight: bold;
+    color:#3E4042;
+    top: -5px;
+    right: -5px;
+    background-color: #FF751A;
+    padding: 0 8px;
+    border-radius: 50%;
+    border: 2px solid #FFF;
+}
+
+.profile-container .row .col-lg-8 .student-details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#F0F0F0;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.profile-container .row .col-lg-8 .student-details .container-fuild .profile-name h3{
+    color: var(--IL--Orange, #FF751A);
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.profile-container .row .col-lg-8 .progress-card .row .col-lg-4 .container-fuild,
+.profile-container .row .col-lg-8 .progress-card .row .col-12 .container-fuild
+{
+    background-color: #F0F0F0;
+    padding: 40px ;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.profile-container .row .col-lg-8 .progress-card .row .col-lg-4 .container-fuild .contant,
+profile-container .row .col-lg-8 .progress-card .row .col-12 .container-fuild .contant{
+    width: fit-content;
+    padding: 8px;
+    border-radius: 10px;
+}
+.profile-container .row .col-lg-8 .progress-card .row .col-lg-4 .container-fuild .contant img,
+.profile-container .row .col-lg-8 .progress-card .row .col-12 .container-fuild .contant img{
+    width: 30px;
+}
+.profile-container .row .col-lg-8 .progress-card .row .col-lg-4 .container-fuild p,
+.profile-container .row .col-lg-8 .progress-card .row .col-12 .container-fuild p{
+    font-weight: bold;
+    color: #6C6C6C;
+}
+.course-full-container{
+    border-radius: 20px;
+}
+.course-full-container .container-fuild{
+    padding: 30px 20px;
+}
+.letter-orange{
+    color: #FF751A;
+}
+.course-full-container .container-fuild .buttons a{
+    background-color: #FF751A;
+    padding: 8px 20px;
+    text-decoration: none;
+    color: #FFF;
+    border-radius: 50px;
+}
+
+.course-full-container .container-fuild .buttons .logout{
+    background-color: #fff;
+    color: #000;
+    padding: 8px 20px;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    font-weight: 400;
+}
+
+.profile-container .container {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.msg-box-open{
+    top: -100vh !important;
+}
+
+.profile-container .container .message-box{
+background-color: #fff;
+padding: 20px;
+border-radius: 20px;
+}
+.profile-container .container .message-box .heading h3{
+    color: #FF751A;
+}
+.profile-container .container .message-box .heading i{
+    font-size: 32px;
+    margin-right: 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    background-color: #F0F0F0;
+}
+
+.dev-close{
+    display: none;
+}
+.btn-outline-primary{
+    border-radius: 50px !important; 
+    border: 1px solid #FF751A !important; 
+    color: #FF751A !important;
+}
+.btn-outline-primary:hover{
+    background-color: #FF751A !important;
+    color: #FFF !important;
+}
