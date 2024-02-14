@@ -162,4 +162,26 @@ def history_view(request,id):
     }
     return render (request, 'inlingua/history.html', context)
 
-    
+def payment_type(request, id):
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
+        if user.is_staff:
+            if user.is_superuser and user.is_active:
+                paymenttypes = PaymentTypes.objects.get(ID=id)
+                context={'User':user,
+                         'Dashboard':'active',
+                         'paymenttypes':paymenttypes}
+                return render(request,'inlingua/paymenttype.html', context)
+        
+def payment_method(request, id):
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
+        if user.is_staff:
+            if user.is_superuser and user.is_active:
+                paymentmethod = PaymentMethod.objects.get(ID=id)
+                context={'User':user,
+                         'Dashboard':'active',
+                         'paymentmethod':paymentmethod}
+                return render(request,'inlingua/paymentmethod.html', context)

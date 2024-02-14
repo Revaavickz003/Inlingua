@@ -38,9 +38,9 @@ Trainer {{training_Staff.TrainerId.Name}} Details
     <a href="{% url 'addtrainers' %}" class="btn text-white mb-3" style="background-color: #FF751A;">Add Trainer</a>
     {% if training_Staff %}
     <!-- Language with Trainers -->
-        <div class="row g-3">
+        <div class="row g-3 d-flex flex-row">
             {% for language in languages %}
-                <a href="{% url 'language_view' name=language.Name %}" class="col-12 col-md-4 d-flex flex-column">
+                <a href="{% url 'language_view' name=language.Name %}" class="col-12 h-100 col-md-4 d-flex flex-column">
                     <div >
                         <div class="card">
                             <div class="card-body bg-dark p-4 text-white" style="border-radius: 5px;">
@@ -73,7 +73,6 @@ Trainer {{training_Staff.TrainerId.Name}} Details
                 
                 <tbody>
                     {% for training_Staff in training_Staff %}
-                    {{training_Staff.TrainerId.LoginId.user_img}}
                     <tr style="border-bottom: 1px solid #333333;">
                         <td scope="row">
                             <a href="{% url 'trainer' id=training_Staff.ID %}" class="d-flex align-items-center">
@@ -95,6 +94,21 @@ Trainer {{training_Staff.TrainerId.Name}} Details
                 </tbody>
             </table>
         </div>
+    {% endif %}
+    {% if training_Staff %}
+    <p class="h5 mt-5">Trainer List</p>
+    {% for training_Staff in training_Staff %}
+    <a href="">
+        <div class="col bg-dark p-3 d-md-none mb-1" style="border-radius: 5px;">
+            
+            <h5 class="h5 mb-1" style="color: #FF751A;"><span class="text-muted">Name : </span>{{training_Staff.TrainerId.LoginId.name}}</h5>
+            <p class="m-0 p-0 mt-2 text-white"> <span class="text-muted">Language : </span> {{ training_Staff.LanguageID.Name }}</p>
+            <p class="m-0 p-0 mt-2 text-white"> <span class="text-muted">Lang.ID : </span> {{ training_Staff.LevelId.Code }}</p>
+            <p class="m-0 p-0 mt-2 text-white"> <span class="text-muted">Certificate Number : </span> {{ training_Staff.CertificateNumber }}</p>
+            <p class="m-0 p-0 mt-2 text-white"> <span class="text-muted">Certificate Valid Till : </span> {{ training_Staff.CertificateValidTill|date:"M. d, Y" }}</p>
+        </div>
+    </a>
+    {% endfor %}
     {% endif %}
 
 {% else %}
@@ -237,7 +251,7 @@ Trainer {{training_Staff.TrainerId.Name}} Details
         <h4 class="card-title">Batch Details</h4>
         <div class="row g-3 h-100 mb-3">
             {% for training_batche in training_batches %}
-            <div class="col-6 d-flex flex-column" style="border-radius: 5px;">
+            <div class="col-md-6 d-flex flex-column" style="border-radius: 5px;">
                 <div class="card-body bg-dark p-4 text-white" style="border-radius: 5px;">
                     <h3 class="mb-3" style="color: #FF751A;">{{training_batche.Name}}</h3>
                     <p class="mb-3" class="m-0">Language : <a href="">{{training_batche.Course_details.LanguageID.Name}}</a></p>
@@ -258,7 +272,6 @@ Trainer {{training_Staff.TrainerId.Name}} Details
                         {% endif %}
                     {% endfor %}
                 </div>
-                
             </div>
             {% endfor %}
         </div> 

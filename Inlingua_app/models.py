@@ -255,6 +255,7 @@ class StudentDetails(models.Model):
     ID = models.AutoField(primary_key=True)
     StudentID = models.ForeignKey(User, on_delete=models.CASCADE)
     BatchID = models.ForeignKey(TrainingBatches, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
     PaymentDetails = models.ForeignKey(Payments, on_delete=models.CASCADE, null=True, blank=True)
     CreatedBy = models.CharField(max_length=255)
     CreatedDate = models.DateTimeField(default=timezone.now)

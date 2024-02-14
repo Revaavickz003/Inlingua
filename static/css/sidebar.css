@@ -15,7 +15,7 @@
 ::before,
 ::after {
     box-sizing: border-box;
-    transition: .5s;
+    transition: .3s;
 }
 
 body {
@@ -135,6 +135,7 @@ a {
 .active {
     color: var(--white-color);
     background-color:#FF751A;
+    transition: .3s;
     /* background-color: red; */
 }
 

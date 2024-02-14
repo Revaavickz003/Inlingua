@@ -14,7 +14,7 @@
 
 
 <div class="row">
-    <div class="col-4 mt-3">
+    <div class="col-md-4 mt-3">
         <div class="input-group">
             <input type="search" class="form-control rounded" placeholder="Search Trainers" aria-label="Search" aria-describedby="search-addon" />
             <input type="submit" class="btn text-white" value="Serach" style="background-color: #FF751A;">
@@ -23,7 +23,7 @@
 </div>
 <div class="row g-3 h-100 mt-1">
     {% for Trainer in Trainer %}
-    <div class="col-4 mt-3 d-flex flex-column" style="border-radius: 5px;">
+    <div class="col-md-4 mt-3 d-flex flex-column" style="border-radius: 5px;">
         <div class="card-body bg-dark p-4 text-white" style="border-radius: 5px; position: relative;">
             {% if Trainer.TrainerHead %}
             <span class="p-1 text-white" style="background-color: #FF751A; border-radius: 5px; position: absolute; top: 0; right: 0; margin: 1rem;">Head</span>
@@ -53,4 +53,5 @@
     </div>
     {% endfor %}
 </div>
+
 {% endblock %}

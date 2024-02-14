@@ -26,6 +26,10 @@ urlpatterns = [
     path('crm/students/payment/<int:id>/', payment.payment_view, name='payment'),
     path('crm/students/payment/history/<int:id>/', payment.history_view, name='history'),
 
+    path('crm/paymenttype/edit/<int:id>/', payment.payment_type, name='paymenttype'),
+    path('crm/paymentmethod/edit/<int:id>/', payment.payment_method, name='paymentmethod'),
+
+
     path('crm/trainers/', trainers.trainers_view, name="trainers"),
     path('crm/trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
     path('crm/trainers/<int:id>/', trainers.trainer_view, name="trainer"),
