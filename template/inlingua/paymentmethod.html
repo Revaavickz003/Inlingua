@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+payment_type | {{block.super}}
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block container %}
+    {% if user.is_superuser %}
+        {% include 'inc/sidebar.html' %}
+        <div class="container-flui  mt-3">
+            {% include 'inc/message.html' %}
+        </div>
+        <h1>Change {{paymentmethod.Name}}</h1>
+        <div class="container-fluid1 bg-dark p-4" style="border-radius: 3px;">
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mt-3">
+                        <label for="role-name" class="form-label text-white">Language</label>
+                        <input type="text" class="form-control text-white bg-dark" id="role-name" name="RoleName" value="{{paymentmethod.Name}}">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label for="" class="form-label text-white">CreatedBy</label>
+                        <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{paymentmethod.CreatedBy}}">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label for="" class="form-label text-white">CreatedDate</label>
+                        <input type="datetime" class="form-control text-white bg-dark" id="" readonly value="{{paymentmethod.CreatedDate}}">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label for="" class="form-label text-white">UpdatedBy</label>
+                        <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{paymentmethod.UpdatedBy}}">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label for="" class="form-label text-white">UpdatedDate</label>
+                        <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{paymentmethod.UpdatedDate}}">
+                    </div>
+                    
+                </div>
+
+                <div class="col-12">
+                    <input type="submit" class="btn text-white mt-3" style="background-color: #FF751A;" value="Save changes">
+                    <a href="delete/{{ get_data.ID }}" class="btn text-white mt-3" style="background-color: #FF751A;">Delete {{paymentmethod.Name}}</a>
+                </div>
+                
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -18,93 +18,81 @@ Role and Language page
         <div class="container-fluid  mt-3">
             {% include 'inc/message.html' %}
         </div>
-        
-        <div class="container-fluid  mt-3">
-            <div class="container-fluid bg-dark p-5 mt-3 dev-close {{showdivcontainer}}" style="border-radius: 5px;">
+        <div class="container-flui  mt-3">
+            <div class="container-fluid bg-dark p-4 p-md-5 mt-3 dev-close {{showdivcontainer}}" style="border-radius: 5px;">
                 <div class="container-fluid1">
                     <h3 class="p-0 m-0 text-primary">Change {{get_data.Name}}</h3>
                     <form method="post" action="">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="role-name" class="form-label text-white">Role</label>
                                 <input type="text" class="form-control text-white bg-dark" id="role-name" name="RoleName" value="{{get_data.Name}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="role-des" class="form-label text-white">Description</label>
                                 <input type="text" class="form-control text-white bg-dark" name="Roledesc" id="role-des" value="{{get_data.Description}}">
                             </div>
-                            
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">CreatedBy</label>
                                 <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{get_data.CreatedBy}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">CreatedDate</label>
                                 <input type="datetime" class="form-control text-white bg-dark" id="" readonly value="{{get_data.CreatedDate}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">UpdatedBy</label>
                                 <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{get_data.UpdatedBy}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">UpdatedDate</label>
                                 <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{get_data.UpdatedDate}}">
                             </div>
-                            
                         </div>
-
-                        <div class="col-12">
-                            <input type="submit" class="btn btn-primary mt-3" value="Save changes">
+                        <div class="col-md-12">
+                            <input type="submit" class="btn text-white mt-3" value="Save changes" style="background-color: #FF751A;">
                         </div>
-                        
                     </form>
-                    
-
                 </div>
                 <form >
                     <div class="row g-3 mt-1">
-                        <div class="col-4"></div>
+                        <div class="col-md-4"></div>
                     </div>
                 </form>
             </div>
-            <div class="container-fluid bg-dark p-5 mt-3 dev-close {{showlangcontainer}}" style="border-radius: 5px;">
+            <div class="container-fluid bg-dark p-4 p-md-5 mt-3 dev-close {{showlangcontainer}}" style="border-radius: 5px;">
                 <div class="container-fluid1">
                     <h3 class="p-0 m-0 text-primary">Change {{get_data.Name}}</h3>
                     <form method="post" action="">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="role-name" class="form-label text-white">Language</label>
                                 <input type="text" class="form-control text-white bg-dark" id="role-name" name="RoleName" value="{{get_data.Name}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">CreatedBy</label>
                                 <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{get_data.CreatedBy}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">CreatedDate</label>
                                 <input type="datetime" class="form-control text-white bg-dark" id="" readonly value="{{get_data.CreatedDate}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">UpdatedBy</label>
                                 <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{get_data.UpdatedBy}}">
                             </div>
-                            <div class="col-4 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <label for="" class="form-label text-white">UpdatedDate</label>
                                 <input type="text" class="form-control text-white bg-dark" id="" readonly value="{{get_data.UpdatedDate}}">
                             </div>
-                            
                         </div>
-
-                        <div class="col-12">
-                            <input type="submit" class="btn btn-primary mt-3" value="Save changes">
-                            <a href="delete/{{ get_data.ID }}" class="btn btn-primary mt-3">Delete {{ get_data.Name }}</a>
+                        <div class="col-md-12">
+                            <input type="submit" class="btn text-white mt-3" style="background-color: #FF751A;" value="Save changes">
+                            <a href="delete/{{ get_data.ID }}" class="btn text-white mt-3" style="background-color: #FF751A;">Delete {{ get_data.Name }}</a>
                         </div>
-                        
                     </form>
-                    
-
                 </div>
                 <form >
                     <div class="row g-3 mt-1">
@@ -112,9 +100,8 @@ Role and Language page
                     </div>
                 </form>
             </div>
-            
             <div class="row g-3 h-100 mt-1">
-                <div class="col-6  mt-3 d-flex flex-column">
+                <div class="col-md-6  mt-3 d-flex flex-column">
                     <div class="card h-100">
                         <div class="card-body bg-dark p-4" style="border-radius: 5px;">
                             <h3 class="card-title text-white">Roles</h3>
@@ -126,20 +113,19 @@ Role and Language page
                                 {% csrf_token %}
                                 <div class="container-fluid1">
                                     <hr class="text-white">
-                                <h3 class="card-title text-white">Add Role</h3>
-                                <div class="row g-3 mt-1">
-                                    <div class="col-8">
-                                      <label for="role-input" class="form-label text-white">Role <span class="text-danger">*</span></label>
-                                      <div>
-                                          <input type="text" class="form-control bg-dark text-white" name="romeName" id="role-input">
-                                      </div>
-                                      
-                                      <div>
-                                        <label for="Description-input" class="form-label text-white">Description</label>
-                                        <textarea class="form-control bg-dark text-white" name="description" id="Description-input" cols="50" rows="3"></textarea>
-                                      </div>
-                                    </div> 
-                              </div>
+                                    <h3 class="card-title text-white">Add Role</h3>
+                                    <div class="row g-3 mt-1">
+                                        <div class="col-8">
+                                            <label for="role-input" class="form-label text-white">Role <span class="text-danger">*</span></label>
+                                            <div>
+                                                <input type="text" class="form-control bg-dark text-white" name="romeName" id="role-input">
+                                            </div>
+                                            <div>
+                                                <label for="Description-input" class="form-label text-white">Description</label>
+                                                <textarea class="form-control bg-dark text-white" name="description" id="Description-input" cols="50" rows="3"></textarea>
+                                            </div>
+                                        </div> 
+                                    </div>
                                 </div>
                                 <input type="submit" class="btn btn text-white mt-3" style="background-color: #FF751A;" value="Save Role">
                             </form>
@@ -147,7 +133,7 @@ Role and Language page
                         </div>
                     </div>
                 </div>
-                <div class="col-6  mt-3 d-flex flex-column">
+                <div class="col-md-6  mt-3 d-flex flex-column">
                     <div class="card h-100">
                         <div class="card-body bg-dark p-4" style="border-radius: 5px;">
                             <h3 class="card-title text-white">Languages</h3>
@@ -177,6 +163,7 @@ Role and Language page
                 </div>
             </div>
         </div>
+        
 
     {% endif %}
 {% endblock %}
