@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from Inlingua_app.models import User, Payments, Courses, StudentDetails, PaymentMethod, PaymentTypes, PaymentStatus
+from django.urls import reverse
+from Inlingua_app.models import User, Payments, Courses, StudentDetails, PaymentMethod, PaymentTypes, PaymentStatus, Discount
 import datetime
 from django.db.models import Sum
 from django.contrib  import messages
@@ -84,6 +85,12 @@ def payment_view(request,id):
             total_amount = history.aggregate(Sum('Amount'))['Amount__sum'] or 0
             Course_cost = student_details.BatchID.Course_details.Cost
             pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount
+
+            try:
+                discount = Discount.objects.get(StudentDetails=id)
+            except Exception as e:
+                discount = None
+                
                                                                                  
             if request.method == 'POST':
                 PaymentTypeId = request.POST.get('PaymentTypeId')
@@ -93,74 +100,89 @@ def payment_view(request,id):
                 IsDiscountApplied  = request.POST.get('Discount')
                 DiscountedPayment  = request.POST.get('DiscountedPayment')
                 Description  = request.POST.get('Description')
-                if int(Amount) <= int(Course_cost) and int(pending_amountprint)>=int(Amount):
-                    pass
-                else:
-                    return render(request,'inlingua/payment.html')
-                                               
-                if IsDiscountApplied == "on":
-                    IsDiscountApplied = True
-                else:
-                    IsDiscountApplied = False
-                try:
-                    DiscountedPayment = int(DiscountedPayment)
-                except:
-                    DiscountedPayment = 0
+
                 studentdetails = StudentDetails.objects.get(ID = id)
                 course = Courses.objects.get(ID = int(studentdetails.BatchID.Course_details.ID))
                 PaymentTypeId = PaymentTypes.objects.get(ID = int(PaymentTypeId))
                 PaymentMethodId = PaymentMethod.objects.get(ID = int(PaymentMethodId))
-                if int(Amount) + int(total_amount) == int(Course_cost):
+
+                if float(Amount) + int(total_amount) == int(Course_cost):
                     Paymentstatus = PaymentStatus.objects.get(ID = 1)
                     
                 else:
-                    Paymentstatus = PaymentStatus.objects.get(ID = 2)
-                    
+                    Paymentstatus = PaymentStatus.objects.get(ID = 1)
+                
+                if float(Amount) <= int(Course_cost) and int(pending_amountprint)>=float(Amount):
+                    messages.warning(request,'The amount should be less than or equal to the course cost.')
+                    pass
+                else:
+                    messages.warning(request,"Invalid transaction details entered!")
+                    return render(request,'inlingua/payment.html')
+                                               
+                if IsDiscountApplied == "on":
+                    new_discount = Discount.objects.create(
+                        StudentDetails = studentdetails,
+                        IsDiscountApplied = True,
+                        DiscountedPayment = DiscountedPayment,
+                        Description = Description,
+                        CreatedBy = user.name,
+                    )
+                    new_discount.save()
+
                 new_payment = Payments.objects.create(
                 StudentDetails = studentdetails,
                 PaymentTypeId = PaymentTypeId,
                 PaymentMethodId = PaymentMethodId ,
                 CourseId = course,
-                PaymentDate = datetime.datetime.now(),
                 TransactionId = TransactionId,
                 Amount = float(Amount),
                 PaymentStatus = Paymentstatus,
-                IsDiscountApplied = IsDiscountApplied,
-                DiscountedPayment = DiscountedPayment,
-                Description = Description,
                 CreatedBy = user.name,
-                CreatedDate = datetime.datetime.now(),
                 UpdatedBy = user.name,
-                UpdatedDate = datetime.datetime.now(),
                 )
                 new_payment.save()
+                messages.success(request, f'Hello  {user.username}, {studentdetails.StudentID.name} payment {Amount} has been added successfully!')
+                return redirect('students')
         context ={
+            'User': user,
             'Students':'active',
             'student_details':student_details,
             'paymentmethod':paymentmethod,
             'paytypes':paytypes,
             'paymentstatus':paymentstatus,
+            'discount':discount,
         }
         return render(request,'inlingua/payment.html',context)
 
 def history_view(request,id):
-    history = Payments.objects.filter(StudentDetails=id)
-    student_details = StudentDetails.objects.get(ID = id)
-    total_amount = history.aggregate(Sum('Amount'))['Amount__sum'] or 0
-    pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount
-    try:
-        last_history = history.last()
-    except:
-        pass
-    context = {
-        'Students':'active',
-        'history':history,
-        'student_details':student_details,
-        'last_history':last_history,
-        'total_amount': total_amount,
-        'pending_amountprint':pending_amountprint,
-    }
-    return render (request, 'inlingua/history.html', context)
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
+        history = Payments.objects.filter(StudentDetails=id)
+        try:
+            discount = Discount.objects.get(StudentDetails=id)
+        except Exception as e:
+            discount = None
+        student_details = StudentDetails.objects.get(ID = id)
+        total_amount = history.aggregate(Sum('Amount'))['Amount__sum'] or 0
+        pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount
+        if discount != None:
+            pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount-discount.DiscountedPayment
+        try:
+            last_history = history.last()
+        except:
+            pass
+        context = {
+            'User': user,
+            'Students':'active',
+            'history':history,
+            'student_details':student_details,
+            'last_history':last_history,
+            'total_amount': total_amount,
+            'discount':discount,
+            'pending_amountprint':pending_amountprint,
+        }
+        return render (request, 'inlingua/history.html', context)
 
 def payment_type(request, id):
     if request.user.is_authenticated:

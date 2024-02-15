@@ -109,6 +109,17 @@ class PaymentMethod(models.Model):
     def __str__(self):
         return self.Name
     
+class Discount(models.Model):
+    StudentDetails = models.ForeignKey('StudentDetails', on_delete=models.DO_NOTHING, null=True, blank=False)
+    IsDiscountApplied = models.BooleanField()
+    DiscountedPayment = models.IntegerField(default=0)
+    Description = models.TextField(null=True, blank=True)
+    CreatedBy = models.CharField(max_length=255)
+    CreatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
+    UpdatedDate = models.DateTimeField(null=True, blank=True)
+
+
 class Payments(models.Model):
     ID = models.AutoField(primary_key=True)
     StudentDetails = models.ForeignKey('StudentDetails', on_delete=models.CASCADE, null=False, blank=False)
@@ -119,9 +130,6 @@ class Payments(models.Model):
     TransactionId = models.CharField(max_length=100)
     Amount = models.DecimalField(max_digits=8, decimal_places=2,null=False, blank=False)
     PaymentStatus = models.ForeignKey(PaymentStatus, on_delete=models.CASCADE,null=False, blank=False)
-    IsDiscountApplied = models.BooleanField()
-    DiscountedPayment = models.IntegerField(default=0)
-    Description = models.TextField(null=True, blank=True)
     CreatedBy = models.CharField(max_length=255)
     CreatedDate = models.DateTimeField(default=timezone.now)
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)

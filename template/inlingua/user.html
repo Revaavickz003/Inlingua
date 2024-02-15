@@ -54,7 +54,7 @@ Student page | Inlingua
                                 {% else %}
                                     <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img" style="width: 35px; height: 35px; border-radius: 50%;">
                                 {% endif %}
-                            </div>{{Student.StudentID.name}}
+                            </div> <span class="mx-3">{{Student.StudentID.name}}</span>
                         </a>
                     </td>
                     <td scope="row">
@@ -62,7 +62,7 @@ Student page | Inlingua
                         style="height: 7px;
                         background-color: #dbdbdb;">
                             <div class="progress-bar" role="progressbar"
-                                style="width: 50%; height: 30px; background-color: #FF751A;"
+                                style="width: {{Student.BatchID.Course_details.Course_status}}%; height: 30px; background-color: #FF751A;"
                                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
@@ -73,13 +73,11 @@ Student page | Inlingua
                     </td>
                     <td>{{ Student.StudentID.date_joined|date:"M. d, Y, g:i A" }}</td>
                     <td class="d-flex justify-content-start align-items-center">Rs. {{Student.BatchID.Course_details.Cost}}</td>
-                    <td><a  href="{% url 'history' id=Student.ID %}">
-                        {% if latest_payment.PaymentStatus %}
-                        {{ latest_payment.PaymentStatus }}
-                        {% else %}
-                        Not Paid Yet!
-                        {% endif %}
-                    </a></td>
+                    <td>
+                        <a  href="{% url 'history' id=Student.ID %}">
+                            Go to Payment
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
