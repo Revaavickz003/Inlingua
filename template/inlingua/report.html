@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Transaction Report</title>
+</head>
+<body>
+    <div class="mt-4">
+        <nav class="mt-4 d-flex align-items-end justify-content-between">
+            <div>
+                <p class="h4 p-0">Transactions</p>
+                <p class="text-muted pl-1 h6 m-0 p-0">Welcome to {{ student_details.StudentID.name }} transactions</p>
+            </div>
+            <div>
+                <a href="{% url 'generatereport' id=student_details.ID %}" class="btn alert-primary">Generate Report</a>
+            </div>
+        </nav>
+    </div>
+
+    <hr>
+
+    <div class="wrapper rounded">
+        <div class="d-flex justify-content-between align-items-end mt-3">
+            <div>
+                <p class="text-primary">Total Payment : Rs. {{ total_payment }}</p>
+                {% if discount %}
+                    <p class="text-muted m-0 p-0 mb-1">Discount Amount : Rs. {{ discount.DiscountedPayment }}</p>
+                {% endif %}
+                <a {% if pending_amount != 0 %} href="{% url 'payment' id=student_details.ID %}" {% endif %} class="text-danger">Pending Amount : Rs. {{ pending_amount }}</a>
+            </div>
+            {% if pending_amount != 0 %}
+                <a href="{% url 'payment' id=student_details.ID %}" class="btn btn-primary">New Transaction</a>
+            {% endif %}
+        </div>
+        {% if history %}
+            <div class="table-responsive mt-3 p-4 bg-dark" style="border-radius: 5px;">
+                <table class="table table-dark table-borderless">
+                    <thead style="border-bottom: 1px solid rgb(88, 88, 88);">
+                        <tr>
+                            <th scope="col">Rool No</th>
+                            <th scope="col">Transaction Id</th>
+                            <th scope="col">Mode</th>
+                            <th scope="col">Date and Time</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Payment Status</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for data in history|slice:"::-1" %}
+                            <tr style="border-bottom: 1px solid #333333;">
+                                <td scope="row">{{ forloop.counter }}</td>
+                                <td scope="row">{{ data.TransactionId }}</td>
+                                <td>{{ data.PaymentTypeId }}</td>
+                                <td class="text-muted">{{ data.PaymentDate|date:"M. d, Y, g:i A" }}</td>
+                                <td class="d-flex justify-content-start align-items-center"> Rs. {{ data.Amount }} </td>
+                                <td>{{ data.PaymentStatus }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 from django.urls import path
-from Inlingua_app.views import (login, home, register, logout, batchdetails, user, tables, language as lng, roles, trainers, language_page, courceandlevels,payment)
+from Inlingua_app.views import (login, home, register, logout, batchdetails, user, tables, language as lng, roles, trainers, language_page, courceandlevels,payment, Generate_Report)
 from django.contrib.auth import views as password_views
 
 from django.contrib import admin
@@ -25,6 +25,7 @@ urlpatterns = [
     path('crm/students/addpaymentmethod/', payment.addpaymentmethod, name='addpaymentmethod'),
     path('crm/students/payment/<int:id>/', payment.payment_view, name='payment'),
     path('crm/students/payment/history/<int:id>/', payment.history_view, name='history'),
+    path('crm/students/payment/history/report/<int:id>/', Generate_Report.GenerateReport, name='generatereport'),
 
     path('crm/paymenttype/edit/<int:id>/', payment.payment_type, name='paymenttype'),
     path('crm/paymentmethod/edit/<int:id>/', payment.payment_method, name='paymentmethod'),

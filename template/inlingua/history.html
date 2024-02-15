@@ -11,10 +11,15 @@
 {% if user.is_superuser %}
 {% include 'inc/sidebar.html' %}
 <div class="mt-4">
-    <nav class="mt-4">
-    <p class="h4  p-0">Transactions</p>
-    <p class="text-muted pl-1 h6 m-0 p-0">Welcome to {{student_details.StudentID.name}} transactions</p> 
-</nav>
+    <nav class="mt-4 d-flex align-items-end justify-content-between">
+        <div>
+            <p class="h4  p-0">Transactions</p>
+            <p class="text-muted pl-1 h6 m-0 p-0">Welcome to {{student_details.StudentID.name}} transactions</p>
+        </div>
+         <div>
+            <a href="{% url 'generatereport' id=student_details.ID %}" class="btn alert-primary">Generate Report</a>
+         </div>
+    </nav>
 </div>
 
 <hr>
@@ -22,6 +27,9 @@
     <div class="d-flex justify-content-between align-items-end mt-3">
         <div>
             <p class="text-primary">Total Payment : Rs. {{student_details.BatchID.Course_details.Cost}}</p>
+            {% if discount != None %}
+            <p class="text-muted m-0 p-0 mb-1">Discount Amount : Rs . {{discount.DiscountedPayment}}</p>
+            {% endif %}
             <a {% if pending_amountprint != 0 %} href="{% url 'payment' id=student_details.ID %}" {% endif %} class="text-danger">Pending Amount : Rs. {{ pending_amountprint }}</a>
         </div>
         {% if pending_amountprint != 0 %}
