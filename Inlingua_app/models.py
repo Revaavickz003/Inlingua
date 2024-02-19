@@ -50,7 +50,7 @@ class Level(models.Model):
 class Courses(models.Model):
     ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=100)
-    Description = models.CharField(max_length=255)
+    Description = models.TextField(max_length=255)
     Duration = models.IntegerField()
     LanguageID = models.ForeignKey(Languages, on_delete=models.CASCADE)
     StartDate = models.DateField(null=False, blank=False)
@@ -58,7 +58,7 @@ class Courses(models.Model):
     StartTime = models.TimeField(null=False, blank=False)
     EndTime = models.TimeField(null=False, blank=False)
     LevelID = models.ForeignKey(Level, on_delete=models.CASCADE)
-    Cost = models.IntegerField()
+    Cost = models.FloatField()
     Course_metirials = models.FileField(
         upload_to='static/uploads/Stady_metirials',
         blank=True,
@@ -112,7 +112,7 @@ class PaymentMethod(models.Model):
 class Discount(models.Model):
     StudentDetails = models.ForeignKey('StudentDetails', on_delete=models.DO_NOTHING, null=True, blank=False)
     IsDiscountApplied = models.BooleanField()
-    DiscountedPayment = models.IntegerField(default=0)
+    DiscountedPayment = models.FloatField(default=0)
     Description = models.TextField(null=True, blank=True)
     CreatedBy = models.CharField(max_length=255)
     CreatedDate = models.DateTimeField(default=timezone.now)
@@ -231,7 +231,7 @@ class ProofOfIdentty(models.Model):
 
 class TrainingBatches(models.Model):
     ID = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=255)
+    Name = models.CharField(max_length=255, unique = True)
     Course_details = models.ForeignKey(Courses, on_delete=models.CASCADE, null=False, blank=False)
     TrainerId = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE, null=False, blank=False)
     MeetingURL = models.CharField(max_length=500)

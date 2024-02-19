@@ -165,9 +165,9 @@ def history_view(request,id):
             discount = None
         student_details = StudentDetails.objects.get(ID = id)
         total_amount = history.aggregate(Sum('Amount'))['Amount__sum'] or 0
-        pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount
+        pending_amountprint = float(student_details.BatchID.Course_details.Cost)-float(total_amount)
         if discount != None:
-            pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount-discount.DiscountedPayment
+            pending_amountprint = float(student_details.BatchID.Course_details.Cost)-float(total_amount)-float(discount.DiscountedPayment)
         try:
             last_history = history.last()
         except:
