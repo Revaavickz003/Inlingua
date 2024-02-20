@@ -84,7 +84,7 @@ def payment_view(request,id):
             student_details = StudentDetails.objects.get(ID = id)
             total_amount = history.aggregate(Sum('Amount'))['Amount__sum'] or 0
             Course_cost = student_details.BatchID.Course_details.Cost
-            pending_amountprint = student_details.BatchID.Course_details.Cost-total_amount
+            pending_amountprint = float(student_details.BatchID.Course_details.Cost)-float(total_amount)
 
             try:
                 discount = Discount.objects.get(StudentDetails=id)

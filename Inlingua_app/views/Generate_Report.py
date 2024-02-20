@@ -10,16 +10,13 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Image
 
 def add_watermark(canvas, doc):
-    # Load the watermark image
-    watermark_path = "static/img/imgs/l1.png"
-    watermark_width, watermark_height = 400, 300  # Update with actual width and height of the watermark image
+    watermark_path = "static/img/imgs/logo.png"
+    watermark_width, watermark_height = 400, 400 
 
-    # Calculate coordinates to center the watermark image
     page_width, page_height = doc.width, doc.height
-    x = (page_width - watermark_width) / 2
-    y = (page_height - watermark_height) / 2
+    x = (page_width - watermark_width) / 0.7
+    y = (page_height - watermark_height) / 1.5
 
-    # Draw the watermark image on every page
     canvas.drawImage(watermark_path, x, y, width=watermark_width, height=watermark_height, preserveAspectRatio=True, mask='auto')
 
 def GenerateReport(request, id):
@@ -28,6 +25,7 @@ def GenerateReport(request, id):
     payments = Payments.objects.filter(StudentDetails_id=id)
     try:
         discount = Discount.objects.get(StudentDetails =  student_details)
+        discount = discount.DiscountedPayment
     except Exception as e:
         discount = 0
     response = HttpResponse(content_type='application/pdf')
@@ -57,9 +55,6 @@ def GenerateReport(request, id):
     elements.append(Paragraph("Student Details:", red_heading_style))
     elements.append(table)
 
-
-    # Add Courese Details
-
     data2 = [
         ["Trainer Name", strudent_batch.TrainerId.Name],
         ["Mobile Number", strudent_batch.TrainerId.LoginId.Mobile_Number],
@@ -83,11 +78,11 @@ def GenerateReport(request, id):
             ["Cast", strudent_batch.Course_details.Cost],
             ["-----------------------------------------------------------"],
             ["Payment", total_payment],
-            ["Discount", discount.DiscountedPayment],
+            ["Discount", discount],
             ['-----------------------------------------------------------'],
-            ['Total  Amount to be Paid', float(total_payment)+float(discount.DiscountedPayment)],
+            ['Total  Amount to be Paid', float(total_payment)+float(discount)],
             ['-----------------------------------------------------------'],
-            ["Pending Payment", strudent_batch.Course_details.Cost-float(total_payment)-float(discount.DiscountedPayment)],
+            ["Pending Payment", strudent_batch.Course_details.Cost-float(total_payment)-float(discount)],
         ]
     table = Table(data3, colWidths=[2*inch, 4*inch])
     elements.append(Spacer(0, 20))
@@ -102,7 +97,7 @@ def GenerateReport(request, id):
         payments_table_data = [["#", "Payment Date", "Amount", "Payment Status"]] + payments_data
         payments_table = Table(payments_table_data, colWidths=[0.5*inch, 2*inch, 1.5*inch, 1.5*inch])
         payments_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.chocolate),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#FF751A")),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),

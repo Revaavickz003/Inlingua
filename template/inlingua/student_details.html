@@ -101,9 +101,9 @@
     </div>
     <div class="col-xl-12">
         <div class="card mb-4 bg-dark">
-            <div class="card-header text-white d-flex align-items-center justify-content-between">Course Details
-                <div class="d-flex w-50 align-items-center justify-content-end">
-                    <form action="{% url 'studentbatchdetals' id=student_details.StudentID.id %}" method="post" class="d-flex w-100 d-none" id="changecourseform">
+            <div class="card-header text-white d-md-flex align-items-center justify-content-between">Course Details
+                <div class="d-md-flex w-md-50 align-items-center justify-content-end">
+                    <form action="{% url 'studentbatchdetals' id=student_details.StudentID.id %}" method="post" class="d-flex  d-none" id="changecourseform">
                         {% csrf_token %}
                         <div class="w-75">
                             <select class="form-control bg-dark text-white" name="Batchid" id="">
@@ -116,7 +116,7 @@
                         <input type="submit" class="btn text-white mx-2" style="background-color: #FF751A;" value="Update Course">
                         <input id="clearbtn" type="button"  class="btn btn-outline-secondary" value="Clear">
                     </form>
-                    <input id="editcoursebtn" type="submit" class="btn text-white mx-2" style="background-color: #FF751A;" value="Edit Course">
+                    <input id="editcoursebtn" type="submit" class="btn text-white mx-md-2" style="background-color: #FF751A;" value="Edit Course">
                     <a id="trashbtn" href="" class="btn btn-outline-secondary">Trash Data</a>
                 </div>
             </div>
