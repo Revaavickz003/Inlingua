@@ -1,19 +1,17 @@
-# models.py
-
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import FileExtensionValidator
 
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, email = None, password=None, **extra_fields):
+    def _create_user(self, email=None, password=None, **extra_fields):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email = None, password=None, **extra_fields):
+    def create_user(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
@@ -162,6 +160,7 @@ class User(AbstractUser):
     last_login = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_staff_head = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     role_id = models.ForeignKey(UserRoles, on_delete=models.CASCADE, null=True, blank=True)
     objects = CustomUserManager()
@@ -231,7 +230,7 @@ class ProofOfIdentty(models.Model):
 
 class TrainingBatches(models.Model):
     ID = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=255, unique = True)
+    Name = models.CharField(max_length=255, unique=True)
     Course_details = models.ForeignKey(Courses, on_delete=models.CASCADE, null=False, blank=False)
     TrainerId = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE, null=False, blank=False)
     MeetingURL = models.CharField(max_length=500)
@@ -252,6 +251,7 @@ class TrainingBatches(models.Model):
 class StudentBatchAllocation(models.Model):
     ID = models.AutoField(primary_key=True)
     TrainerID = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE)
+    Student_Details = models.ManyToManyField("StudentDetails")
     BatchID = models.ForeignKey(TrainingBatches, on_delete=models.CASCADE)
     CreatedBy = models.CharField(max_length=255)
     CreatedDate = models.DateTimeField(default=timezone.now)
@@ -259,12 +259,13 @@ class StudentBatchAllocation(models.Model):
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
 class StudentDetails(models.Model):
-    userid = models.CharField(max_length=8,  blank=True, null=True)
+    userid = models.CharField(max_length=8, blank=True, null=True)
     ID = models.AutoField(primary_key=True)
     StudentID = models.ForeignKey(User, on_delete=models.CASCADE)
     BatchID = models.ForeignKey(TrainingBatches, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     PaymentDetails = models.ForeignKey(Payments, on_delete=models.CASCADE, null=True, blank=True)
+    Language_Id = models.ForeignKey(Languages, on_delete=models.CASCADE, null=True)
     CreatedBy = models.CharField(max_length=255)
     CreatedDate = models.DateTimeField(default=timezone.now)
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
@@ -292,4 +293,3 @@ class StudentStudyMetirials(models.Model):
     UploadedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_student_studymaterials')
     createdby = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_student_studymaterials')
     uploadesdate = models.DateTimeField(auto_now_add=True)
-    

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from Inlingua_app.models import User, TrainingStaff, TrainerQualifications, TrainingBatches, StudentDetails, PaymentTypes, PaymentMethod
+from Inlingua_app.models import User, TrainingStaff, TrainerQualifications, TrainingBatches, StudentDetails, PaymentTypes, PaymentMethod, Courses, StudentBatchAllocation
 
 def home(request):
     if request.user.is_authenticated:
@@ -27,6 +27,28 @@ def home(request):
                          'paymenttypes':paymenttypes,
                          'paymentmethods':paymentmethod}
                 return render(request, 'inlingua/index.html',context)
+            
+            elif user.is_staff_head and user.is_active:
+                trainer_details = TrainingStaff.objects.get(LoginId=user)
+                Trainer_Qualifications = TrainerQualifications.objects.get(TrainerId=trainer_details)
+                            
+                trainers = TrainerQualifications.objects.filter(LanguageID=Trainer_Qualifications.LanguageID).exclude(userid=Trainer_Qualifications.userid)
+                
+                # Assuming you want to get students related to a specific TrainingBatches instance
+                training_batch = TrainingBatches.objects.get(name='YourTrainingBatchName')  # Replace 'YourTrainingBatchName' with the actual name of the training batch
+                
+                students = StudentDetails.objects.filter(BatchID=training_batch)  # Filter students by BatchID
+                
+                return render(request, 'inlingua/index.html', {
+                    'user': user,
+                    'trainer_details': trainer_details,
+                    'Trainer_Qualifications': Trainer_Qualifications,
+                    'datas': trainers,
+                    'students': students,  # Pass students data to the template
+                })
+
+                
+                
             else:
                 trainer_details = TrainingStaff.objects.get(LoginId=user)
                 training_batches = TrainingBatches.objects.filter(TrainerId=trainer_details.ID)

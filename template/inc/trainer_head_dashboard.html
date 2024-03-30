@@ -1,0 +1,127 @@
+{% load static %}
+<section class="navbar mt-5">
+    <div class="container">
+        <img src="{% static 'img/imgs/L1.png' %}" alt="" width="200px">
+    </div>
+</section>
+<section class="mt-4">
+    <div class="container py-3 px-4" style="background: rgb(247,247,247);
+    background: linear-gradient(90deg, rgb(250, 250, 250) 0%, rgba(241,241,241,1) 100%); border-radius: 20px;">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-10 profile-container d-flex align-items-center justify-content-between">
+                <div class="profile d-flex align-items-center ">
+                    <div class="image me-4" style="border-radius: 50%; overflow: hidden">
+                        <img src="{% static 'img/imgs/profile icon.jpg' %}" width="100px" alt="User Img">
+                    </div>
+                    <div class="prifile-name">
+                        <h4 class="fw-bold fs-2" style="color: rgba(255, 117, 25, 1);">{{trainer_details.Name}}</h4>
+                        <p class="m-0 p-0"><strong>Trainer Head </strong><span> Trainer Id : {{Trainer_Qualifications.userid}}</span></p>
+                    </div>
+                </div>
+                <div class="date-time">
+                    <strong id="date"></strong> <span id="day"></span>
+                    <script>
+                        // Get the current date
+                        var currentDate = new Date();
+                    
+                        // Array of days
+                        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    
+                        // Get day of the week
+                        var dayOfWeek = days[currentDate.getDay()];
+                    
+                        // Array of months
+                        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                    
+                        // Get month
+                        var month = months[currentDate.getMonth()];
+                    
+                        // Get day
+                        var date = currentDate.getDate();
+                    
+                        // Get year
+                        var year = currentDate.getFullYear();
+                    
+                        // Update HTML with date and day
+                        document.getElementById('date').innerHTML = date + ' ' + month + ', ' + year;
+                        document.getElementById('day').innerHTML = '| ' + dayOfWeek;
+                    </script>
+                </div>
+            </div>
+            <div class="col-1 Notifcaions">
+                <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;">
+                    <div style="position: relative;">
+                        <i class="fa fa-bell fw-bold fs-4"></i>
+                        <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 0; right: 0; border: 2px solid #FFF;"></p>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .list-container{position: relative;}
+    .list-container>p::after{
+        content: "";
+        position: absolute;
+        bottom:0;
+        left: 0;
+        height: 4px;
+        background: #ECECEC;
+        width: 100%;
+        border-radius: 10px;
+        z-index: -10;
+    }
+    .list-container p{border-bottom: 4px solid  #ECECEC;}
+    .list-container p >.active{color: rgba(255, 117, 25, 1); border: none;}
+    .list-container .active{border-bottom: solid rgba(255, 117, 25, 1);}
+    .list-container p a{text-decoration: none; color: rgba(188, 188, 188, 1); font-weight: 500;}
+</style>
+<section class="mt-4">
+    <div class="container px-4">
+        <div class="list-container d-flex w-100 align-items-center  justify-content-between flex-wrap">
+            <p class="m-0 p-2 px-4 active"><a href="" class="active"> Trainer Online status</a></p>
+            <p class="m-0 p-2 px-4"><a href=""> Students Online status </a></p>
+            <p class="m-0 p-2 px-4"><a href="">  Batch list </a></p>
+        </div>
+    </div>
+</section>
+
+<section class="mt-4 trainee-online status">
+    <div class="container px-5">
+        <table class="w-100 " >
+            <thead class="text-muted">
+                <tr>
+                    <th class="pb-4">Name</th>
+                    <th class="pb-4">ID No</th>
+                    <th class="pb-4">Ststus</th>
+                </tr>
+            </thead>
+            <tbody id='trainee_status'>
+                {% for data in datas %}
+                <tr style="border-bottom: 2px solid  #ECECEC;" class="pb-3">
+                    <td class="d-flex align-items-center py-3">
+                        1.
+                        <div class="mx-2 me-3" style="position: relative; width: fit-content; border-radius: 50%;">
+                            <img src="{% static 'img/imgs/profile icon.jpg' %}" width="30" alt="Profile Image" style="border-radius: 50%;"/>
+                        <p class="m-0 p-1" style="background-color: rgba(26, 184, 0, 1);  border-radius: 50%; position: absolute; bottom: 0; right: 0; border: 2px solid #FFF;"></p>
+                        </div>
+                        {{data.TrainerId.Name}}
+                    </td>
+                    <td class="py-3">ID : {{data.userid}}</td>
+                    <td class="d-flex align-items-center py-3">
+                        {% if False %}
+                        <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; border: 2px solid #FFF;"></p>
+                        Offline
+                        {% else %}
+                        <p class="m-0 p-1" style="background-color:rgba(26, 184, 0, 1) ; width: 5px; height: 5px; border-radius: 50%; border: 2px solid #FFF;"></p>
+                        Online
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
