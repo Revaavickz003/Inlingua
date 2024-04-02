@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from Inlingua_app.models import (User, TrainingStaff, StudentDetails, 
                                  UserRoles, StudentDetails, TrainingBatches, 
-                                 Payments,)
+                                 Payments, Languages)
 import datetime
 from itertools import zip_longest
 from django.db.models import Max
@@ -52,27 +52,27 @@ def addstudent(request):
         if user.is_staff and user.is_staff and user.is_superuser:
             if request.method == 'POST':
                 name = request.POST.get('name')
-                firstname = request.POST.get('fname')
                 lasttname = request.POST.get('lname')
                 Email = request.POST.get('gmail')
                 mobilenumber = request.POST.get('mobilenumber')
                 studentphoto = request.FILES.get('studentphoto')
                 password1 = Email
                 Batchid = request.POST.get('Batchid')
+                languageid = request.POST.get('languageid')
                 studentid = request.POST.get('studentid')
                 address = request.POST.get('Address')
                 Batchid = TrainingBatches.objects.get(ID = Batchid)
+                languages = Languages.objects.get(ID = languageid)
                 if not StudentDetails.objects.filter(userid = studentid).exists():
                     if not User.objects.filter(email=Email).exists():
                         try:
-                            role_id = UserRoles.objects.get(Name ='Student'),
+                            role_id = UserRoles.objects.get(Name ='Students')
                         except:
-                            messages.error(request,  "Role not found")
+                            messages.error(request,  "Roles not found")
                             return redirect('students')
                         
                         newstudent = User.objects.create(
                             name = name,
-                            first_name = firstname,
                             last_name = lasttname,
                             Mobile_Number = mobilenumber,
                             email = Email,
@@ -82,7 +82,7 @@ def addstudent(request):
                             created_by = user.name,
                             updated_by = user.name,
                             updated_date = datetime.datetime.now(),
-                            role_id = UserRoles.objects.get(Name ='Student'),
+                            role_id = UserRoles.objects.get(Name ='Students'),
                         )
                         newstudent.set_password(password1)
                         newstudent.save()
@@ -91,6 +91,7 @@ def addstudent(request):
                         new_student_details = StudentDetails.objects.create(
                             StudentID = lastuser,
                             BatchID = Batchid,
+                            Language_Id = languages,
                             userid = studentid,
                         )
                         new_student_details.save()
@@ -104,10 +105,12 @@ def addstudent(request):
                     return redirect('addstudent')
             else:
                 batches = TrainingBatches.objects.all()
+                languages = Languages.objects.all()
                 context = {
                     'User':user,
                     'Students':'active',
                     'batches':batches,
+                    'languages':languages,
                     }
                 return render(request, 'inlingua/addstudent.html',context)
         else:

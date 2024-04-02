@@ -31,10 +31,6 @@ Add student | Inlingua
                         <input type="text" class="form-control text-white bg-dark" id="studentname" name="name">
                     </div>
                     <div class="col-lg-4">
-                        <label for="fname" class="form-label text-white">First Name</label>
-                        <input type="text" class="form-control text-white bg-dark" id="fname" name="fname">
-                    </div>
-                    <div class="col-lg-4">
                         <label for="lname" class="form-label text-white">Last Name</label>
                         <input type="text" class="form-control text-white bg-dark" id="lname" name="lname">
                     </div>
@@ -46,11 +42,24 @@ Add student | Inlingua
                         <label for="gmail" class="form-label text-white">e-mail</label>
                         <input type="email" class="form-control bg-dark text-white" id="gmail" name="gmail">
                     </div>
+                    <div class="col-lg-4">
+                        <label for="Address" class="form-label text-white">Address</label>
+                        <input type="text" class="form-control bg-dark text-white" id="Address" name="Address">
+                    </div>
                 </div>
                 <div class="row g-3 mt-1">
                     <div class="col-lg-4">
                         <label for="studentphoto" class="form-label text-white">Student Photo</label>
                         <input class="form-control bg-dark text-white" type="file" id="studentphoto" name="studentphoto">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="mobilenumber" class="form-label text-white">Language Details</label>
+                        <select class="form-control bg-dark text-white" name="languageid" id="languageid">
+                            <option>Select Language</option>
+                            {% for language in languages %}
+                            <option value="{{language.pk}}">{{language.Name}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="col-lg-4">
                         <label for="mobilenumber" class="form-label text-white">Batch Details</label>
@@ -61,10 +70,7 @@ Add student | Inlingua
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-lg-4">
-                        <label for="Address" class="form-label text-white">Address</label>
-                        <input type="text" class="form-control bg-dark text-white" id="Address" name="Address">
-                    </div>
+                    
                 </div>
             </div>
             <div class="modal-footer">
