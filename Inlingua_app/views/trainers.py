@@ -56,26 +56,33 @@ def trainer_view(request,id):
         messages.error(request,  "Please login first")
         return redirect('login')
 
-def add_trainer_head(request,id):
+def add_trainer_head(request, id):
     if request.user.is_authenticated:
-        user_id = request.user.id
-        user = User.objects.get(id=user_id)
+        user = request.user
 
         if user.is_staff and user.is_superuser:
-            get_tainer_qualification = TrainerQualifications.objects.get(ID = id)
-            if TrainerQualifications.objects.filter(LanguageID =  get_tainer_qualification.LanguageID, TrainerHead = True):
-                messages.error(request, 'Already  a Head Coach!')
-                return redirect('trainers')
-            else:
-                get_tainer_qualification.TrainerHead = True
-                get_tainer_qualification.save()
-                messages.success(request,'Successfully Made the Trainer as a Head Coach!')
+            try:
+                trainer_qualification = TrainerQualifications.objects.get(ID=id)
+
+                if TrainerQualifications.objects.filter(LanguageID=trainer_qualification.LanguageID, TrainerHead=True).exists():
+                    messages.error(request, 'Already a Head Coach!')
+                    return redirect('trainers')
+                else:
+                    trainer_qualification.TrainerHead = True
+                    trainer_qualification.TrainerId.LoginId.is_staff_head = True
+                    trainer_qualification.TrainerId.LoginId.save()
+                    trainer_qualification.save()
+
+                    messages.success(request, 'Successfully made the Trainer as a Head Coach!')
+                    return redirect('trainers')
+            except TrainerQualifications.DoesNotExist:
+                messages.error(request, 'Trainer qualifications not found.')
                 return redirect('trainers')
         else:
             messages.error(request, "You don't have permission for that action.")
             return redirect('home')
     else:
-        messages.error(request, "Please Login First")
+        messages.error(request, "Please log in first.")
         return redirect('login')
     
     

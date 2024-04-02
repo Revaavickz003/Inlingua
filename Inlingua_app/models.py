@@ -228,11 +228,23 @@ class ProofOfIdentty(models.Model):
     UpdatedBy = models.CharField(max_length=255)
     UpdatedDate = models.DateTimeField(default=timezone.now)
 
+class trainer_head_table(models.Model):
+    trainer_head = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE, related_name='trainer_head_allocations', null=True, blank=True)
+    IsActive = models.BooleanField()
+    CreatedBy = models.CharField(max_length=255)
+    CreatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedBy = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.trainer_head.Name
+
 class TrainingBatches(models.Model):
     ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=255, unique=True)
     Course_details = models.ForeignKey(Courses, on_delete=models.CASCADE, null=False, blank=False)
     TrainerId = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE, null=False, blank=False)
+    trainer_head = models.ForeignKey(trainer_head_table, on_delete=models.CASCADE, related_name='training_batches_as_head', null=True, blank=True)
     MeetingURL = models.CharField(max_length=500)
     StartDate = models.DateField()
     EndDate = models.DateField()
@@ -293,3 +305,4 @@ class StudentStudyMetirials(models.Model):
     UploadedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_student_studymaterials')
     createdby = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_student_studymaterials')
     uploadesdate = models.DateTimeField(auto_now_add=True)
+

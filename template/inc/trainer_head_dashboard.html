@@ -80,9 +80,9 @@
 <section class="mt-4">
     <div class="container px-4">
         <div class="list-container d-flex w-100 align-items-center  justify-content-between flex-wrap">
-            <p class="m-0 p-2 px-4 active"><a href="" class="active"> Trainer Online status</a></p>
-            <p class="m-0 p-2 px-4"><a href=""> Students Online status </a></p>
-            <p class="m-0 p-2 px-4"><a href="">  Batch list </a></p>
+            <p class="m-0 p-2 px-4 {{home}}"><a href="{% url 'home' %}" class="{{home}}"> Trainer Online status</a></p>
+            <p class="m-0 p-2 px-4  {{student}}"><a href="{% url 'student_online' %}" class="{{student}}"> Students Online status </a></p>
+            <p class="m-0 p-2 px-4  {{batchlist}}"><a href="{% url 'Batchlist' %}" class="{{batchlist}}">  Batch list </a></p>
         </div>
     </div>
 </section>
@@ -98,7 +98,8 @@
                 </tr>
             </thead>
             <tbody id='trainee_status'>
-                {% for data in datas %}
+                {% if trainers %}
+                {% for data in trainers %}
                 <tr style="border-bottom: 2px solid  #ECECEC;" class="pb-3">
                     <td class="d-flex align-items-center py-3">
                         1.
@@ -120,6 +121,31 @@
                     </td>
                 </tr>
                 {% endfor %}
+                {% endif %}
+                {% if students %}
+                {% for data in students%}
+                <tr style="border-bottom: 2px solid  #ECECEC;" class="pb-3">
+                    <td class="d-flex align-items-center py-3">
+                        {{forloop.counter}}
+                        <div class="mx-2 me-3" style="position: relative; width: fit-content; border-radius: 50%;">
+                            <img src="{% static 'img/imgs/profile icon.jpg' %}" width="30" alt="Profile Image" style="border-radius: 50%;"/>
+                        <p class="m-0 p-1" style="background-color: rgba(26, 184, 0, 1);  border-radius: 50%; position: absolute; bottom: 0; right: 0; border: 2px solid #FFF;"></p>
+                        </div>
+                        {{data.StudentID.name}}
+                    </td>
+                    <td class="py-3">ID : {{data.userid}}</td>
+                    <td class="d-flex align-items-center py-3">
+                        {% if False %}
+                        <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; border: 2px solid #FFF;"></p>
+                        Offline
+                        {% else %}
+                        <p class="m-0 p-1" style="background-color:rgba(26, 184, 0, 1) ; width: 5px; height: 5px; border-radius: 50%; border: 2px solid #FFF;"></p>
+                        Online
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>

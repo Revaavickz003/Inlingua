@@ -5,7 +5,7 @@ from .models import (
     Languages, Level, Courses, PaymentTypes, Payments,
     UserRoles, User, ManagementStaff, TrainingStaff, TrainerQualifications,
     ProofOfIdentty, TrainingBatches, StudentBatchAllocation, CourseStatus,
-    StudentDetails, StudentStudyMetirials, PaymentStatus, PaymentMethod, Discount
+    StudentDetails, StudentStudyMetirials, PaymentStatus, PaymentMethod, Discount, trainer_head_table
 )
 @admin.register(PaymentStatus)
 class PaymentStatusAdmin(admin.ModelAdmin):
@@ -14,7 +14,10 @@ class PaymentStatusAdmin(admin.ModelAdmin):
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
     list_display = ['StudentDetails',]
-   
+
+@admin.register(trainer_head_table)
+class trainer_head_tableAdmin(admin.ModelAdmin):
+    list_display = ['trainer_head',]
 
 @admin.register(PaymentMethod)
 class PaymentMethodAdmin(admin.ModelAdmin):

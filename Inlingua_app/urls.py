@@ -1,5 +1,21 @@
 from django.urls import path
-from Inlingua_app.views import (login, home, register, logout, batchdetails, user, tables, language as lng, roles, trainers, language_page, courceandlevels,payment, Generate_Report)
+from Inlingua_app.views import (
+login, 
+home, 
+register, 
+logout, 
+batchdetails, 
+user, 
+tables, 
+language as lng, 
+roles, 
+trainers, 
+language_page, 
+courceandlevels,
+payment, 
+Generate_Report,
+trainer_head
+)
 from django.contrib.auth import views as password_views
 
 from django.contrib import admin
@@ -13,6 +29,10 @@ urlpatterns = [
     path('crm/login/', login.custom_login, name="login"),
     path('logout/', logout.custom_logout, name="logout"),
     path('crm/home/', home.home, name="home"),
+
+
+    path('crm/home/students_online_status/', trainer_head.students, name="student_online"),
+    path('crm/home/Batchlist/',  trainer_head.Batchlist, name="Batchlist"),
 
     path('crm/students/', user.user_page, name="students"),
     path('crm/students/add/', user.addstudent, name="addstudent"),
