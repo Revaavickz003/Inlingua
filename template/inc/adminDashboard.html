@@ -6,8 +6,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Students</p>
-                            <h4 class="my-1 text-info">{{student_count}}</h4>
-                            <p class="mb-0 font-13">+2.5% from last week</p>
+                            <h4 class="my-1 h1 fs-1 text-info">{{student_count}}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto"><i class="fa fa-users text-secondary"></i>
                         </div>
@@ -21,8 +20,7 @@
                    <div class="d-flex align-items-center">
                        <div>
                             <p class="mb-0 text-success">Total Trainers</p>
-                            <h4 class="my-1 text-success">{{trainer_count}}</h4>
-                            <p class="mb-0 font-13">-4.5% from last week</p>
+                            <h4 class="my-1 h1 fs-1 text-success">{{trainer_count}}</h4>
                        </div>
                        <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto"><i class="fa fa-user text-secondary"></i>
                        </div>
@@ -36,10 +34,9 @@
                    <div class="d-flex align-items-center">
                        <div>
                            <p class="mb-0 text-secondary">Total Trainers Head</p>
-                           <h4 class="my-1 text-success">{{trainer_hesd}}</h4>
-                           <p class="mb-0 font-13">-4.5% from last week</p>
+                           <h4 class="my-1 h1 fs-1 text-success">{{trainer_hesd}}</h4>
                        </div>
-                       <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class="fa fa-bar-chart text-secondary"></i>
+                       <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class="fa fa-users text-secondary"></i>
                        </div>
                    </div>
                </div>
@@ -51,10 +48,9 @@
                    <div class="d-flex align-items-center">
                        <div>
                            <p class="mb-0 text-secondary">Total Languages</p>
-                           <h4 class="my-1 text-warning">{{inactive_student_count}}</h4>
-                           <p class="mb-0 font-13">+8.4% from last week</p>
+                           <h4 class="my-1 h1 fs-1 text-warning">{{Language_count}}</h4>
                        </div>
-                       <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto"><i class="fa fa-users text-secondary"></i>
+                       <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto"><i class="fa fa-bar-chart text-secondary"></i>
                        </div>
                    </div>
                </div>
@@ -87,7 +83,7 @@
                 <h3 class="card-title text-white">Payment Method</h3>
                 <p class="card-text text-white">View and manage Payment Method available on this platform.</p>
                 {% for paymentmethod in paymentmethods %}
-                <a href="{% url 'paymentmethod' id=paymentmethod.ID %}" >Partial Payment</a><br>
+                <a href="{% url 'paymentmethod' id=paymentmethod.ID %}">{{paymentmethod.Name}}</a><br>
                 {% endfor %}
                 <form action="{% url 'addpaymentmethod' %}" id="PaymentMethodform" class="mt-3 d-none" method="post">
                     {% csrf_token %}
