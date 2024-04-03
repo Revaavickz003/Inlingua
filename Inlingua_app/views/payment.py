@@ -44,26 +44,27 @@ def addpaymentmethod(request):
         user = User.objects.get(id=user_id)
         if user.is_staff and user.is_superuser:
             if request.method == 'POST':
-                PaymentTypesName = request.POST['PaymentTypes']
-                if PaymentTypesName:
-                    if not  PaymentTypes.objects.filter(Name=PaymentTypesName).exists():
-                        new_type = PaymentTypes.objects.create(
-                            Name = PaymentTypesName,
-                            CreatedBy =  user.name,
-                            UpdatedBy = user.name
+                Paymentmethod = request.POST.get('PaymentMethod')
+                if Paymentmethod:
+                    if not PaymentMethod.objects.filter(Name=Paymentmethod).exists():
+                        new_type = PaymentMethod.objects.create(
+                            Name=Paymentmethod,
+                            CreatedBy=user.name,
+                            UpdatedBy=user.name
                         )
                         new_type.save()
-                        messages.success(request,  "New payment type added successfully")
+                        messages.success(request, "New payment type added successfully")
                         return redirect('home')
                     else:
-                        messages.warning(request,"This payment type already exists.")
+                        messages.warning(request, "This payment type already exists.")
                         return redirect('home')
                 else:
                     messages.error(request, "Please enter a valid name for the payment type.")
                     return redirect('home')
             else:
-                messages.error(request,  "Invalid Request! Please use POST method to add a new payment type.")
+                messages.error(request, "Invalid Request! Please use POST method to add a new payment type.")
                 return redirect('home')
+
         else:
             messages.info(request, "You do not have permission to view this page.")
             return redirect('login')
@@ -87,9 +88,10 @@ def payment_view(request,id):
             pending_amountprint = float(student_details.BatchID.Course_details.Cost)-float(total_amount)
 
             try:
-                discount = Discount.objects.get(StudentDetails=id)
+                discountprice = Discount.objects.get(StudentDetails=id)
+                discount = discountprice.DiscountedPayment
             except Exception as e:
-                discount = None
+                discount = 0
                 
                                                                                  
             if request.method == 'POST':
@@ -106,13 +108,13 @@ def payment_view(request,id):
                 PaymentTypeId = PaymentTypes.objects.get(ID = int(PaymentTypeId))
                 PaymentMethodId = PaymentMethod.objects.get(ID = int(PaymentMethodId))
 
-                if float(Amount) + int(total_amount) == int(Course_cost):
-                    Paymentstatus = PaymentStatus.objects.get(ID = 1)
+                if float(Amount) + float(total_amount) + float(discount) == int(Course_cost):
+                    Paymentstatus = PaymentStatus.objects.get(StatusName = 'Completed')
                     
                 else:
-                    Paymentstatus = PaymentStatus.objects.get(ID = 1)
+                    Paymentstatus = PaymentStatus.objects.get(StatusName = 'Pending')
                 
-                if float(Amount) <= int(Course_cost) and int(pending_amountprint)>=float(Amount):
+                if float(Amount) <= int(Course_cost) and int(pending_amountprint) >= float(Amount):
                     messages.warning(request,'The amount should be less than or equal to the course cost.')
                     pass
                 else:

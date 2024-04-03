@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from Inlingua_app.models import User, TrainingStaff, TrainerQualifications, TrainingBatches, StudentDetails, PaymentTypes, PaymentMethod, Courses, StudentBatchAllocation
+from Inlingua_app.models import Languages, User, TrainingStaff, TrainerQualifications, TrainingBatches, StudentDetails, PaymentTypes, PaymentMethod, Courses, StudentBatchAllocation
 
 def home(request):
     if request.user.is_authenticated:
@@ -13,15 +13,18 @@ def home(request):
                 paymentmethod = PaymentMethod.objects.all()
                 All_student = StudentDetails.objects.all()
                 All_Trainers = TrainerQualifications.objects.all()
+                All_Language = Languages.objects.all()
 
                 Student_count = All_student.count()
                 Trainer_count = All_Trainers.count()
+                Language_count = All_Language.count()
                 inactive_student_count = All_student.filter(is_active=False).count()
                 Trainer_hesd = All_Trainers.filter(TrainerHead=True).count()
                 context={'User':user,
                          'Dashboard':'active',
                          'student_count':Student_count,
                          'trainer_count':Trainer_count,
+                         'Language_count':Language_count,
                          'trainer_hesd':Trainer_hesd,
                          'inactive_student_count':inactive_student_count,
                          'paymenttypes':paymenttypes,
@@ -40,9 +43,6 @@ def home(request):
                     'trainers': trainers,
                     'home':'active',
                 })
-
-                
-                
             else:
                 trainer_details = TrainingStaff.objects.get(LoginId=user)
                 training_batches = TrainingBatches.objects.filter(TrainerId=trainer_details.ID)

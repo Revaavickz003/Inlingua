@@ -75,8 +75,16 @@ class Courses(models.Model):
         return self.Name
     
 class PaymentStatus(models.Model):
-    ID = models.AutoField(primary_key=True)
-    StatusName = models.CharField(max_length=255)
+    COMPLETED = 'Completed'
+    PENDING = 'Pending'
+    YET_TO_PAY = 'Yet to pay'
+
+    STATUS_CHOICES = [
+        (COMPLETED, 'Completed'),
+        (PENDING, 'Pending'),
+        (YET_TO_PAY, 'Yet to pay'),
+    ]
+    StatusName = models.CharField(max_length=255, choices=STATUS_CHOICES, default=YET_TO_PAY)
     CreatedDate = models.DateTimeField(default=timezone.now)
     CreatedBy = models.CharField(max_length=255)
     UpdatedDate = models.DateTimeField(default=timezone.now)
