@@ -55,6 +55,7 @@ class Courses(models.Model):
     EndtDate = models.DateField(null=False, blank=False)
     StartTime = models.TimeField(null=False, blank=False)
     EndTime = models.TimeField(null=False, blank=False)
+    Course_link = models.URLField(null=False, blank=False)
     LevelID = models.ForeignKey(Level, on_delete=models.CASCADE)
     Cost = models.FloatField()
     Course_metirials = models.FileField(
