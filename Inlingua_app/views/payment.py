@@ -53,16 +53,16 @@ def addpaymentmethod(request):
                             UpdatedBy=user.name
                         )
                         new_type.save()
-                        messages.success(request, "New payment type added successfully")
+                        messages.success(request, "New payment method added successfully")
                         return redirect('home')
                     else:
-                        messages.warning(request, "This payment type already exists.")
+                        messages.warning(request, "This payment method already exists.")
                         return redirect('home')
                 else:
-                    messages.error(request, "Please enter a valid name for the payment type.")
+                    messages.error(request, "Please enter a valid name for the payment method.")
                     return redirect('home')
             else:
-                messages.error(request, "Invalid Request! Please use POST method to add a new payment type.")
+                messages.error(request, "Invalid Request! Please use POST method to add a new payment method.")
                 return redirect('home')
 
         else:
