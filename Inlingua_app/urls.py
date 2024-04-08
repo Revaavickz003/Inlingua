@@ -14,7 +14,8 @@ language_page,
 courceandlevels,
 payment, 
 Generate_Report,
-trainer_head
+trainer_head,
+email
 )
 from django.contrib.auth import views as password_views
 
@@ -26,6 +27,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('send-welcome-email/', email.send_welcome_email, name='send_welcome_email'),
     path('crm/login/', login.custom_login, name="login"),
     path('logout/', logout.custom_logout, name="logout"),
     path('crm/home/', home.home, name="home"),

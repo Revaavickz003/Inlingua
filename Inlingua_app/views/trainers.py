@@ -114,6 +114,7 @@ def add_trainers(request):
                 language = request.POST.get('Language')
                 level = request.POST.get('level')
                 trainerid = request.POST.get('trainerid')
+                print(language)
 
                 try:
                     role = UserRoles.objects.get(Name='Trainer')
