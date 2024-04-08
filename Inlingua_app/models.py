@@ -57,6 +57,7 @@ class Courses(models.Model):
     EndTime = models.TimeField(null=False, blank=False)
     Course_link = models.URLField(null=False, blank=False)
     LevelID = models.ForeignKey(Level, on_delete=models.CASCADE)
+    class_active = models.BooleanField(default=False)
     Cost = models.FloatField()
     Course_metirials = models.FileField(
         upload_to='static/uploads/Stady_metirials',

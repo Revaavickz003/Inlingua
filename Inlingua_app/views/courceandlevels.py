@@ -113,8 +113,9 @@ def edit_batchs(request,id):
                 batch_info = TrainingBatches.objects.get(ID=id)
                 all_course = Courses.objects.all()
                 all_Trainer = TrainingStaff.objects.all()
-                
-                context = {'courceandlevels':'active',
+                print(user.name)
+                context = {
+                        'courceandlevels':'active',
                            'BatchInfo': batch_info, 
                            'all_course':all_course, 
                            'all_Trainer':all_Trainer}

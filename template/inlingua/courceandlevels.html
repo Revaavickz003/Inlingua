@@ -62,12 +62,12 @@ Batchs, Courses and Levels
                                         <input type="text" class="form-control bg-dark text-white" id="gmeeturl" name="gmeeturl">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="satrdate" class="form-label text-white">Start Date</label>
-                                        <input class="form-control bg-dark text-white" type="date" id="satrdate" name="satrdate">
+                                        <label for="Start_Date" class="form-label text-white">Start Date</label>
+                                        <input class="form-control bg-dark text-white" type="date" id="Start_Date" name="satrdate">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="End-Date" class="form-label text-white">End Date</label>
-                                        <input class="form-control bg-dark text-white" type="date" id="End-Date" name="EndDate">
+                                        <label for="End_Date" class="form-label text-white">End Date</label>
+                                        <input class="form-control bg-dark text-white" type="date" id="End_Date" name="EndDate">
                                     </div>
                                 </div>
                                 <div class="row g-3 mt-1">
@@ -76,12 +76,12 @@ Batchs, Courses and Levels
                                         <input type="number" class="form-control bg-dark text-white" id="classduraition" name="classduraition">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="start_time" class="form-label text-white">Start Time</label>
-                                        <input type="time" class="form-control bg-dark text-white" id="start_time" name="start_time">
+                                        <label for="Start_Time" class="form-label text-white">Start Time</label>
+                                        <input type="time" class="form-control bg-dark text-white" id="Start_Time" name="start_time">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="end_time" class="form-label text-white">End Time</label>
-                                        <input type="time" class="form-control bg-dark text-white" id="end_time" name="end_time">
+                                        <label for="End_Time" class="form-label text-white">End Time</label>
+                                        <input type="time" class="form-control bg-dark text-white" id="End_Time" name="end_time">
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ Batchs, Courses and Levels
                         {% csrf_token %}
                         <div class="modal-content bg-dark">
                             <div class="modal-header">
-                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Couse</h5>
+                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Course</h5>
                                 <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -138,7 +138,7 @@ Batchs, Courses and Levels
                                         <input type="number" class="form-control bg-dark text-white" id="duration" name="duration">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="cast" class="form-label text-white">Cost</label>
+                                        <label for="cast" class="form-label text-white">Cast</label>
                                         <input type="number" class="form-control bg-dark text-white" id="cast" name="cast">
                                     </div>
                                     <div class="col-12  col-md-4">
@@ -178,7 +178,7 @@ Batchs, Courses and Levels
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger" style="background-color: #FF751A;">Save Coures</button>
+                                <button type="submit" class="btn btn-danger" style="background-color: #FF751A;">Save Course</button>
                             </div>
                         </div>
                     </form>
@@ -194,7 +194,7 @@ Batchs, Courses and Levels
                         {% csrf_token %}
                         <div class="modal-content bg-dark">
                             <div class="modal-header">
-                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Batch</h5>
+                                <h5 class="modal-title text-white" id="staticBackdropLabel">Add New Level</h5>
                                 <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -285,7 +285,7 @@ Batchs, Courses and Levels
                         {% if BatchInfo %}
                             Edit Batch
                         {% elif course_info %}
-                            Edit Coures 
+                            Edit Course 
                         {% elif level_info %}
                             Edit Level 
                         {% endif %}
@@ -298,7 +298,7 @@ Batchs, Courses and Levels
                                 {% if BatchInfo %}
                                     Batch Name
                                 {% elif course_info %}
-                                    Coures Name 
+                                Course Name 
                                 {% elif level_info %}
                                     Level Name
                                 {% endif %}
@@ -401,7 +401,7 @@ Batchs, Courses and Levels
 
                         {% if course_info %}
                         <div class="col-12  col-md-4">
-                            <label for="satrdate" class="form-label text-white">Course status</label>
+                            <label for="" class="form-label text-white">Course status</label>
                             <div class="progress" style="height: 8px;">
                                 <div
                                     class="progress-bar"
@@ -417,7 +417,7 @@ Batchs, Courses and Levels
                             <p class="m-0 p-0 text-white">{{course_info.Course_status}} / 100</p>
                         </div>
                         <div class="col-12  col-md-4">
-                            <label for="satrdate" class="form-label text-white">Course Metirials</label>
+                            <label for="" class="form-label text-white">Course Materials</label>
                             <div class="form-control bg-dark"
                                 style="border: 1px solid #444444;">
                                 <a href="#" class="">
@@ -437,8 +437,8 @@ Batchs, Courses and Levels
                         {% endif %}
                         {% if BatchInfo or course_info %}
                         <div class="col-12  col-md-4">
-                            <label for="satrdate" class="form-label text-white">Start Date</label>
-                            <input class="form-control bg-dark text-white" type="text" id="satrdate"  
+                            <label for="satr_date" class="form-label text-white">Start Date</label>
+                            <input class="form-control bg-dark text-white" type="text" id="satr_date"  
                             {% if BatchInfo %}
                                 value="{{BatchInfo.StartDate}}"
                             {% elif course_info %}
@@ -488,8 +488,8 @@ Batchs, Courses and Levels
                         </div>
                         {% endif %}
                         <div class="col-12  col-md-4">
-                            <label for="classduraition" class="form-label text-white">CreatedBy</label>
-                            <input type="text" class="form-control bg-dark text-white" id="classduraition"  
+                            <label for="CreatedBy" class="form-label text-white">Created By</label>
+                            <input type="text" class="form-control bg-dark text-white" id="CreatedBy"  
                             {% if BatchInfo %}
                                 value="{{BatchInfo.CreatedBy}}"
                             {% elif course_info %}
@@ -500,8 +500,8 @@ Batchs, Courses and Levels
                             readonly>
                         </div>
                         <div class="col-12  col-md-4">
-                            <label for="start_time" class="form-label text-white">CreatedDate</label>
-                            <input type="text" class="form-control bg-dark text-white" id="start_time"  
+                            <label for="CreatedDate" class="form-label text-white">Created Date</label>
+                            <input type="text" class="form-control bg-dark text-white" id="CreatedDate"  
                             {% if BatchInfo %}
                                 value="{{BatchInfo.CreatedDate}}"
                             {% elif course_info %}
@@ -512,8 +512,8 @@ Batchs, Courses and Levels
                             readonly>
                         </div>
                         <div class="col-12  col-md-4">
-                            <label for="classduraition" class="form-label text-white">UpdatedBy</label>
-                            <input type="text" class="form-control bg-dark text-white" id="classduraition"  
+                            <label for="UpdatedBy" class="form-label text-white">Updated By</label>
+                            <input type="text" class="form-control bg-dark text-white" id="UpdatedBy"  
                             {% if BatchInfo %}
                                 value="{{BatchInfo.UpdatedBy}}"
                             {% elif course_info %}
@@ -524,8 +524,8 @@ Batchs, Courses and Levels
                             readonly>
                         </div>
                         <div class="col-12  col-md-4">
-                            <label for="end_time" class="form-label text-white">UpdatedDate</label>
-                            <input type="text" class="form-control bg-dark text-white" id="end_time"  
+                            <label for="UpdatedDate" class="form-label text-white">Updated Date</label>
+                            <input type="text" class="form-control bg-dark text-white" id="UpdatedDate"  
                             {% if BatchInfo %}
                                 value="{{BatchInfo.UpdatedDate}}"
                             {% elif course_info %}
