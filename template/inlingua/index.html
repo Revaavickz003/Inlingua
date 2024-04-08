@@ -72,7 +72,7 @@ Home page | Inlingua
                                 <p class="m-0 text-white">{{Training_batch.Course_details.LanguageID.Name}}
                                     {{Training_batch.Course_details.LevelID.Code}}</p>
                             </div>
-                            <div class="course-progress-container mt-3 w-50">
+                            <div class="course-progress-container mt-3 w-75">
                                 <div class="progress" style="height: 5px;">
                                     <div class="progress-bar" role="progressbar"
                                         style="width: {{Training_batch.Course_details.Course_status}}%; height: 10px; background-color: #FF751A;"
@@ -100,16 +100,13 @@ Home page | Inlingua
                                 {{Training_batch.Course_details.LanguageID.Name}}</p>
                             <p class="m-0 text-white"><span style="color: #FF751A;">Class Duration</span> : {{Training_batch.Course_details.StartDate |date:"d-m-Y" }} - {{Training_batch.Course_details.StartDate |date:"d-m-Y" }}</p>
                             <p class="m-0 text-white"><span style="color: #FF751A;">Session Time</span> : {{Training_batch.Course_details.StartTime |time:"g.i A" }} - {{Training_batch.Course_details.EndTime |time:"g.i A" }}</p>
+                            Session Time
                         </div>
                     </div>
                     <div class="col-12 col-lg-3 d-flex align-items-center justify-content-center"
                         style="flex-direction: column;">
-                        <div class="">
-                            <img src="{% static 'img/imgs/Group.svg' %}" alt="">
-                            <a href="#" style="color: #FF751A;">Upload Recorded Class link</a>
-                        </div>
                         <div>
-                            <a href="" class="btn btn-dark mt-3" style="background-color: #FF751A;">Write a message</a>
+                            <button class="btn btn-danger" style="background-color: #FF751A;" >Upload Study Material</button>
                         </div>
                         <div>
                             <a href="{% url 'batches' id=Training_batch.Course_details.ID %}" class="btn btn-dark mt-3"
@@ -168,9 +165,9 @@ Home page | Inlingua
                 <div class="get-certifite mt-3">
                     <p>
                         {% if user.is_staff %}
-                        Trainer ID : {{user.id}}
+                        Trainer ID : {{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}
                         {% else %}
-                        Student ID : {{user.id}}
+                        Student ID : {{student_details.userid}}
                         {% endif %}
                     </p>
 
@@ -227,12 +224,16 @@ Home page | Inlingua
                         </div>
                         <div class="buttons mt-5 d-flex align-items-center justify-content-between">
                             {% if user.is_staff %}
-                            <a href="#">Start Class</a>
+                            <a href="">Start Class</a>
                             {% else %}
                             <input type="submit" class="btn btn-primary" value="Submit">
-                            <a href="https://meet.google.com/fsf-iihs-gfk">Join Class</a>
+                            <a href="" target="_blank">Join Class</a>
                             {% endif %}
-                            <a href="{% url 'logout' %}" class="logout">Log out</a>
+                                {% if user.is_staff %}
+                                <a href="">End Class</a>
+                                {% else %}
+                                <a href="{% url 'logout' %}" class="logout">Log out</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -251,9 +252,14 @@ Home page | Inlingua
                                 style="flex-wrap: wrap;">
                                 {% for Training_batch in training_batches %}
                                 <a href="{% url 'batches' id=Training_batch.Course_details.ID %}"
-                                    style="text-decoration: none;">
-                                    <p class="m-0 p-4 mt-3"
-                                        style="background-color: #DFDFDF; padding: 10px 20px; border-radius: 20px; margin-right: 10px !important;">
+                                    style="text-decoration: none;
+                                    
+                                    {% if  Training_Batches.Course_details.class_active %}
+                                    border: 2px solid green;
+                                    border-radius: 20px;
+                                    {% endif %}">
+                                    <p class="m-0 p-4"
+                                        style="background-color: #DFDFDF; padding: 10px 20px; border-radius: 20px;">
                                         {{Training_batch.Name}}
                                     </p>
                                 </a>
@@ -273,7 +279,7 @@ Home page | Inlingua
                         </a>
                     </div>
                     <div class="col-lg-4  d-flex align-items-center justify-content-center">
-                        <a href="one" style="width: 100%; text-decoration: none;">
+                        <a href="" style="width: 100%; text-decoration: none;">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
                                     <img src="{% static 'img/imgs/Pen.svg' %}" alt="">
@@ -283,7 +289,7 @@ Home page | Inlingua
                         </a>
                     </div>
                     <div class="col-lg-4  d-flex align-items-center justify-content-center">
-                        <a href="one" style="width: 100%; text-decoration: none;">
+                        <a href="" style="width: 100%; text-decoration: none;">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
                                     <img src="{% static 'img/imgs/Youtube.svg' %}" alt="">
@@ -344,17 +350,26 @@ Home page | Inlingua
                             <p class="m-0 text-white"><span class="letter-orange">Duration </span>:
                                 {{today_first_batch.Course_details.StartDate}}{{Training_Batches.Course_details.StartDate}}{{training_batches.Course_details.StartDate |date:"d-m-Y" }} -
                                 {{today_first_batch.Course_details.EndtDate}}{{Training_Batches.Course_details.EndtDate}}{{training_batches.Course_details.EndtDate | date:"d-m-Y" }}</p>
-                            <p class="m-0 text-white"><span class="letter-orange">Session Time </span>:
+                                <p class="m-0 text-white"><span class="letter-orange">Session Time </span>:
                                 {{today_first_batch.Course_details.StartTime }}{{training_batches.Course_details.StartTime | time:"g.i A"}}{{Training_Batches.Course_details.StartTime}} -
                                 {{today_first_batch.Course_details.EndTime}}{{Training_Batches.Course_details.EndTime}}{{training_batches.Course_details.EndTime |time:"g.i A" }}</p>
 
                             {% if user.is_staff %}
+                            {% if Training_Batches.Course_details.class_active %}
+                            <a href="{{Training_Batches.Course_details.Course_link}}" target="_blank" class="btn alert-primary mt-3 w-100">Join Class</a>
+                            {% endif %}
                             {% else %}
                             <p class="m-0 text-white"><span class="letter-orange">Trainer </span>:
                                 {{training_batches.TrainerId.Name}}</p>
                             {% endif %}
                         </div>
-                        <div class="buttons mt-5 d-flex align-items-center justify-content-between">
+                        <div class="buttons
+                        {% if Training_Batches.Course_details.class_active %}
+                        mt-3
+                        {% else %}
+                        mt-5
+                        {% endif %}
+                        d-flex align-items-center justify-content-between">
                             {% if request.path == '/crm/home' %}
                             <a href="#" class="btn btn-dark"
                                 style="color: #FFF; background-color:#FF751A; border-radius: 20px;">Ready to start
@@ -363,10 +378,27 @@ Home page | Inlingua
                                 style="color: #FF751A; background-color:#FFF; border-radius: 20px;">Logout</a>
                             {% else %}
                             {% if user.is_staff %}
-                            <a href="#">Start Class</a>
+                                {% if Training_Batches.Course_details.class_active %}
+                                {% if today_first_batch.Name %}
+                                <a href="{% url 'endclass' id=today_first_batch.Course_details.ID %}">End Class</a>
+                                {% else %}
+                                <a href="{% url 'endclass' id=Training_Batches.Course_details.ID %}">End Class</a>
+                                {% endif %}
+                                {% else %}
+                                {% if today_first_batch.Name %}
+                                <a href="{% url 'start_class' id=today_first_batch.Course_details.ID %}">Start Class</a>
+                                {% else %}
+                                <a href="{% url 'start_class' id=Training_Batches.Course_details.ID %}">Start Class</a>
+                                {% endif %}
+                                {% endif %}
+                                
+                                
                             {% else %}
-                            <a href="https://meet.google.com/fsf-iihs-gfk" target="_blank" onclick="return false;">Join
-                                Class</a>
+                            <a href="{{training_batches.Course_details.Course_link}}" target="_blank"
+                            {% if training_batches.Course_details.class_active == False %}
+                             onclick="return false;"
+                             {% endif %}
+                             >Join Class</a>
                             {% endif %}
                             <a href="{% url 'logout' %}" class="logout">Log out</a>
                             {% endif %}
@@ -374,6 +406,7 @@ Home page | Inlingua
                     </div>
                 </form>
             </div>
+            
         </div>
         <script>
 

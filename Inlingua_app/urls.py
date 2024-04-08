@@ -15,7 +15,8 @@ courceandlevels,
 payment, 
 Generate_Report,
 trainer_head,
-email
+email,
+StartClass,
 )
 from django.contrib.auth import views as password_views
 
@@ -32,6 +33,8 @@ urlpatterns = [
     path('logout/', logout.custom_logout, name="logout"),
     path('crm/home/', home.home, name="home"),
 
+    path('crm/start_class/<int:id>/', StartClass.classstart, name="start_class"),
+    path('crm/end_class/<int:id>/', StartClass.classend, name="endclass"),
 
     path('crm/home/students_online_status/', trainer_head.students, name="student_online"),
     path('crm/home/Batchlist/',  trainer_head.Batchlist, name="Batchlist"),
@@ -87,6 +90,9 @@ urlpatterns = [
 
     path('crm/batch/<int:id>/', batchdetails.batches, name="batches"),
     path('crm/user/register/', register.register, name="register"),
+
+
+    
 
     # Reset the password urls
 

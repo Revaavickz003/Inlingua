@@ -35,7 +35,6 @@ def home(request):
                 trainer_details = TrainingStaff.objects.get(LoginId=user)
                 Trainer_Qualifications = TrainerQualifications.objects.get(TrainerId=trainer_details)
                 trainers = TrainerQualifications.objects.filter(LanguageID=Trainer_Qualifications.LanguageID).exclude(userid=Trainer_Qualifications.userid)
-                
                 return render(request, 'inlingua/index.html', {
                     'user': user,
                     'trainer_details': trainer_details,
@@ -63,10 +62,12 @@ def home(request):
                     'trainer_details': trainer_details,
                     'training_batches': training_batches,
                     'today_first_batch':today_first_batch,
+                    'trainer_qualifications':trainer_qualifications,
                 })
         elif user.is_active:
             student_details = StudentDetails.objects.get(StudentID=user.id)
             training_batches = TrainingBatches.objects.get(ID = student_details.BatchID.ID)
+            print()
             return render(request, 'inlingua/index.html', {
                 'user': user,
                 'student_details': student_details,
