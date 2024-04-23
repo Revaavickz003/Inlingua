@@ -124,7 +124,6 @@ class Payments(models.Model):
         (NetBank, 'Net Bank'),
         (Creditcord, 'Credit Card'),
         (Debitcord, 'Debit Card'),
-        (Sconer, 'Sconer'),
     ]
 
     Ready_Payment = 'Ready Payment'

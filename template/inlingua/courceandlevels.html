@@ -38,7 +38,7 @@ Batchs, Courses and Levels
                                         <input type="text" class="form-control text-white bg-dark" id="batchname" name="batchname">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="Courses_Details" class="form-label text-white">Courses Details</label>
+                                        <label for="Courses_Details" class="form-label text-white">Course Details</label>
                                         <select class="form-select form-select bg-dark text-white" id="Courses_Details" name="Courses_Details">
                                             <option selected>Select a Course</option>
                                             {% for courses in All_courses %}
@@ -138,7 +138,7 @@ Batchs, Courses and Levels
                                         <input type="number" class="form-control bg-dark text-white" id="duration" name="duration">
                                     </div>
                                     <div class="col-12  col-md-4">
-                                        <label for="cast" class="form-label text-white">Cast</label>
+                                        <label for="cast" class="form-label text-white">Cost</label>
                                         <input type="number" class="form-control bg-dark text-white" id="cast" name="cast">
                                     </div>
                                     <div class="col-12  col-md-4">
@@ -226,7 +226,7 @@ Batchs, Courses and Levels
                 <div class="col-md-4  mt-3 d-flex flex-column">
                     <div class="card h-100">
                         <div class="card-body bg-dark p-md-4" style="border-radius: 5px;">
-                            <h3 class="card-title text-white">Batch</h3>
+                            <h3 class="card-title text-white">Batches </h3>
                             {% for batches in All_batches%}
                             <a href="{% url 'edit_batchs' id=batches.ID %}" class="">{{batches.Name}}</a><br>
                             {% endfor %}
@@ -241,7 +241,7 @@ Batchs, Courses and Levels
                 <div class="col-md-4  mt-3 d-flex flex-column">
                     <div class="card h-100">
                         <div class="card-body bg-dark p-md-4" style="border-radius: 5px;">
-                            <h3 class="card-title text-white">Cources</h3>
+                            <h3 class="card-title text-white">Courses</h3>
                             {% for courses in All_courses%}
                             <a href="{% url 'edit_cources' id=courses.ID %}" class="">{{courses.Name}} | {{courses.LevelID.Name}}</a><br>
                             {% endfor %}
@@ -429,7 +429,7 @@ Batchs, Courses and Levels
                             </div>
                         </div>
                         <div class="col-12  col-md-4">
-                            <label for="satrdate" class="form-label text-white">Cast</label>
+                            <label for="satrdate" class="form-label text-white">Cost</label>
                             <input class="form-control bg-dark text-white" type="text" id="satrdate"  
                             value="{{ course_info.Cost}}"
                              name="satrdate" readonly>

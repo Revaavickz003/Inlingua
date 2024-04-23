@@ -251,13 +251,8 @@ Home page | Inlingua
                             <div class="upcomming-batch-container mt-4 d-block d-lg-flex align-items-center"
                                 style="flex-wrap: wrap;">
                                 {% for Training_batch in training_batches %}
-                                <a href="{% url 'batches' id=Training_batch.Course_details.ID %}"
-                                    style="text-decoration: none;
-                                    
-                                    {% if  Training_Batches.Course_details.class_active %}
-                                    border: 2px solid green;
-                                    border-radius: 20px;
-                                    {% endif %}">
+                                <a href="{% url 'batches' id=Training_batch.pk %}"
+                                    style="text-decoration: none; margin: 5px;">
                                     <p class="m-0 p-4"
                                         style="background-color: #DFDFDF; padding: 10px 20px; border-radius: 20px;">
                                         {{Training_batch.Name}}
@@ -386,13 +381,11 @@ Home page | Inlingua
                                 {% endif %}
                                 {% else %}
                                 {% if today_first_batch.Name %}
-                                <a href="{% url 'start_class' id=today_first_batch.Course_details.ID %}">Start Class</a>
+                                <a href="{% url 'start_class' id=today_first_batch.Course_details.pk %}">Start Class</a>
                                 {% else %}
-                                <a href="{% url 'start_class' id=Training_Batches.Course_details.ID %}">Start Class</a>
+                                <a href="{% url 'start_class' id=Training_Batches.pk %}">Start Class</a>
                                 {% endif %}
                                 {% endif %}
-                                
-                                
                             {% else %}
                             <a href="{{training_batches.Course_details.Course_link}}" target="_blank"
                             {% if training_batches.Course_details.class_active == False %}

@@ -102,18 +102,13 @@ def delete_langu(request, id):
 
         if user.is_staff and user.is_superuser:
             try:
-                update_langu = Languages.objects.get(ID=id)
-                update_langu.IsActive = False
-                update_langu.UpdatedBy = request.user.username
-                update_langu.UpdatedDate = datetime.datetime.now()
-                update_langu.save()
+                update_langu = Languages.objects.get(pk=id)
+                update_langu.delete()
 
                 messages.success(request, f"{update_langu.Name} has been deleted successfully from the system.")
                 return redirect('tables')
             except UserRoles.DoesNotExist:
                 raise Http404("Role does not exist")
-            
-            
         else:
             messages.error(request, 'You do not have permission to perform this action!')
             return redirect('home')

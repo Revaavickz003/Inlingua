@@ -177,7 +177,7 @@ def basic_details_update(request, id):
                             messages.warning(request,"Email already exists.")
                             return redirect('students')
                     getuser.save()
-                    messages.success(request,  f"Basic impermation details updated successfully")
+                    messages.success(request,  f"{studentname} Basic information details updated successfully")
                     return redirect('students')
                 else:
                     messages.error(request,  "All fields must be filled out correctly.")

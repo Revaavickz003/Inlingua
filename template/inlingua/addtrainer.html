@@ -41,7 +41,7 @@ Add Trainer | Inlingua
                         <input type="number" class="form-control bg-dark text-white" id="mobilenumber" name="mobilenumber">
                     </div>
                     <div class="col-md-4">
-                        <label for="gmail" class="form-label text-white">e-mail</label>
+                        <label for="gmail" class="form-label text-white">Email</label>
                         <input type="email" class="form-control bg-dark text-white" id="gmail" name="gmail">
                     </div>
                     <div class="col-md-4">
@@ -93,8 +93,8 @@ Add Trainer | Inlingua
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <input type="submit" class="btn text-white" style="background-color: #FF751A;" value="Save Profile pic">
+                <a class="btn btn-secondary" href="{% url 'trainers' %}">Close</a>
+                <input type="submit" class="btn text-white" style="background-color: #FF751A;" value="Save Changes">
             </div>
         </div>
     </form>
