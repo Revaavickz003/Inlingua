@@ -46,14 +46,10 @@ urlpatterns = [
     path('crm/student/studentbatchdetals/<int:id>/', user.studentbatchdetals, name="studentbatchdetals"),
     path('crm/student/basic_details_update/<int:id>/', user.basic_details_update, name="basicdetailsupdate"),
 
-    path('crm/students/addpaymenttypes/', payment.addpaymenttypes, name='addpaymenttypes'),
-    path('crm/students/addpaymentmethod/', payment.addpaymentmethod, name='addpaymentmethod'),
     path('crm/students/payment/<int:id>/', payment.payment_view, name='payment'),
     path('crm/students/payment/history/<int:id>/', payment.history_view, name='history'),
     path('crm/students/payment/history/report/<int:id>/', Generate_Report.GenerateReport, name='generatereport'),
 
-    path('crm/paymenttype/edit/<int:id>/', payment.payment_type, name='paymenttype'),
-    path('crm/paymentmethod/edit/<int:id>/', payment.payment_method, name='paymentmethod'),
 
 
     path('crm/trainers/', trainers.trainers_view, name="trainers"),

@@ -23,8 +23,8 @@
                     <label for="PaymentTypeId" class="text-white">Payment Type</label>
                     <select class="form-control bg-dark text-white mt-2" id="PaymentTypeId" name="PaymentTypeId">
                     <option >Select a payment type</option>
-                    {% for item in paytypes %}
-                    <option value="{{item.ID}}">{{item.Name}}</option>
+                    {% for item in payment_type_choices %}
+                        <option value="{{ item.0 }}">{{ item.1 }}</option>
                     {% endfor %}
                     </select>
                 </div>
@@ -32,8 +32,8 @@
                     <label for="PaymentMethodId"  class="text-white">Payment Method</label>
                     <select class="form-control bg-dark text-white mt-2" id="PaymentMethodId" name="PaymentMethodId">
                     <option >Select a payment Method</option>
-                    {% for item in paymentmethod %}
-                    <option value="{{item.ID}}">{{item.Name}}</option>
+                    {% for item in payment_method_choices %}
+                        <option value="{{ item.0 }}">{{ item.1 }}</option>
                     {% endfor %}
                     </select>
                 </div>
@@ -76,9 +76,7 @@
                 <button type="submit" class="btn btn-danger" style="background-color: chocolate;">Save Payment</button>
             </div>
         </form>
-        
     </div>
-    
 </div>
 <script>
     const Discount = document.getElementById('Discount');

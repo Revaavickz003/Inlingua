@@ -2,10 +2,10 @@
 
 from django.contrib import admin
 from .models import (
-    Languages, Level, Courses, PaymentTypes, Payments,
+    Languages, Level, Courses, Payments,
     UserRoles, User, ManagementStaff, TrainingStaff, TrainerQualifications,
     ProofOfIdentty, TrainingBatches, StudentBatchAllocation, CourseStatus,
-    StudentDetails, StudentStudyMetirials, PaymentStatus, PaymentMethod, Discount, trainer_head_table
+    StudentDetails, StudentStudyMetirials, PaymentStatus, Discount, trainer_head_table
 )
 @admin.register(PaymentStatus)
 class PaymentStatusAdmin(admin.ModelAdmin):
@@ -19,9 +19,6 @@ class DiscountAdmin(admin.ModelAdmin):
 class trainer_head_tableAdmin(admin.ModelAdmin):
     list_display = ['trainer_head',]
 
-@admin.register(PaymentMethod)
-class PaymentMethodAdmin(admin.ModelAdmin):
-    list_display=['Name',]
 
 @admin.register(Languages)
 class LanguagesAdmin(admin.ModelAdmin):
@@ -35,9 +32,6 @@ class LevelAdmin(admin.ModelAdmin):
 class CoursesAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(PaymentTypes)
-class PaymentTypesAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(Payments)
 class PaymentsAdmin(admin.ModelAdmin):

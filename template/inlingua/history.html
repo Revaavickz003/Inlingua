@@ -56,7 +56,7 @@
                     <tr style="border-bottom: 1px solid #333333;">
                         <td scope="row">{{ forloop.counter }}</td>
                         <td scope="row">{{ data.TransactionId }}</td>
-                        <td>{{ data.PaymentTypeId }}</td>
+                        <td>{{ data.PaymentType }}</td>
                         <td class="text-muted">{{ data.PaymentDate|date:"M. d, Y, g:i A" }}</td>
                         <td class="d-flex justify-content-start align-items-center"> Rs. {{ data.Amount }} </td>
                         <td>{{ data.PaymentStatus }}</td>
