@@ -6,6 +6,7 @@ def classstart(request,id):
     if request.user.is_authenticated:
         try:
             Course = Courses.objects.get(ID=id)
+            print(Course.pk)
             Course.class_active=True
             Course.save()
             return redirect(reverse('batches', kwargs={'id': id}))

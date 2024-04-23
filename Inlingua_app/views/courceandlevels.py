@@ -174,7 +174,7 @@ def add_course(request):
                         UpdatedDate= datetime.datetime.now(),
                         )
                     new_courses.save()
-                    messages.success(request,"New Cource added successfully")
+                    messages.success(request,"New Course added successfully")
                     return redirect('courceandlevels_table')
                 else:
                     return redirect('courceandlevels_table')

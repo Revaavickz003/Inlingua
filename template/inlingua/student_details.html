@@ -28,9 +28,9 @@
                         {% csrf_token %}
                         <label for="file-input">
                             {% if student_details.StudentID.user_img %}
-                            <img src="{{ student_details.StudentID.user_img.url }}" alt="" width="197px" height="197px"id="profile-image" style="cursor: pointer; border-radius: 50%;">
+                            <img src="{{ student_details.StudentID.user_img.url }}" alt="" width="197px" height="197px" id="profile-image" style="cursor: pointer; border-radius: 50%;">
                             {% else %}
-                            <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="defalt image" width="190px" height="190px" style="cursor: pointer; border-radius: 50%;">
+                            <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="defalt image" width="190px" height="190px" id="profile-image" style="cursor: pointer; border-radius: 50%;">
                             {% endif %}
                         </label>
                         <input type="file" name="changeimg" id="file-input" style="display: none;" accept="image/*" onchange="previewImage(this)">
@@ -117,7 +117,7 @@
                         <input id="clearbtn" type="button"  class="btn btn-outline-secondary" value="Clear">
                     </form>
                     <input id="editcoursebtn" type="submit" class="btn text-white mx-md-2" style="background-color: #FF751A;" value="Edit Course">
-                    <a id="trashbtn" href="" class="btn btn-outline-secondary">Trash Data</a>
+                    <a id="trashbtn" href="" ></a>
                 </div>
             </div>
             <script>
@@ -165,7 +165,7 @@
                         <input class="form-control bg-dark text-white" id="createdby" readonly name="createdby" type="text"  value="{{student_details.StudentID.created_by}}">
                     </div>
                     <div class="col-md-6">
-                        <label class="small mb-1 text-white" for="createddate">Craeted Date</label>
+                        <label class="small mb-1 text-white" for="createddate">Created  Date</label>
                         <input class="form-control bg-dark text-white" id="createddate" readonly name="createddate" type="text"  value="{{student_details.StudentID.date_joined}}">
                     </div>
                     <div class="col-md-6">
