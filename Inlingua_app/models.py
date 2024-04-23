@@ -95,28 +95,6 @@ class PaymentStatus(models.Model):
     def __str__(self):
         return self.StatusName
 
-class PaymentTypes(models.Model):
-    ID = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=20)
-    CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
-    UpdatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.Name
-
-class PaymentMethod(models.Model):
-    ID = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=20)
-    CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
-    UpdatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.Name
-    
 class Discount(models.Model):
     StudentDetails = models.ForeignKey('StudentDetails', on_delete=models.DO_NOTHING, null=True, blank=False)
     IsDiscountApplied = models.BooleanField()
@@ -129,10 +107,36 @@ class Discount(models.Model):
 
 
 class Payments(models.Model):
+    GPay = 'G-Pay'
+    PhonePay = 'Phone Pay'
+    Paytm = 'Paytm'
+    UPI = 'UPI'
+    NetBank = 'NetBank'
+    Creditcord = 'Credit Card'
+    Debitcord = 'Debit Card'
+    Sconer = 'Sconer'
+
+    PAYMENT_TYPE = [
+        (GPay, 'G-Pay'),
+        (PhonePay, 'Phone Pay'),
+        (Paytm, 'Paytm'),
+        (UPI, 'UPI'),
+        (NetBank, 'Net Bank'),
+        (Creditcord, 'Credit Card'),
+        (Debitcord, 'Debit Card'),
+        (Sconer, 'Sconer'),
+    ]
+
+    Ready_Payment = 'Ready Payment'
+    Parcial_Payment = 'Parcial Payment'
+    PAYMENT_MENTHOD = [
+        (Ready_Payment, 'Ready Payment'),
+        (Parcial_Payment, 'Parcial Payment'),
+    ]
     ID = models.AutoField(primary_key=True)
     StudentDetails = models.ForeignKey('StudentDetails', on_delete=models.CASCADE, null=False, blank=False)
-    PaymentTypeId = models.ForeignKey(PaymentTypes, on_delete=models.CASCADE)
-    PaymentMethodId = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE,null=False, blank=False)
+    PaymentType = models.CharField(max_length=255, choices=PAYMENT_TYPE)
+    PaymentMethod = models.CharField(max_length=255, choices=PAYMENT_MENTHOD)
     CourseId = models.ForeignKey(Courses, on_delete=models.CASCADE)
     PaymentDate = models.DateTimeField(default=timezone.now)
     TransactionId = models.CharField(max_length=100)

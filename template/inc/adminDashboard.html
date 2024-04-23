@@ -59,42 +59,7 @@
         </div>
     </div>
 
-<div class="row g-3 mt-md-1">
-    <div class="col-md-6  mt-3 d-flex flex-column">
-        <div class="card h-100">
-            <div class="card-body bg-dark p-4" style="border-radius: 5px;">
-                <h3 class="card-title text-white">Payment Types</h3>
-                <p class="card-text text-white">Manage the payment of students.</p>
-                {% for paymenttype in paymenttypes %}
-                    <a href="{% url 'paymenttype' id=paymenttype.ID %}" >{{paymenttype.Name}}</a><br>
-                {% endfor %}
-                <form action="{% url 'addpaymenttypes' %}" class="mt-3 d-none" id="PaymentTypes" method="post">
-                    {% csrf_token %}
-                    <input type="text" class="form-control text-white bg-dark" name="PaymentTypes">
-                    <input type="submit" class="btn btn text-white mt-3" style="background-color: #FF751A;" value="Save Payment Type">
-                </form>
-                <button id="PaymentTypesbtn" class="btn btn text-white mt-3" style="background-color: #FF751A;">New Payment Type</button> 
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6  mt-3 d-flex flex-column">
-        <div class="card h-100">
-            <div class="card-body bg-dark p-4" style="border-radius: 5px;">
-                <h3 class="card-title text-white">Payment Method</h3>
-                <p class="card-text text-white">View and manage Payment Method available on this platform.</p>
-                {% for paymentmethod in paymentmethods %}
-                <a href="{% url 'paymentmethod' id=paymentmethod.ID %}">{{paymentmethod.Name}}</a><br>
-                {% endfor %}
-                <form action="{% url 'addpaymentmethod' %}" id="PaymentMethodform" class="mt-3 d-none" method="post">
-                    {% csrf_token %}
-                    <input type="text" class="form-control text-white bg-dark" name="PaymentMethod">
-                    <input type="submit" class="btn btn text-white mt-3" style="background-color: #FF751A;" value="Save Payment Type">
-                </form>
-                <button id="PaymentMethodbtn" class="btn btn text-white mt-3" style="background-color: #FF751A;">New Payment Method</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
     const paymentTypesForm = document.getElementById('PaymentTypes');
