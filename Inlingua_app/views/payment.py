@@ -31,8 +31,6 @@ def payment_view(request,id):
                 DiscountedPayment = request.POST.get('DiscountedPayment')
                 Description = request.POST.get('Description')
 
-                print(PaymentTypeId)
-                print(PaymentMethodId)
 
                 studentdetails = StudentDetails.objects.get(ID=id)
                 course = Courses.objects.get(ID=int(studentdetails.BatchID.Course_details.ID))
