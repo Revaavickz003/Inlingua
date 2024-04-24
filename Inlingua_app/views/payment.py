@@ -36,8 +36,8 @@ def payment_view(request,id):
 
                 studentdetails = StudentDetails.objects.get(ID=id)
                 course = Courses.objects.get(ID=int(studentdetails.BatchID.Course_details.ID))
-
-                if float(Amount) + float(total_amount) + float(discount) + float(DiscountedPayment) == int(Course_cost):
+    
+                if float(Amount) + float(total_amount) + float(discount)  == int(Course_cost):
                     Paymentstatus, created = PaymentStatus.objects.get_or_create(StatusName='Completed', defaults={'CreatedBy': 'System', 'UpdatedBy': 'System'})
                 else:
                     Paymentstatus, created = PaymentStatus.objects.get_or_create(StatusName='Pending', defaults={'CreatedBy': 'System', 'UpdatedBy': 'System'})
