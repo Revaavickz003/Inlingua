@@ -51,27 +51,37 @@ def add_batchs(request):
                 start_time = request.POST['start_time']
                 end_time = request.POST['end_time']
                 end_time = request.POST['end_time']
-                Courses_Details = Courses.objects.get(ID = int(Courses_Details))
-                Trainer = TrainingStaff.objects.get(ID = int(Trainer))
-                new_batch = TrainingBatches.objects.create(
-                    Name = batchname,
-                    Course_details = Courses_Details,
-                    TrainerId = Trainer,
-                    MeetingURL = gmeeturl,
-                    StartDate = stardate,
-                    EndDate = EndDate,
-                    Duration = classduraition,
-                    StartTime = start_time,
-                    EndTime = end_time,
-                    IsActive = True,
-                    CreatedBy=user.name,
-                    CreatedDate= datetime.datetime.now(),
-                    UpdatedBy=user.name,
-                    UpdatedDate= datetime.datetime.now(),
-                    )
-                new_batch.save()
-                messages.success(request,"New Batch Added Successfully")
-                return redirect('courceandlevels_table')
+                if type(Courses_Details) != int:
+                    messages.error(request,"Please Select Course")
+                else:
+                    Courses_Details = Courses.objects.get(ID = int(Courses_Details))
+                if type(Trainer) != int:
+                    messages.error(request,"Please Select Trainer")
+                else:
+                    Trainer = TrainingStaff.objects.get(ID = int(Trainer))
+                try:
+                    new_batch = TrainingBatches.objects.create(
+                        Name = batchname,
+                        Course_details = Courses_Details,
+                        TrainerId = Trainer,
+                        MeetingURL = gmeeturl,
+                        StartDate = stardate,
+                        EndDate = EndDate,
+                        Duration = classduraition,
+                        StartTime = start_time,
+                        EndTime = end_time,
+                        IsActive = True,
+                        CreatedBy=user.name,
+                        CreatedDate= datetime.datetime.now(),
+                        UpdatedBy=user.name,
+                        UpdatedDate= datetime.datetime.now(),
+                        )
+                    new_batch.save()
+                    messages.success(request,"New Batch Added Successfully")
+                    return redirect('courceandlevels_table')
+                except Exception as e:
+                    messages.error(request, f"{e}")
+                    return redirect('courceandlevels_table')
             else:
                 return redirect('courceandlevels_table')
         else:
@@ -153,29 +163,40 @@ def add_course(request):
                     course_status = request.POST['coursestatus']
                     duscription = request.POST['Duscription']
                     
-                    language_details = Languages.objects.get(ID=int(language_details))
-                    level_details = Level.objects.get(ID=int(level_details))
-                    new_courses = Courses.objects.create(
-                        Name = course_name,
-                        Description = duscription,
-                        Duration = course_duration,
-                        LanguageID =language_details,
-                        StartDate = start_date,
-                        EndtDate = end_date,
-                        StartTime = start_time,
-                        EndTime = end_time,
-                        LevelID = level_details,
-                        Cost = cost,
-                        Course_metirials = course_metirials,
-                        Course_status = course_status,
-                        CreatedBy=user.name,
-                        CreatedDate= datetime.datetime.now(),
-                        UpdatedBy=user.name,
-                        UpdatedDate= datetime.datetime.now(),
-                        )
-                    new_courses.save()
-                    messages.success(request,"New Course added successfully")
-                    return redirect('courceandlevels_table')
+                    if type(language_details) != int:
+                        messages.error(request, "Select language")
+                    else:
+                        language_details = Languages.objects.get(ID=int(language_details))
+
+                    if type(level_details) != int:
+                        messages.error(request, "Select level")
+                    else:
+                        level_details = Level.objects.get(ID=int(level_details))
+                    try:
+                        new_courses = Courses.objects.create(
+                            Name = course_name,
+                            Description = duscription,
+                            Duration = course_duration,
+                            LanguageID =language_details,
+                            StartDate = start_date,
+                            EndtDate = end_date,
+                            StartTime = start_time,
+                            EndTime = end_time,
+                            LevelID = level_details,
+                            Cost = cost,
+                            Course_metirials = course_metirials,
+                            Course_status = course_status,
+                            CreatedBy=user.name,
+                            CreatedDate= datetime.datetime.now(),
+                            UpdatedBy=user.name,
+                            UpdatedDate= datetime.datetime.now(),
+                            )
+                        new_courses.save()
+                        messages.success(request,"New Course added successfully")
+                        return redirect('courceandlevels_table')
+                    except Exception as e:
+                        messages.error(request,f"{e}")
+                        return redirect('courceandlevels_table')
                 else:
                     return redirect('courceandlevels_table')
             else:
@@ -237,19 +258,26 @@ def add_level(request):
         if user.is_staff:
             if user.is_superuser:
                 if request.method == 'POST':
+                    if Level.objects.filter(Name=request.POST['levelname']).exists():
+                        messages.warning(request,"Level already exists in the database.")
+                        return redirect('courceandlevels_table')
                     level_name = request.POST['levelname']
                     level_code = request.POST['levelcode']
-                    new_level = Level.objects.create(
-                        Name=level_name, 
-                        Code=level_code,
-                        CreatedBy=user.name,
-                        CreatedDate= datetime.datetime.now(),
-                        UpdatedBy=user.name,
-                        UpdatedDate= datetime.datetime.now(),
-                        )
-                    new_level.save()
-                    messages.success(request,"New level added successfully")
-                    return redirect('courceandlevels_table')
+                    if level_name =='' and level_code == '':
+                        new_level = Level.objects.create(
+                            Name=level_name, 
+                            Code=level_code,
+                            CreatedBy=user.name,
+                            CreatedDate= datetime.datetime.now(),
+                            UpdatedBy=user.name,
+                            UpdatedDate= datetime.datetime.now(),
+                            )
+                        new_level.save()
+                        messages.success(request,"New level added successfully")
+                        return redirect('courceandlevels_table')
+                    else:
+                        messages.error(request, 'Fill all fields')
+                        return redirect('courceandlevels_table')
                 else:
                     return redirect('courceandlevels_table')
             else:

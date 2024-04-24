@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib import messages
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
@@ -111,4 +112,5 @@ def GenerateReport(request, id):
         elements.append(Paragraph("No payment details found.", red_heading_style))
 
     doc.build(elements, onFirstPage=add_watermark, onLaterPages=add_watermark)
+    messages.success(request, "Report Download success fully ...")
     return response

@@ -61,8 +61,18 @@ def addstudent(request):
                 languageid = request.POST.get('languageid')
                 studentid = request.POST.get('studentid')
                 address = request.POST.get('Address')
-                Batchid = TrainingBatches.objects.get(ID = Batchid)
-                languages = Languages.objects.get(ID = languageid)
+                print(Batchid)
+
+                if type(Batchid) != int:
+                    messages.error(request,  "Please select Batch")
+                else:
+                    Batchid = TrainingBatches.objects.get(ID = Batchid)
+
+                if type(languageid) != int:
+                    messages.error(request,  "Please select Language")
+                else:
+                    languages = Languages.objects.get(ID = languageid)
+
                 if not StudentDetails.objects.filter(userid = studentid).exists():
                     if not User.objects.filter(email=Email).exists():
                         try:
@@ -70,33 +80,39 @@ def addstudent(request):
                         except:
                             messages.error(request,  "Roles not found")
                             return redirect('students')
+                        try:
+                            newstudent = User.objects.create(
+                                name = name,
+                                last_name = lasttname,
+                                Mobile_Number = mobilenumber,
+                                email = Email,
+                                username = Email,
+                                Address = address,
+                                user_img = studentphoto,
+                                created_by = user.name,
+                                updated_by = user.name,
+                                updated_date = datetime.datetime.now(),
+                                role_id = UserRoles.objects.get(Name ='Students'),
+                            )
+                            newstudent.set_password(password1)
+                            newstudent.save()
                         
-                        newstudent = User.objects.create(
-                            name = name,
-                            last_name = lasttname,
-                            Mobile_Number = mobilenumber,
-                            email = Email,
-                            username = Email,
-                            Address = address,
-                            user_img = studentphoto,
-                            created_by = user.name,
-                            updated_by = user.name,
-                            updated_date = datetime.datetime.now(),
-                            role_id = UserRoles.objects.get(Name ='Students'),
-                        )
-                        newstudent.set_password(password1)
-                        newstudent.save()
+    
                     
-                        lastuser = User.objects.last()
-                        new_student_details = StudentDetails.objects.create(
-                            StudentID = lastuser,
-                            BatchID = Batchid,
-                            Language_Id = languages,
-                            userid = studentid,
-                        )
-                        new_student_details.save()
-                        messages.success(request, "Registration successful. You can now log in.")
-                        return redirect('students')
+                            lastuser = User.objects.last()
+                            new_student_details = StudentDetails.objects.create(
+                                StudentID = lastuser,
+                                BatchID = Batchid,
+                                Language_Id = languages,
+                                userid = studentid,
+                            )
+                            new_student_details.save()
+                            messages.success(request, "Registration successful. You can now log in.")
+                            return redirect('students')
+                        
+                        except Exception as e:
+                            messages.error(request,  f"Error in creating Student : {e}")
+                            return redirect('students')
                     else:
                         messages.warning(request,"This email is already registered! Please login instead of registration.")
                         return redirect('addstudent')

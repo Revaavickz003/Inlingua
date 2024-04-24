@@ -114,62 +114,68 @@ def add_trainers(request):
                 language = request.POST.get('Language')
                 level = request.POST.get('level')
                 trainerid = request.POST.get('trainerid')
-                print(language)
 
                 try:
                     role = UserRoles.objects.get(Name='Trainer')
                 except UserRoles.DoesNotExist:
                     messages.error(request, "Role 'Trainer' not found. Please create a Trainer Role.")
                     return redirect('trainers')
-
-                new_trainer = User.objects.create(
-                    name=name,
-                    first_name=firstname,
-                    last_name=lasttname,
-                    Mobile_Number=mobilenumber,
-                    email=email,
-                    username=email,
-                    user_img=trainer_photo,
-                    Address=address,
-                    created_by=request.user.name,
-                    updated_by=request.user.name,
-                    is_staff=True,
-                    updated_date=datetime.datetime.now(),
-                    role_id=role,
-                )
-                new_trainer.set_password(password1)
-                new_trainer.save()
                 
-                lastuser = User.objects.last()
-                new_trainer_details = TrainingStaff.objects.create(
-                    Name = name,
-                    EmailID = email,
-                    LoginId = lastuser,
-                    IsActive = True,
-                    CreatedBy = user.name,
-                    CreatedDate = datetime.datetime.now(),
-                    UpdatedBy = user.name,
-                    UpdatedDate = datetime.datetime.now(),
-                )
-                new_trainer_details.save()
-                Language = Languages.objects.get(ID = int(language))
-                level = Level.objects.get(ID = int(level))
-                lastuser = TrainingStaff.objects.last()
-                
-                new_trainer_qualification = TrainerQualifications.objects.create(
-                    userid = trainerid,
-                    LanguageID = Language,
-                    LevelId = level,
-                    CertificateNumber = certificateNumber,
-                    CertifyingAuthority = certifyingAuthority,
-                    CertificateValidTill = certificateValidTill,
-                    TrainerId = lastuser,
-                    CreatedBy = user.name,
-                    CreatedDate = datetime.datetime.now(),
-                    UpdatedBy = user.name,
-                    UpdatedDate = datetime.datetime.now(),
-                )
-                new_trainer_qualification.save()
+                try:
+                    new_trainer = User.objects.create(
+                        name=name,
+                        first_name=firstname,
+                        last_name=lasttname,
+                        Mobile_Number=mobilenumber,
+                        email=email,
+                        username=email,
+                        user_img=trainer_photo,
+                        Address=address,
+                        created_by=request.user.name,
+                        updated_by=request.user.name,
+                        is_staff=True,
+                        updated_date=datetime.datetime.now(),
+                        role_id=role,
+                    )
+                    new_trainer.set_password(password1)
+                    new_trainer.save()
+                except Exception as e:
+                    messages.error(request, f"{e}")
+                    return redirect('trainers')
+                try:
+                    lastuser = User.objects.last()
+                    new_trainer_details = TrainingStaff.objects.create(
+                        Name = name,
+                        EmailID = email,
+                        LoginId = lastuser,
+                        IsActive = True,
+                        CreatedBy = user.name,
+                        CreatedDate = datetime.datetime.now(),
+                        UpdatedBy = user.name,
+                        UpdatedDate = datetime.datetime.now(),
+                    )
+                    new_trainer_details.save()
+                    Language = Languages.objects.get(ID = int(language))
+                    level = Level.objects.get(ID = int(level))
+                    lastuser = TrainingStaff.objects.last()
+                    
+                    new_trainer_qualification = TrainerQualifications.objects.create(
+                        userid = trainerid,
+                        LanguageID = Language,
+                        LevelId = level,
+                        CertificateNumber = certificateNumber,
+                        CertifyingAuthority = certifyingAuthority,
+                        CertificateValidTill = certificateValidTill,
+                        TrainerId = lastuser,
+                        CreatedBy = user.name,
+                        CreatedDate = datetime.datetime.now(),
+                        UpdatedBy = user.name,
+                        UpdatedDate = datetime.datetime.now(),
+                    )
+                    new_trainer_qualification.save()
+                except Exception as e:
+                    messages.error(request, f"{e}")
+                    return redirect('trainers')
                 
                 messages.success(request, "Registration successful Trainer "+ name +" Login to continue")
                 return redirect('trainers')
@@ -240,7 +246,7 @@ def trainerbasicdetailsupdate(request,id):
                             messages.warning(request,"Email already exists.")
                             return redirect('trainers')
                     getuser.save()
-                    messages.success(request,  f"Basic impermation details updated successfully")
+                    messages.success(request,  f"{trainername} Basic information details updated successfully")
                     return redirect('trainers')
                 else:
                     messages.error(request,  "All fields must be filled out correctly.")

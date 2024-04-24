@@ -11,7 +11,11 @@
             <div class="col-10 profile-container d-flex align-items-center justify-content-between">
                 <div class="profile d-flex align-items-center ">
                     <div class="image me-4" style="border-radius: 50%; overflow: hidden">
+                        {% if user.user_img %}
+                        <img src="{{user.user_img.url}}" width="100px" alt="User Img">
+                        {% else %}
                         <img src="{% static 'img/imgs/profile icon.jpg' %}" width="100px" alt="User Img">
+                        {% endif %}
                     </div>
                     <div class="prifile-name">
                         <h4 class="fw-bold fs-2" style="color: rgba(255, 117, 25, 1);">{{trainer_details.Name}}</h4>
@@ -89,7 +93,7 @@
 
 <section class="mt-4 trainee-online status">
     <div class="container px-5">
-        <table class="w-100 " >
+        <table class="w-100 ">
             <thead class="text-muted">
                 <tr>
                     <th class="pb-4">Name</th>
@@ -102,16 +106,26 @@
                 {% for data in trainers %}
                 <tr style="border-bottom: 2px solid  #ECECEC;" class="pb-3">
                     <td class="d-flex align-items-center py-3">
-                        1.
+                        {{forloop.counter}}
                         <div class="mx-2 me-3" style="position: relative; width: fit-content; border-radius: 50%;">
+                            {% if data.TrainerId.LoginId.user_img %}
+                            <img src="{{ data.TrainerId.LoginId.user_img.url }}" width="30" alt="Profile Image" style="border-radius: 50%;"/>
+                            {% else %}
                             <img src="{% static 'img/imgs/profile icon.jpg' %}" width="30" alt="Profile Image" style="border-radius: 50%;"/>
-                        <p class="m-0 p-1" style="background-color: rgba(26, 184, 0, 1);  border-radius: 50%; position: absolute; bottom: 0; right: 0; border: 2px solid #FFF;"></p>
+                            {% endif %}
+                        <p class="m-0 p-1" style="background-color:
+                        {% if data.TrainerId.LoginId.is_active %}
+                        rgba(26, 184, 0, 1)
+                        {% else %}
+                        rgba(255, 117, 25, 1)
+                        {% endif %}
+                        ;  border-radius: 50%; position: absolute; bottom: 0; right: 0; border: 2px solid #FFF;"></p>
                         </div>
                         {{data.TrainerId.Name}}
                     </td>
                     <td class="py-3">ID : {{data.userid}}</td>
                     <td class="d-flex align-items-center py-3">
-                        {% if False %}
+                        {% if not data.TrainerId.LoginId.is_active %}
                         <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; border: 2px solid #FFF;"></p>
                         Offline
                         {% else %}
@@ -128,7 +142,11 @@
                     <td class="d-flex align-items-center py-3">
                         {{forloop.counter}}
                         <div class="mx-2 me-3" style="position: relative; width: fit-content; border-radius: 50%;">
+                            {% if data.StudentID.user_img %}
+                            <img src="{{ data.StudentID.user_img.url }}" width="30" alt="Profile Image" style="border-radius: 50%;"/>
+                            {% else %}
                             <img src="{% static 'img/imgs/profile icon.jpg' %}" width="30" alt="Profile Image" style="border-radius: 50%;"/>
+                            {% endif %}
                         <p class="m-0 p-1" style="background-color: rgba(26, 184, 0, 1);  border-radius: 50%; position: absolute; bottom: 0; right: 0; border: 2px solid #FFF;"></p>
                         </div>
                         {{data.StudentID.name}}

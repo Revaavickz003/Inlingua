@@ -1,11 +1,12 @@
 {% if messages %}
+{% for msg in  messages%}
 <div class="alert alert-primary alert-dismissible fade show mt-2 w-100" role="alert">
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  {% for msg in  messages%}
+  
     {{ msg }}
-  {% endfor %}
+  
 </div>
-
+{% endfor %}
 <script>
   var alertList = document.querySelectorAll('.alert');
   alertList.forEach(function (alert) {
