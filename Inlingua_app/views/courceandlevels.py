@@ -263,7 +263,7 @@ def add_level(request):
                         return redirect('courceandlevels_table')
                     level_name = request.POST['levelname']
                     level_code = request.POST['levelcode']
-                    if level_name =='' and level_code == '':
+                    if level_name !='' and level_code != '':
                         new_level = Level.objects.create(
                             Name=level_name, 
                             Code=level_code,
