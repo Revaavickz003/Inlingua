@@ -162,16 +162,15 @@ def add_course(request):
                     course_metirials = request.POST['coursemetrials']
                     course_status = request.POST['coursestatus']
                     duscription = request.POST['Duscription']
-                    
-                    if type(language_details) != int:
-                        messages.error(request, "Select language")
-                    else:
-                        language_details = Languages.objects.get(ID=int(language_details))
 
-                    if type(level_details) != int:
-                        messages.error(request, "Select level")
-                    else:
-                        level_details = Level.objects.get(ID=int(level_details))
+                    print(type(language_details))
+                    print(level_details)
+                    print(level_details)
+                    
+                    
+                    language_details = Languages.objects.get(ID=int(language_details))
+                    level_details = Level.objects.get(ID=int(level_details))
+                    
                     try:
                         new_courses = Courses.objects.create(
                             Name = course_name,
