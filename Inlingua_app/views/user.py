@@ -61,29 +61,18 @@ def addstudent(request):
                 languageid = request.POST.get('languageid')
                 studentid = request.POST.get('studentid')
                 address = request.POST.get('Address')
-                print(Batchid)
 
-                if type(Batchid) != int:
-                    messages.error(request,  "Please select Batch")
-                else:
-                    Batchid = TrainingBatches.objects.get(ID = Batchid)
-
-                if type(languageid) != int:
-                    messages.error(request,  "Please select Language")
-                else:
-                    languages = Languages.objects.get(ID = languageid)
+                
+                Batchid = TrainingBatches.objects.get(ID = Batchid)
+                languages = Languages.objects.get(ID = languageid)
 
                 if not StudentDetails.objects.filter(userid = studentid).exists():
                     if not User.objects.filter(email=Email).exists():
                         try:
-                            role_id = UserRoles.objects.get(Name ='Students')
-                        except:
-                            messages.error(request,  "Roles not found")
-                            return redirect('students')
-                        try:
                             newstudent = User.objects.create(
                                 name = name,
                                 last_name = lasttname,
+                                first_name = name,
                                 Mobile_Number = mobilenumber,
                                 email = Email,
                                 username = Email,
@@ -97,8 +86,6 @@ def addstudent(request):
                             newstudent.set_password(password1)
                             newstudent.save()
                         
-    
-                    
                             lastuser = User.objects.last()
                             new_student_details = StudentDetails.objects.create(
                                 StudentID = lastuser,

@@ -42,24 +42,59 @@ def add_batchs(request):
         if user.is_staff and user.is_superuser:
             if request.method == 'POST':
                 batchname = request.POST['batchname']
+                if batchname == "":
+                    batchname = None
+                    messages.error(request, 'add batch name')
+                   
                 Courses_Details = request.POST['Courses_Details']
+                if Courses_Details == '':
+                    Courses_Details = None
+                    messages.error(request, 'add courses details')
+                   
                 Trainer = request.POST['Trainer']
+                if Trainer == '':
+                    Trainer = None
+                    messages.error(request, 'Trainer')
+                   
                 gmeeturl = request.POST['gmeeturl']
+                if gmeeturl == '':
+                    gmeeturl = None
+                    messages.error(request, 'add gmeeturl')
+                   
                 stardate = request.POST['satrdate']
+                if stardate == '':
+                    stardate = None
+                    messages.error(request, 'add stardate')
+                   
                 EndDate = request.POST['EndDate']
+                if EndDate == '':
+                    EndDate = None
+                    messages.error(request, 'add EndDate')
+
                 classduraition = request.POST['classduraition']
+                if classduraition == '':
+                    classduraition = None
+                    messages.error(request, 'add classduraition')
+                   
                 start_time = request.POST['start_time']
+                if start_time == '':
+                    start_time = None
+                    messages.error(request, 'add start_time')
+                   
                 end_time = request.POST['end_time']
+                if end_time == '':
+                    end_time = None
+                    messages.error(request, 'add end time')
+
                 end_time = request.POST['end_time']
-                if type(Courses_Details) != int:
-                    messages.error(request,"Please Select Course")
-                else:
-                    Courses_Details = Courses.objects.get(ID = int(Courses_Details))
-                if type(Trainer) != int:
-                    messages.error(request,"Please Select Trainer")
-                else:
-                    Trainer = TrainingStaff.objects.get(ID = int(Trainer))
+                if end_time == '':
+                    end_time = None
+                    messages.error(request, 'add end time')
+                
                 try:
+                    Courses_Details = Courses.objects.get(ID = int(Courses_Details))
+                    Trainer = TrainingStaff.objects.get(ID = int(Trainer))
+                
                     new_batch = TrainingBatches.objects.create(
                         Name = batchname,
                         Course_details = Courses_Details,
@@ -138,10 +173,6 @@ def edit_batchs(request,id):
         messages.error(request,  "Please login first!")
         return redirect('home')
 
-
-
-
-
 def add_course(request):
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -151,28 +182,71 @@ def add_course(request):
             if user.is_superuser:
                 if request.method == 'POST':
                     course_name = request.POST['coursename']
+                    if course_name == '':
+                        course_name = None
+                        messages.error(request,  "Please enter course name")
+                    
                     level_details = request.POST['levelid']
+                    if level_details == '':
+                        level_details = None
+                        messages.error(request,  "Please enter level name")
+                    
                     language_details = request.POST['languageid']
+                    if language_details == '':
+                        language_details = None
+                        messages.error(request,  "Please enter language name")
+                    
                     course_duration = request.POST['duration']
+                    if course_duration == '':
+                        course_duration = None
+                        messages.error(request,  "Please enter course duration")
+                    
                     cost = request.POST['cast']
-                    start_date = request.POST['satrdate']
-                    end_date = request.POST['EndDate']
-                    start_time = request.POST['start_time']
-                    end_time = request.POST['end_time']
-                    course_metirials = request.POST['coursemetrials']
-                    course_status = request.POST['coursestatus']
-                    duscription = request.POST['Duscription']
+                    if cost == '':
+                        cost = None
+                        messages.error(request,  "Please enter course cost")
 
-                    print(type(language_details))
-                    print(level_details)
-                    print(level_details)
+                    start_date = request.POST['satrdate']
+                    if start_date == '':
+                        start_date = None
+                        messages.error(request,  "Please enter course start date")
                     
+                    end_date = request.POST['EndDate']
+                    if end_date == '':
+                        end_date = None
+                        messages.error(request,  "Please enter course end date")
                     
-                    language_details = Languages.objects.get(ID=int(language_details))
-                    level_details = Level.objects.get(ID=int(level_details))
+                    start_time = request.POST['start_time']
+                    if start_time == '':
+                        start_time = None
+                        messages.error(request,  "Please enter course start time")
                     
+                    end_time = request.POST['end_time']
+                    if end_time == '':
+                        end_time = None
+                        messages.error(request,  "Please enter course end time")
+                    
+                    course_metirials = request.POST['coursemetrials']
+                    if course_metirials == '':
+                        course_metirials = None
+                        messages.error(request,  "Please enter course metrials")
+                    
+                    course_status = request.POST['coursestatus']
+                    if course_status == '':
+                        course_status = None
+                        messages.error(request,  "Please enter course status")
+                    
+                    duscription = request.POST['Duscription']
+                    if duscription == '':
+                        duscription = None
+                        messages.error(request,  "Please enter course duscription")
+
                     try:
+                        language_details = Languages.objects.get(ID=int(language_details))
+                        level_details = Level.objects.get(ID=int(level_details))
+                    
                         new_courses = Courses.objects.create(
+
                             Name = course_name,
                             Description = duscription,
                             Duration = course_duration,

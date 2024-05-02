@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import handler404
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Inlingua_app.urls')),
 ]
 
-
+handler404 = 'Inlingua_app.views.custom_error.custom_404_view'

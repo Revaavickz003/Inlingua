@@ -31,7 +31,7 @@ urlpatterns = [
     path('send-welcome-email/', email.send_welcome_email, name='send_welcome_email'),
     path('crm/login/', login.custom_login, name="login"),
     path('logout/', logout.custom_logout, name="logout"),
-    path('crm/home/', home.home, name="home"),
+    path('', home.home, name="home"),
 
     path('crm/start_class/<int:id>/', StartClass.classstart, name="start_class"),
     path('crm/end_class/<int:id>/', StartClass.classend, name="endclass"),
