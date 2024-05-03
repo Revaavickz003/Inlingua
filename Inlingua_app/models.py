@@ -60,13 +60,30 @@ class Courses(models.Model):
     class_active = models.BooleanField(default=False)
     Cost = models.FloatField()
     Course_metirials = models.FileField(
-        upload_to='static/uploads/Stady_metirials',
+        upload_to='uploads/Study_materials',
         blank=True,
         null=True,
         validators=[
-            FileExtensionValidator(allowed_extensions=['pdf', 'xls', 'xlsx',])
+            FileExtensionValidator(allowed_extensions=['pdf',])
         ]
     )
+    Assessment = models.FileField(
+        upload_to='uploads/Assessment',
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(allowed_extensions=['pdf',])
+        ]
+    )
+    Recorded_Session = models.FileField(
+        upload_to='uploads/Recorded_Session',
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(allowed_extensions=['mp4',])
+        ]
+    )
+    
     Course_status = models.IntegerField(default=0)
     CreatedDate = models.DateTimeField(default=timezone.now)
     CreatedBy = models.CharField(max_length=255)
@@ -319,3 +336,13 @@ class StudentStudyMetirials(models.Model):
     createdby = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_student_studymaterials')
     uploadesdate = models.DateTimeField(auto_now_add=True)
 
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    content = models.TextField()
+    created_date = models.DateTimeField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_messages')
+
+    def __str__(self):
+        return self.content

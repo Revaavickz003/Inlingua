@@ -24,102 +24,39 @@ Home page | Inlingua
 <div class="container mt-3">
     <div class="home-nav-barcontainer d-flex p-3">
         <a href="{% url 'home' %}"><img src="{% static 'img/imgs/L1.png' %}" alt="" width="200px"></a>
-        <div class="message-container" id="msg-icon">
-            <i class='bx bx-message-detail'></i>
-            <div class="msg-count">
-                {{ messages_count }}1
+        <div class="Notifcaions">
+            <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}{{student_details.userid}}">
+                <div style="position: relative;">
+                    <i class="fa fa-bell fw-bold fs-4"></i>
+                    {% if Notifcaions %}
+                    <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 0; right: 0; border: 2px solid #FFF;"></p>
+                    {% endif %}
+                </div>    
             </div>
         </div>
     </div>
 </div>
-
-<div class="profile-container  container mt-3 mb-3">
-    <div class="container msg-box-open" id="msg-container"
-        style="position: absolute; min-width: 100vw; min-height: 100vh; display: flex; justify-content: center; align-items: center; top: 0; left: 0;">
-        <div class="col-12 col-lg-4 message-box">
-            <div class="mb-3 heading d-flex align-items-center justify-content-between">
-                <h3>Notifcaions</h3>
-                <i class='bx bx-x' id="close-icon"></i>
-            </div>
-            <p class="mt-4">Keep your personal number hidden, give information anonymously or just want to play a joke
-                on a friend?</p>
-            <hr>
-            <p class="mt-4">Keep your personal number hidden, give information anonymously or just want to play a joke
-                on a friend?</p>
-            <hr>
-            <p class="mt-4">Keep your personal number hidden, give information anonymously or just want to play a joke
-                on a friend?</p>
-            <hr>
+  <!-- Modal -->
+  <div class="modal fade" id="{{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}{{student_details.userid}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          {% for Notifcaions in Notifcaions %}
+          <p>{{Notifcaions.content}}</p>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+  </div>
+<div class="profile-container  container mt-3 mb-3">
+    
 
     <!-- Modal view batch-->
-    {% if user.is_staff %}
-    <div class="container msg-box-open" id="view-batch-container"
-        style="position: absolute; min-width: 100vw; min-height: 100vh; display: flex; justify-content: center; align-items: center; top: 0; left: 0;">
-        <div class="col-12 col-lg-10 message-box">
-            <div class="mb-3 heading d-flex align-items-center justify-content-between">
-                <h3>All Batches</h3>
-                <i class='bx bx-x' id="close_btn_2"></i>
-            </div>
-            {% for Training_batch in training_batches %}
-            <div class="container mt-3 bg-white">
-                <div class="row bg-dark" style="border-radius: 20px;">
-                    <div class="col-12 col-lg-5 bg-dark" style="border-radius: 20px; padding-left: 0;">
-                        <div class="bg-dark" style="border-radius: 20px; padding: 25px 50px;">
-                            <div>
-                                <h3 class="text-white">{{Training_batch.Name}}</h3>
-                                <p class="m-0 text-white">{{Training_batch.Course_details.LanguageID.Name}}
-                                    {{Training_batch.Course_details.LevelID.Code}}</p>
-                            </div>
-                            <div class="course-progress-container mt-3 w-75">
-                                <div class="progress" style="height: 5px;">
-                                    <div class="progress-bar" role="progressbar"
-                                        style="width: {{Training_batch.Course_details.Course_status}}%; height: 10px; background-color: #FF751A;"
-                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                </div>
-                                <div class="progress-value mt-3 d-flex justify-content-between">
-                                    <p class="text-white">
-                                        {% if user.is_staff %}
-                                        Class completed
-                                        {% else %}
-                                        Class progress
-                                        {% endif %}
-                                    </p>
-                                    <span class="text-white">{{Training_batch.Course_details.Course_status}} %</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center">
-                        <div>
-                            <p class="m-0 text-white"><span style="color: #FF751A;">Batch ID </span>:
-                                {{Training_batch.ID}}</p>
-                            <p class="m-0 text-white"><span style="color: #FF751A;">Language</span> :
-                                {{Training_batch.Course_details.LanguageID.Name}}</p>
-                            <p class="m-0 text-white"><span style="color: #FF751A;">Class Duration</span> : {{Training_batch.Course_details.StartDate |date:"d-m-Y" }} - {{Training_batch.Course_details.StartDate |date:"d-m-Y" }}</p>
-                            <p class="m-0 text-white"><span style="color: #FF751A;">Session Time</span> : {{Training_batch.Course_details.StartTime |time:"g.i A" }} - {{Training_batch.Course_details.EndTime |time:"g.i A" }}</p>
-                            Session Time
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-3 d-flex align-items-center justify-content-center"
-                        style="flex-direction: column;">
-                        <div>
-                            <button class="btn btn-danger" style="background-color: #FF751A;" >Upload Study Material</button>
-                        </div>
-                        <div>
-                            <a href="{% url 'batches' id=Training_batch.Course_details.ID %}" class="btn btn-dark mt-3"
-                                style="background-color: #FFF; color: #FF751A;">Ready to start the class</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
     <div class="row">
         <style>
             .img-cover {
@@ -172,7 +109,49 @@ Home page | Inlingua
                     </p>
 
                     {% if user.is_staff %}
-                    <button style="color:#FF751A;" class="btn btn-dark" id="view-batch-btn">View Batches</button>
+                    {% if Training_Batches %}
+                    <button style="color:#FF751A;" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#updatebatch{{trainer_qualifications.userid}}">Update batch</button>
+                    {% if user.is_staff %}
+    <div class="modal fade" id="updatebatch{{trainer_qualifications.userid}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{Training_Batches}} | {{Training_Batches.Course_details}}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="col-12 mb-3">
+                        <label for="Class_completed">Class completed</label>
+                        <input class="form-control mt-2" type="number" name="Class_completed" id="Class_completed" value="{{ Training_Batches.Course_details.Course_status }}">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="Study_Material">Study Material (PDF)</label>
+                        <input class="form-control mt-2" accept=".pdf" type="file" name="Study_Material" id="Study_Material" value="">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="Recorded_Session">Recorded Session (MP4)</label>
+                        <input class="form-control mt-2" accept=".mp4" type="file" name="Recorded_Session" id="Recorded_Session" value="">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="Assessment">Assessment (PDF)</label>
+                        <input class="form-control mt-2" accept=".pdf" type="file" name="Assessment" id="Assessment" value="">
+                    </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+                    {% else %}
+                    <a href="{% url 'logout' %}" style="color:#FF751A;" type="button" class="btn btn-dark px-5">Log out</a>
+                    {% endif %}
                     {% else %}
                     <a href="#" class="btn btn-dark"><i class='bx bx-download mr-3'></i> Get Certificate</a>
                     {% endif %}
@@ -250,7 +229,7 @@ Home page | Inlingua
                             </div>
                             <div class="upcomming-batch-container mt-4 d-block d-lg-flex align-items-center"
                                 style="flex-wrap: wrap;">
-                                {% for Training_batch in training_batches %}
+                                {% for Training_batch in training_batchess %}
                                 <a href="{% url 'batches' id=Training_batch.pk %}"
                                     style="text-decoration: none; margin: 5px;">
                                     <p class="m-0 p-4"
@@ -299,7 +278,13 @@ Home page | Inlingua
         </div>
 
         <div class="col-lg-4 mt-3 mt-lg-0 d-none d-lg-block">
-            <div class="course-full-container container bg-dark h-100">
+            <div class="course-full-container 
+            {% if Training_Batches or training_batches %}
+            container
+            {% else %}
+            
+            {%  endif %} bgdark h-100">
+                {% if Training_Batches or training_batches %}
                 <form action="">
                     <div class="container-fuild">
                         <div class="course-details">
@@ -380,11 +365,7 @@ Home page | Inlingua
                                 <a href="{% url 'endclass' id=Training_Batches.Course_details.ID %}">End Class</a>
                                 {% endif %}
                                 {% else %}
-                                {% if today_first_batch.Name %}
-                                <a href="{% url 'start_class' id=today_first_batch.Course_details.pk %}">Start Class</a>
-                                {% else %}
-                                <a href="{% url 'start_class' id=Training_Batches.pk %}">Start Class</a>
-                                {% endif %}
+                                <a href="">Start Class</a>
                                 {% endif %}
                             {% else %}
                             <a href="{{training_batches.Course_details.Course_link}}" target="_blank"
@@ -398,6 +379,12 @@ Home page | Inlingua
                         </div>
                     </div>
                 </form>
+                {% else %}
+                <div class="w-100 h-100  align-items-center justify-content">
+                    <img src="{% static 'img/imgs/select_course_404.jpg' %}" width="100%" alt="">
+                    <p>Select Batch</p>
+                </div>
+                {% endif %}
             </div>
             
         </div>

@@ -5,7 +5,7 @@ from .models import (
     Languages, Level, Courses, Payments,
     UserRoles, User, ManagementStaff, TrainingStaff, TrainerQualifications,
     ProofOfIdentty, TrainingBatches, StudentBatchAllocation, CourseStatus,
-    StudentDetails, StudentStudyMetirials, PaymentStatus, Discount, trainer_head_table
+    StudentDetails, StudentStudyMetirials, PaymentStatus, Discount, trainer_head_table, Message
 )
 @admin.register(PaymentStatus)
 class PaymentStatusAdmin(admin.ModelAdmin):
@@ -26,6 +26,10 @@ class LanguagesAdmin(admin.ModelAdmin):
 
 @admin.register(Level)
 class LevelAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Courses)
