@@ -2,6 +2,7 @@
 <section class="navbar mt-5">
     <div class="container">
         <img src="{% static 'img/imgs/L1.png' %}" alt="" width="200px">
+        <a href="{% url 'logout' %}" class="btn text-light" style="background-color: rgba(255, 117, 25, 1);">Logout</a>
     </div>
 </section>
 <section class="mt-4">
@@ -53,7 +54,7 @@
                 </div>
             </div>
             <div class="col-1 Notifcaions">
-                <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;">
+                <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{Trainer_Qualifications.userid}}">
                     <div style="position: relative;">
                         <i class="fa fa-bell fw-bold fs-4"></i>
                         <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 0; right: 0; border: 2px solid #FFF;"></p>
@@ -98,7 +99,7 @@
                 <tr>
                     <th class="pb-4">Name</th>
                     <th class="pb-4">ID No</th>
-                    <th class="pb-4">Ststus</th>
+                    <th class="pb-4">Status</th>
                 </tr>
             </thead>
             <tbody id='trainee_status'>
@@ -168,4 +169,18 @@
         </table>
     </div>
 </section>
+  <!-- Modal -->
+  <div class="modal fade" id="{{Trainer_Qualifications.userid}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+      </div>
+    </div>
+  </div>
 

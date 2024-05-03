@@ -63,17 +63,22 @@ def add_trainer_head(request, id):
         if user.is_staff and user.is_superuser:
             try:
                 trainer_qualification = TrainerQualifications.objects.get(ID=id)
+                training_batches = TrainingBatches.objects.filter(TrainerId = trainer_qualification.TrainerId)
 
-                if TrainerQualifications.objects.filter(LanguageID=trainer_qualification.LanguageID, TrainerHead=True).exists():
-                    messages.error(request, 'Already a Head Coach!')
-                    return redirect('trainers')
+                if not training_batches:
+                    if TrainerQualifications.objects.filter(LanguageID=trainer_qualification.LanguageID, TrainerHead=True).exists():
+                        messages.error(request, 'Already a Head Coach!')
+                        return redirect('trainers')
+                    else:
+                        trainer_qualification.TrainerHead = True
+                        trainer_qualification.TrainerId.LoginId.is_staff_head = True
+                        trainer_qualification.TrainerId.LoginId.save()
+                        trainer_qualification.save()
+
+                        messages.success(request, 'Successfully made the Trainer as a Head Coach!')
+                        return redirect('trainers')
                 else:
-                    trainer_qualification.TrainerHead = True
-                    trainer_qualification.TrainerId.LoginId.is_staff_head = True
-                    trainer_qualification.TrainerId.LoginId.save()
-                    trainer_qualification.save()
-
-                    messages.success(request, 'Successfully made the Trainer as a Head Coach!')
+                    messages.error(request, 'This trainer has a batch, so if you add this trainer to the head trainer, remove the batch and add the trainer.')
                     return redirect('trainers')
             except TrainerQualifications.DoesNotExist:
                 messages.error(request, 'Trainer qualifications not found.')
@@ -101,18 +106,59 @@ def add_trainers(request):
         if user.is_staff and user.is_superuser:
             if request.method == 'POST':
                 name = request.POST.get('trainername')
+                if name == '':
+                    name = None
+                    messages.error(request, 'Enter the Name')
+
                 firstname = request.POST.get('fname')
+                if firstname == '':
+                    firstname = None
+                    messages.error(request, 'Enter the First Name')
+
                 lasttname = request.POST.get('lname')
+                if lasttname == '':
+                    lasttname = None
+                    messages.error(request, 'Enter the Last Name')
+
                 email = request.POST.get('gmail')
+                if email == '':
+                    email = None
+                    messages.error(request, 'Enter the mail')
+
                 mobilenumber = request.POST.get('mobilenumber')
+                if mobilenumber == '':
+                    mobilenumber = None
+                    messages.error(request, 'Enter the Mobile Number')
+
                 trainer_photo = request.FILES.get('trainerphoto')
                 password1 = email
                 address = request.POST.get('Address')
+
                 certificateNumber = request.POST.get('certificateNumber')
+                if certificateNumber == '':
+                    certificateNumber = None
+                    messages.error(request, 'Enter the Certificate Number')
+
                 certifyingAuthority = request.POST.get('certifyingAuthority')
+                if certifyingAuthority == '':
+                    certifyingAuthority = None
+                    messages.error(request, 'Enter the Certifying Authority')
+
                 certificateValidTill = request.POST.get('certificateValidTill')
+                if certificateValidTill == '':
+                    certificateValidTill = None
+                    messages.error(request, 'Enter the Certificate Valid Till')
+
                 language = request.POST.get('Language')
+                if language == '':
+                    language = None
+                    messages.error(request, 'Enter the Language')
+
                 level = request.POST.get('level')
+                if level == '':
+                    level = None
+                    messages.error(request, '')
+                    
                 trainerid = request.POST.get('trainerid')
 
                 try:

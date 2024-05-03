@@ -1,0 +1,135 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+Message Page | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+{% if user.is_superuser %}
+{% include 'inc/sidebar.html' %}
+{% include 'inc/message.html' %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+    ::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+    }
+</style>
+<h5>Message</h5>
+<div class="row">
+    <div class="col-4">
+        <div class="d-flex align-items-center justify-content-between my-2 bg-light"
+            style="max-height: 90vh; border-radius: 10px;">
+            <i class='bx bx-search-alt fs-4 mx-3 text-muted'></i>
+            <input type="text" id="searchInput" class="bg-light p-3 w-100"
+                style="outline: none; border:none; border-radius: 50px;" placeholder="Search">
+        </div>
+        <div style="max-height: 71.5vh; height: 80vh; overflow-y: auto;">
+            {% for User in Users %}
+            <a href="{% url 'Message_for_user' username=User.username %}" class="user-item"
+                data-username="{{ User.username }}">
+                <div class="d-flex p-3 my-2 bg-light">
+                    <div class="header_img me-3">
+                        {% if User.user_img %}
+                        <img src="{{ User.user_img.url }}" alt="User Img">
+                        {% else %}
+                        <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img"
+                            style="width: 35px; height: 35px;">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>{{User.username}}</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('.user-item').each(function () {
+                    var username = $(this).data('username').toLowerCase();
+                    if (username.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <div class="col-8">
+        {% if message_for_user %}
+        <div style="height: 82vh;">
+            <div class="card" id="chat2">
+                <div class="card-header d-flex justify-content-between align-items-center p-3">
+                    <div class="d-flex align-items-center  bg-light">
+                        <div class="header_img me-3">
+                            {% if message_for_user.user_img %}
+                            <img src="{{ message_for_user.user_img.url }}" alt="User Img">
+                            {% else %}
+                            <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img"
+                                style="width: 35px; height: 35px; break-before: 50% ; overflow: hidden;">
+                            {% endif %}
+                        </div>
+                        <div>
+                            <p class="p-0 m-0">{{message_for_user.username}}</p>
+                            <p class="p-0 m-0">Online</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" data-mdb-perfect-scrollbar="true" id="message-container" style="position: relative; max-height: 380px; height: 380px; overflow-y: auto;">
+                    <div class="divider mb-4 d-flex align-items-center justify-content-center">
+                        <p class="text-center mx-3 mb-0" style="color: #a2aab7;">Today</p>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-end  flex-column-reverse mb-4 pt-1">
+                        {% for message in all_messages reversed %}
+                        <div class="small p-2 me-3 mb-1 text-white rounded-3" style="background-color: #FF751A; width: 50%;">
+                            <p class="m-0 p-0">{{ message.content }}</p>
+                            <p class="d-flex justify-content-end m-0 text-white" style="font-style: italic; font-size: 12px;" >{{ message.created_date|time }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <script>
+                    // Scroll to the bottom of the message container
+                    function scrollToBottom() {
+                        var messageContainer = document.getElementById("message-container");
+                        messageContainer.scrollTop = messageContainer.scrollHeight;
+                    }
+                
+                    // Call the scrollToBottom function when the page loads
+                    window.onload = function() {
+                        scrollToBottom();
+                    };
+                </script>
+                                
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                        <input type="text" class="form-control me-2" id="exampleFormControlInput1" name="message"
+                            placeholder="Type message">
+                        <input type="submit" class="btn text-white" style="background-color:#FF751A ;" value="Send Message">
+                    </div>
+                </form>
+        </div>
+    </div>
+    {% else %}
+    <img src="{% static 'img/imgs/Chating_inlingua.jpg' %}" alt="" style="width: 100%;">
+    {% endif %}
+
+</div>
+</div>
+
+{% endif %}
+{% endblock %}

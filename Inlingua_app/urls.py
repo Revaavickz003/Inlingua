@@ -17,6 +17,7 @@ Generate_Report,
 trainer_head,
 email,
 StartClass,
+Message_page,
 )
 from django.contrib.auth import views as password_views
 
@@ -31,7 +32,7 @@ urlpatterns = [
     path('send-welcome-email/', email.send_welcome_email, name='send_welcome_email'),
     path('crm/login/', login.custom_login, name="login"),
     path('logout/', logout.custom_logout, name="logout"),
-    path('crm/home/', home.home, name="home"),
+    path('', home.home, name="home"),
 
     path('crm/start_class/<int:id>/', StartClass.classstart, name="start_class"),
     path('crm/end_class/<int:id>/', StartClass.classend, name="endclass"),
@@ -87,6 +88,9 @@ urlpatterns = [
     path('crm/batch/<int:id>/', batchdetails.batches, name="batches"),
     path('crm/user/register/', register.register, name="register"),
 
+    path('user/message/', Message_page.message_view, name="Message_page"),
+    path('user/message/<str:username>/', Message_page.Message_for_user, name="Message_for_user"),
+
 
     
 
@@ -96,8 +100,4 @@ urlpatterns = [
     path('password_reset/done/',password_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
     path('reset/<uidb64>/<token>/',password_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('reset/done/',password_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

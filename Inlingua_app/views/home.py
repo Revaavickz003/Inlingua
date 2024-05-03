@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from Inlingua_app.models import Languages, User, TrainingStaff, TrainerQualifications, TrainingBatches, StudentDetails, Courses, StudentBatchAllocation
-
+from Inlingua_app.models import Languages, User, Message, TrainingStaff, TrainerQualifications, TrainingBatches, StudentDetails, Courses, StudentBatchAllocation
+import datetime
 def home(request):
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -12,7 +12,6 @@ def home(request):
                 All_student = StudentDetails.objects.all()
                 All_Trainers = TrainerQualifications.objects.all()
                 All_Language = Languages.objects.all()
-
                 Student_count = All_student.count()
                 Trainer_count = All_Trainers.count()
                 Language_count = All_Language.count()
@@ -40,26 +39,20 @@ def home(request):
                     'home':'active',
                 })
             else:
+                
                 trainer_details = TrainingStaff.objects.get(LoginId=user)
-                training_batches = TrainingBatches.objects.filter(TrainerId=trainer_details.ID)
+                training_batchess = TrainingBatches.objects.filter(TrainerId=trainer_details.ID)
                 try:
                     trainer_qualifications = TrainerQualifications.objects.get(ID=trainer_details.ID)
                 except:
-                    pass
+                    messages.error(request , "Sorry")
 
-                start_times = training_batches.filter(TrainerId=trainer_details.ID).values_list('StartTime', flat=True)
-                if start_times:
-                    min_start_time = min(start_times)
-                    today_first_batch = training_batches.filter(StartTime=min_start_time).first()
-
-                else:
-                    today_first_batch = None
                 return render(request, 'inlingua/index.html', {
                     'user': user,
                     'trainer_details': trainer_details,
-                    'training_batches': training_batches,
-                    'today_first_batch':today_first_batch,
+                    'training_batchess': training_batchess,
                     'trainer_qualifications':trainer_qualifications,
+                    'Notifcaions': Message.objects.filter(receiver=user, created_date__date=datetime.datetime.today()),
                 })
         elif user.is_active:
             student_details = StudentDetails.objects.get(StudentID=user.id)

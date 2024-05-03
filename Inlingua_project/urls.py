@@ -21,5 +21,3 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Inlingua_app.urls')),
 ]
-
-
