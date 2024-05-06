@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
-from Inlingua_app.models import User, TrainingStaff, TrainerQualifications, StudentDetails
-
+from Inlingua_app.models import User, TrainingStaff, TrainerQualifications, StudentDetails, Message
+import datetime
 def students(request):
     if request.user.is_authenticated:
         user_id = request.user.id
@@ -16,7 +16,8 @@ def students(request):
                 'trainer_details': trainer_details,
                 'Trainer_Qualifications': Trainer_Qualifications,
                 'students': students,
-                'student':'active'
+                'student':'active',
+                'Notifcaions': Message.objects.filter(receiver=user, created_date__date=datetime.datetime.today()),
             })
 
 def Batchlist(request):
@@ -32,4 +33,5 @@ def Batchlist(request):
                 'user': user,
                 'trainer_details': trainer_details,
                 'Trainer_Qualifications': Trainer_Qualifications,
+                'Notifcaions': Message.objects.filter(receiver=user, created_date__date=datetime.datetime.today()),
                 'trainers': trainers,})

@@ -37,6 +37,7 @@ def home(request):
                     'Trainer_Qualifications': Trainer_Qualifications,
                     'trainers': trainers,
                     'home':'active',
+                    'Notifcaions': Message.objects.filter(receiver=user, created_date__date=datetime.datetime.today()),
                 })
             else:
                 
@@ -57,7 +58,6 @@ def home(request):
         elif user.is_active:
             student_details = StudentDetails.objects.get(StudentID=user.id)
             training_batches = TrainingBatches.objects.get(ID = student_details.BatchID.ID)
-            print()
             return render(request, 'inlingua/index.html', {
                 'user': user,
                 'student_details': student_details,

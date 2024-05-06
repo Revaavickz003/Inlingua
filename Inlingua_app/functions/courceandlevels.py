@@ -14,7 +14,7 @@ def table_page(request):
                 All_courses = Courses.objects.all()
                 All_level = Level.objects.all()
                 All_languages = Languages.objects.all()
-                training_staff = TrainerQualifications.objects.all()
+                training_staff = TrainerQualifications.objects.filter(TrainerHead=False)
                 context = {'courceandlevels':'active',
                            'User': user, 
                            'All_batches': All_batches, 
@@ -56,41 +56,6 @@ def add_batchs(request):
                     Trainer = None
                     messages.error(request, 'Trainer')
                    
-                gmeeturl = request.POST['gmeeturl']
-                if gmeeturl == '':
-                    gmeeturl = None
-                    messages.error(request, 'add gmeeturl')
-                   
-                stardate = request.POST['satrdate']
-                if stardate == '':
-                    stardate = None
-                    messages.error(request, 'add stardate')
-                   
-                EndDate = request.POST['EndDate']
-                if EndDate == '':
-                    EndDate = None
-                    messages.error(request, 'add EndDate')
-
-                classduraition = request.POST['classduraition']
-                if classduraition == '':
-                    classduraition = None
-                    messages.error(request, 'add classduraition')
-                   
-                start_time = request.POST['start_time']
-                if start_time == '':
-                    start_time = None
-                    messages.error(request, 'add start_time')
-                   
-                end_time = request.POST['end_time']
-                if end_time == '':
-                    end_time = None
-                    messages.error(request, 'add end time')
-
-                end_time = request.POST['end_time']
-                if end_time == '':
-                    end_time = None
-                    messages.error(request, 'add end time')
-                
                 try:
                     Courses_Details = Courses.objects.get(ID = int(Courses_Details))
                     Trainer = TrainingStaff.objects.get(ID = int(Trainer))
@@ -99,13 +64,6 @@ def add_batchs(request):
                         Name = batchname,
                         Course_details = Courses_Details,
                         TrainerId = Trainer,
-                        MeetingURL = gmeeturl,
-                        StartDate = stardate,
-                        EndDate = EndDate,
-                        Duration = classduraition,
-                        StartTime = start_time,
-                        EndTime = end_time,
-                        IsActive = True,
                         CreatedBy=user.name,
                         CreatedDate= datetime.datetime.now(),
                         UpdatedBy=user.name,
@@ -137,8 +95,6 @@ def edit_batchs(request,id):
                 batchname = request.POST['batchname']
                 Courses_Details = request.POST['Courses_Details']
                 Trainer = request.POST['Trainer']
-                gmeeturl = request.POST['gmeeturl']
-                classduraition = request.POST['classduraition']
                 
                 Courses_Details = Courses.objects.get(ID = int(Courses_Details))
                 Trainer = TrainingStaff.objects.get(ID = int(Trainer))
@@ -146,8 +102,6 @@ def edit_batchs(request,id):
                 updatebatch.Name = batchname
                 updatebatch.Course_details = Courses_Details
                 updatebatch.TrainerId = Trainer
-                updatebatch.MeetingURL = gmeeturl
-                updatebatch.Duration = classduraition
                 updatebatch.UpdatedBy=user.name
                 updatebatch.UpdatedDate= datetime.datetime.now()
                 updatebatch.save()
@@ -158,7 +112,6 @@ def edit_batchs(request,id):
                 batch_info = TrainingBatches.objects.get(ID=id)
                 all_course = Courses.objects.all()
                 all_Trainer = TrainingStaff.objects.all()
-                print(user.name)
                 context = {
                         'courceandlevels':'active',
                            'BatchInfo': batch_info, 
@@ -185,11 +138,6 @@ def add_course(request):
                     if course_name == '':
                         course_name = None
                         messages.error(request,  "Please enter course name")
-                    
-                    level_details = request.POST['levelid']
-                    if level_details == '':
-                        level_details = None
-                        messages.error(request,  "Please enter level name")
                     
                     language_details = request.POST['languageid']
                     if language_details == '':
@@ -231,19 +179,20 @@ def add_course(request):
                         course_metirials = None
                         messages.error(request,  "Please enter course metrials")
                     
-                    course_status = request.POST['coursestatus']
-                    if course_status == '':
-                        course_status = None
-                        messages.error(request,  "Please enter course status")
                     
                     duscription = request.POST['Duscription']
                     if duscription == '':
                         duscription = None
                         messages.error(request,  "Please enter course duscription")
 
+                    level_id = request.POST['levelid']
+                    if level_id == '':
+                        level_id = None
+                        messages.error(request,  "Please enter course Level")
+
                     try:
                         language_details = Languages.objects.get(ID=int(language_details))
-                        level_details = Level.objects.get(ID=int(level_details))
+                        level_id = Level.objects.get(ID=int(level_id))
                     
                         new_courses = Courses.objects.create(
 
@@ -251,18 +200,15 @@ def add_course(request):
                             Description = duscription,
                             Duration = course_duration,
                             LanguageID =language_details,
+                            LevelID = level_id,
                             StartDate = start_date,
                             EndtDate = end_date,
                             StartTime = start_time,
                             EndTime = end_time,
-                            LevelID = level_details,
                             Cost = cost,
-                            Course_metirials = course_metirials,
-                            Course_status = course_status,
-                            CreatedBy=user.name,
-                            CreatedDate= datetime.datetime.now(),
-                            UpdatedBy=user.name,
-                            UpdatedDate= datetime.datetime.now(),
+                            Course_link = course_metirials,
+                            CreatedBy=user.username,
+                            UpdatedBy=user.username,
                             )
                         new_courses.save()
                         messages.success(request,"New Course added successfully")
@@ -341,9 +287,7 @@ def add_level(request):
                             Name=level_name, 
                             Code=level_code,
                             CreatedBy=user.name,
-                            CreatedDate= datetime.datetime.now(),
                             UpdatedBy=user.name,
-                            UpdatedDate= datetime.datetime.now(),
                             )
                         new_level.save()
                         messages.success(request,"New level added successfully")

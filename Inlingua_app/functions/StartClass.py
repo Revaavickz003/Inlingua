@@ -1,29 +1,31 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import  redirect
 from django.urls import reverse
 from Inlingua_app.models import Courses
+from django.contrib import messages
 
-def classstart(request,id):
+def classstart(request,id, classid):
     if request.user.is_authenticated:
         try:
-            Course = Courses.objects.get(ID=id)
-            print(Course.pk)
+            Course = Courses.objects.get(ID=classid)
             Course.class_active=True
             Course.save()
             return redirect(reverse('batches', kwargs={'id': id}))
         except Exception as e:
-            print("Error in ClassStart view",e)
+            messages.error(request, "Error in Class start view",e)
+            return redirect(reverse('batches', kwargs={'id': id}))
     else:
         pass
 
 
-def classend(request,id):
+def classend(request,id, classid):
     if request.user.is_authenticated:
         try:
-            Course = Courses.objects.get(ID=id)
+            Course = Courses.objects.get(ID=classid)
             Course.class_active=False
             Course.save()
             return redirect(reverse('batches', kwargs={'id': id}))
         except Exception as e:
-            print("Error in ClassStart view",e)
+            messages.error(request, "Error in Class start view",e)
+            return redirect(reverse('batches', kwargs={'id': id}))
     else:
         pass

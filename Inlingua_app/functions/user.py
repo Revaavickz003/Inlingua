@@ -61,7 +61,10 @@ def addstudent(request):
                 languageid = request.POST.get('languageid')
                 studentid = request.POST.get('studentid')
                 address = request.POST.get('Address')
-
+                try:
+                    role_id = UserRoles.objects.get(Name='Students')
+                except UserRoles.DoesNotExist:
+                    role_id = UserRoles.objects.create(Name='Students',IsActive=True,CreatedBy=request.user,UpdatedBy=request.user)
                 
                 Batchid = TrainingBatches.objects.get(ID = Batchid)
                 languages = Languages.objects.get(ID = languageid)
@@ -81,7 +84,7 @@ def addstudent(request):
                                 created_by = user.name,
                                 updated_by = user.name,
                                 updated_date = datetime.datetime.now(),
-                                role_id = UserRoles.objects.get(Name ='Students'),
+                                role_id = role_id,
                             )
                             newstudent.set_password(password1)
                             newstudent.save()
