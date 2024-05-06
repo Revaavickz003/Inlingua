@@ -1,11 +1,10 @@
 # admin.py
-
 from django.contrib import admin
 from .models import (
     Languages, Level, Courses, Payments,
     UserRoles, User, ManagementStaff, TrainingStaff, TrainerQualifications,
-    ProofOfIdentty, TrainingBatches, StudentBatchAllocation, CourseStatus,
-    StudentDetails, StudentStudyMetirials, PaymentStatus, Discount, trainer_head_table, Message
+    ProofOfIdentty, TrainingBatches, StudentBatchAllocation,
+    StudentDetails, PaymentStatus, Discount, trainer_head_table, Message
 )
 @admin.register(PaymentStatus)
 class PaymentStatusAdmin(admin.ModelAdmin):
@@ -57,10 +56,6 @@ class ManagementStaffAdmin(admin.ModelAdmin):
 class TrainingStaffAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(StudentStudyMetirials)
-class StudentStudyMetirialsAdmin(admin.ModelAdmin):
-    list_display = ()
-
 @admin.register(TrainerQualifications)
 class TrainerQualificationsAdmin(admin.ModelAdmin):
     list_display = ('LanguageID',)
@@ -82,6 +77,3 @@ class TrainingBatchesAdmin(admin.ModelAdmin):
 class StudentBatchAllocationAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(CourseStatus)
-class CourseStatusAdmin(admin.ModelAdmin):
-    pass

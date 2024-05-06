@@ -8,7 +8,9 @@ Home page | Inlingua
 {% endblock %}
 
 {% block container %}
-{% include 'inc/message.html' %}
+<div class="container">
+    {% include 'inc/message.html' %}
+</div>
 
 {% if user.is_superuser %}
 {% include 'inc/sidebar.html' %}
@@ -116,7 +118,7 @@ Home page | Inlingua
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">{{Training_Batches}} | {{Training_Batches.Course_details}}</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{Training_Batches}} | {{Training_Batches.Course_details}} - {{Training_Batches.Course_details.LevelID}} ( {{Training_Batches.Course_details.LevelID.Code}} ) </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -129,15 +131,15 @@ Home page | Inlingua
                     </div>
                     <div class="col-12 mb-3">
                         <label for="Study_Material">Study Material (PDF)</label>
-                        <input class="form-control mt-2" accept=".pdf" type="file" name="Study_Material" id="Study_Material" value="">
+                        <input type="file" class="form-control mt-2" accept=".pdf"  name="Study_Material" id="Study_Material" value="{{ Training_Batches.Course_details.Course_metirials }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="Recorded_Session">Recorded Session (MP4)</label>
-                        <input class="form-control mt-2" accept=".mp4" type="file" name="Recorded_Session" id="Recorded_Session" value="">
+                        <input type="file" class="form-control mt-2" accept=".mp4"  name="Recorded_Session" id="Recorded_Session" value="{{ Training_Batches.Course_details.Recorded_Session }}">
                     </div>
                     <div class="col-12 mb-3">
                         <label for="Assessment">Assessment (PDF)</label>
-                        <input class="form-control mt-2" accept=".pdf" type="file" name="Assessment" id="Assessment" value="">
+                        <input  type="file" class="form-control mt-2" accept=".pdf" name="Assessment" id="Assessment" value="{{ Training_Batches.Course_details.Assessment }}">
                     </div>
               </div>
             </div>
@@ -203,7 +205,7 @@ Home page | Inlingua
                         </div>
                         <div class="buttons mt-5 d-flex align-items-center justify-content-between">
                             {% if user.is_staff %}
-                            <a href="">Start Class</a>
+                            <a href="#">Start Class</a>
                             {% else %}
                             <input type="submit" class="btn btn-primary" value="Submit">
                             <a href="" target="_blank">Join Class</a>
@@ -289,9 +291,9 @@ Home page | Inlingua
                     <div class="container-fuild">
                         <div class="course-details">
                             <div class="">
-                                <h1 class="" style="color: #FF751A; font-size: medium;">
+                                <h1 class="fs-3 mb-4" style="color: #FF751A;">
                                     {% if user.is_staff %}
-                                    {{today_first_batch.Name}}{{Training_Batches.Name}}
+                                    {{Training_Batches.Name}}
                                     {% else %}
                                     {{training_batches.Course_details.Name}} -
                                     {{training_batches.Course_details.LevelID.Code}}
@@ -328,11 +330,11 @@ Home page | Inlingua
                         </div>
                         <div class="course-details-rainers mt-4">
                             <p class="m-0 text-white"><span class="letter-orange">Duration </span>:
-                                {{today_first_batch.Course_details.StartDate}}{{Training_Batches.Course_details.StartDate}}{{training_batches.Course_details.StartDate |date:"d-m-Y" }} -
-                                {{today_first_batch.Course_details.EndtDate}}{{Training_Batches.Course_details.EndtDate}}{{training_batches.Course_details.EndtDate | date:"d-m-Y" }}</p>
+                                {{Training_Batches.Course_details.StartDate|date:"d-m-Y" }} -
+                                {{Training_Batches.Course_details.EndtDate|date:"d-m-Y"}}</p>
                                 <p class="m-0 text-white"><span class="letter-orange">Session Time </span>:
-                                {{today_first_batch.Course_details.StartTime }}{{training_batches.Course_details.StartTime | time:"g.i A"}}{{Training_Batches.Course_details.StartTime}} -
-                                {{today_first_batch.Course_details.EndTime}}{{Training_Batches.Course_details.EndTime}}{{training_batches.Course_details.EndTime |time:"g.i A" }}</p>
+                                {{Training_Batches.Course_details.StartTime}} -
+                                {{Training_Batches.Course_details.EndTime}}</p>
 
                             {% if user.is_staff %}
                             {% if Training_Batches.Course_details.class_active %}
@@ -359,19 +361,13 @@ Home page | Inlingua
                             {% else %}
                             {% if user.is_staff %}
                                 {% if Training_Batches.Course_details.class_active %}
-                                {% if today_first_batch.Name %}
-                                <a href="{% url 'endclass' id=today_first_batch.Course_details.ID %}">End Class</a>
+                                <a href="{% url 'endclass' id=Training_Batches.ID classid=Training_Batches.Course_details.ID %}">End Class</a>
                                 {% else %}
-                                <a href="{% url 'endclass' id=Training_Batches.Course_details.ID %}">End Class</a>
-                                {% endif %}
-                                {% else %}
-                                <a href="">Start Class</a>
+                                <a href="{% url 'start_class' id=Training_Batches.ID classid=Training_Batches.Course_details.ID %}">Start Class</a>
                                 {% endif %}
                             {% else %}
-                            <a href="{{training_batches.Course_details.Course_link}}" target="_blank"
-                            {% if training_batches.Course_details.class_active == False %}
-                             onclick="return false;"
-                             {% endif %}
+                            <a href="{% if training_batches.Course_details.class_active %}{{training_batches.Course_details.Course_link}} " target="_blank {% endif %}"
+                            
                              >Join Class</a>
                             {% endif %}
                             <a href="{% url 'logout' %}" class="logout">Log out</a>

@@ -12,43 +12,31 @@ def batches(request, id):
         if user.is_staff:
             Training_Batches = TrainingBatches.objects.get(ID=id)
             if request.method == 'POST':
-                print("Yes")
                 Class_completed = request.POST.get('Class_completed')
-                Study_Material = request.FILES.get('Study_Material')
-                Recorded_Session = request.FILES.get('Recorded_Session')
-                Assessment = request.FILES.get('Assessment')
+                Study_Material = request.POST.get('Study_Material')
+                Recorded_Session = request.POST.get('Recorded_Session')
+                Assessment = request.POST.get('Assessment')
 
-                print(Class_completed)
-                print(Study_Material)
-                print(Recorded_Session)
-                print(Assessment)
-                
                 update_course = Training_Batches.Course_details
-                print(update_course.Name)
 
                 if Class_completed:
                     update_course.Course_status = Class_completed
-                    update_course.save()
-                    print("Class completed:", Class_completed)
+                    messages.success(request , 'Class status updated success fully...')
 
                 if Study_Material:
-                    update_course.Course_status = Study_Material
-                    update_course.save()
-                    print("Study Material uploaded")
+                    update_course.Course_metirials = Study_Material
+                    messages.success(request , 'Course metirials updated success fully...')
+
 
                 if Recorded_Session:
-                    update_course.Course_status = Recorded_Session
-                    update_course.save()
-                    print("Recorded Session uploaded")
+                    update_course.Recorded_Session = Recorded_Session
+                    messages.success(request , 'Recorded Session updated success fully...')
 
                 if Assessment:
-                    update_course.Course_status = Assessment
-                    print("Assessment uploaded")
-                    update_course.save()
+                    update_course.Assessment = Assessment
+                    messages.success(request , 'Assessment updated success fully...')
 
-
-                print("Success")
-
+                update_course.save()
                 return redirect(reverse('batches', kwargs={'id': id}))
             else:
                 trainer_details = TrainingStaff.objects.get(LoginId=user)

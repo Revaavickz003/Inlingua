@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from Inlingua_app.models import (User, Languages, TrainerQualifications, TrainingBatches, 
-                                 StudentDetails, UserRoles,TrainingStaff, Level)
+                                 StudentDetails, UserRoles,TrainingStaff, Level, UserRoles)
 
 def trainers_view(request):
     if request.user.is_authenticated:
@@ -95,14 +95,17 @@ def add_trainer_head(request, id):
 def remove_trainer_head(request,id):
     get_tainer_qualification = TrainerQualifications.objects.get(ID = id)
     get_tainer_qualification.TrainerHead = False
+    get_tainer_qualification_loginid = User.objects.get(pk = get_tainer_qualification.TrainerId.LoginId.pk)
+    get_tainer_qualification_loginid.is_staff_head = False
     get_tainer_qualification.save()
+    get_tainer_qualification_loginid.save()
     return redirect('trainers')
 
 def add_trainers(request):
     if request.user.is_authenticated:
         user_id = request.user.id
         user = User.objects.get(id=user_id)
-
+        
         if user.is_staff and user.is_superuser:
             if request.method == 'POST':
                 name = request.POST.get('trainername')
@@ -164,8 +167,7 @@ def add_trainers(request):
                 try:
                     role = UserRoles.objects.get(Name='Trainer')
                 except UserRoles.DoesNotExist:
-                    messages.error(request, "Role 'Trainer' not found. Please create a Trainer Role.")
-                    return redirect('trainers')
+                    role = UserRoles.objects.create(Name='Trainer',IsActive=True,CreatedBy=request.user,UpdatedBy=request.user)
                 
                 try:
                     new_trainer = User.objects.create(
@@ -177,8 +179,8 @@ def add_trainers(request):
                         username=email,
                         user_img=trainer_photo,
                         Address=address,
-                        created_by=request.user.name,
-                        updated_by=request.user.name,
+                        created_by=request.user.username,
+                        updated_by=request.user.username,
                         is_staff=True,
                         updated_date=datetime.datetime.now(),
                         role_id=role,

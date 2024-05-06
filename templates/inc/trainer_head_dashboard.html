@@ -178,8 +178,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
-        </div>
+            {% for Notifcaions in Notifcaions %}
+            <p>{{Notifcaions.content}}</p>
+            <hr>
+            {% endfor %}
+          </div>
       </div>
     </div>
   </div>

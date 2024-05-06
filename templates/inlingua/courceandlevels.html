@@ -23,7 +23,7 @@ Batchs, Courses and Levels
         <!-- Batch Model -->
         <div style="position: relative; width: 100%;">
             <div class="modal  fade" id="addbatch" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="height: 100vh; width: 100%; backdrop-filter: blur(3px); position: absolute;" >
-                <div class="modal-dialog modal-lg ">
+                <div class="modal-dialog modal-md ">
                     <form method='POST' action="{% url 'add_batchs' %}">
                         {% csrf_token %}
                         <div class="modal-content bg-dark">
@@ -33,11 +33,11 @@ Batchs, Courses and Levels
                             </div>
                             <div class="modal-body">
                                 <div class="row g-3 mt-1">
-                                    <div class="col-12  col-md-4">
+                                    <div class="col-12">
                                         <label for="batchname" class="form-label text-white">Batch Name</label>
                                         <input type="text" class="form-control text-white bg-dark" id="batchname" name="batchname">
                                     </div>
-                                    <div class="col-12  col-md-4">
+                                    <div class="col-12">
                                         <label for="Courses_Details" class="form-label text-white">Course Details</label>
                                         <select class="form-select form-select bg-dark text-white" id="Courses_Details" name="Courses_Details">
                                             <option selected>Select a Course</option>
@@ -46,7 +46,7 @@ Batchs, Courses and Levels
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col-12  col-md-4">
+                                    <div class="col-12">
                                         <label for="Trainer" class="form-label text-white">Trainer</label>
                                         <select class="form-select form-select bg-dark text-white" name="Trainer" id="Trainer">
                                             <option selected>Select a Trainer</option>
@@ -56,34 +56,7 @@ Batchs, Courses and Levels
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row g-3 mt-1">
-                                    <div class="col-12  col-md-4">
-                                        <label for="gmeeturl" class="form-label text-white">G-meet url</label>
-                                        <input type="text" class="form-control bg-dark text-white" id="gmeeturl" name="gmeeturl">
-                                    </div>
-                                    <div class="col-12  col-md-4">
-                                        <label for="Start_Date" class="form-label text-white">Start Date</label>
-                                        <input class="form-control bg-dark text-white" type="date" id="Start_Date" name="satrdate">
-                                    </div>
-                                    <div class="col-12  col-md-4">
-                                        <label for="End_Date" class="form-label text-white">End Date</label>
-                                        <input class="form-control bg-dark text-white" type="date" id="End_Date" name="EndDate">
-                                    </div>
-                                </div>
-                                <div class="row g-3 mt-1">
-                                    <div class="col-12  col-md-4">
-                                        <label for="classduraition" class="form-label text-white">Duration</label>
-                                        <input type="number" class="form-control bg-dark text-white" id="classduraition" name="classduraition">
-                                    </div>
-                                    <div class="col-12  col-md-4">
-                                        <label for="Start_Time" class="form-label text-white">Start Time</label>
-                                        <input type="time" class="form-control bg-dark text-white" id="Start_Time" name="start_time">
-                                    </div>
-                                    <div class="col-12  col-md-4">
-                                        <label for="End_Time" class="form-label text-white">End Time</label>
-                                        <input type="time" class="form-control bg-dark text-white" id="End_Time" name="end_time">
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -162,12 +135,8 @@ Batchs, Courses and Levels
                                 </div>
                                 <div class="row g-3 mt-1">
                                     <div class="col-12  col-md-4">
-                                        <label for="coursemetrials" class="form-label text-white">Course Materials</label>
-                                        <input class="form-control bg-dark text-white" type="file" id="coursemetrials" name="coursemetrials">
-                                    </div>
-                                    <div class="col-12  col-md-4">
-                                        <label for="coursestatus" class="form-label text-white">Course Status</label>
-                                        <input type="number" class="form-control bg-dark text-white" id="coursestatus" name="coursestatus">
+                                        <label for="coursemetrials" class="form-label text-white">Class url</label>
+                                        <input class="form-control bg-dark text-white" type="text" id="coursemetrials" name="coursemetrials">
                                     </div>
                                     <div class="col-12  col-md-4">
                                         <label for="Duscription" class="form-label text-white">Description</label>

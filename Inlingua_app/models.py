@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import FileExtensionValidator
+import datetime
 
 class CustomUserManager(BaseUserManager):
     def _create_user(self, email=None, password=None, **extra_fields):
@@ -25,9 +26,9 @@ class Languages(models.Model):
     ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=255)
     IsActive = models.BooleanField(default=True)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     CreatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
 
     def __str__(self):
@@ -38,9 +39,9 @@ class Level(models.Model):
     Code = models.CharField(max_length=2)
     Name = models.CharField(max_length=255)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return self.Name
@@ -51,16 +52,16 @@ class Courses(models.Model):
     Description = models.TextField(max_length=255)
     Duration = models.IntegerField()
     LanguageID = models.ForeignKey(Languages, on_delete=models.CASCADE)
+    LevelID = models.ForeignKey(Level, on_delete=models.CASCADE)
     StartDate = models.DateField(null=False, blank=False)
     EndtDate = models.DateField(null=False, blank=False)
     StartTime = models.TimeField(null=False, blank=False)
     EndTime = models.TimeField(null=False, blank=False)
     Course_link = models.URLField(null=False, blank=False)
-    LevelID = models.ForeignKey(Level, on_delete=models.CASCADE)
     class_active = models.BooleanField(default=False)
     Cost = models.FloatField()
     Course_metirials = models.FileField(
-        upload_to='uploads/Study_materials',
+        upload_to='uploads/Study_materials/',
         blank=True,
         null=True,
         validators=[
@@ -68,7 +69,7 @@ class Courses(models.Model):
         ]
     )
     Assessment = models.FileField(
-        upload_to='uploads/Assessment',
+        upload_to='uploads/Assessment/',
         blank=True,
         null=True,
         validators=[
@@ -76,7 +77,7 @@ class Courses(models.Model):
         ]
     )
     Recorded_Session = models.FileField(
-        upload_to='uploads/Recorded_Session',
+        upload_to='uploads/Recorded_Session/',
         blank=True,
         null=True,
         validators=[
@@ -85,9 +86,9 @@ class Courses(models.Model):
     )
     
     Course_status = models.IntegerField(default=0)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     CreatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
     
     def __str__(self):
@@ -104,9 +105,9 @@ class PaymentStatus(models.Model):
         (YET_TO_PAY, 'Yet to pay'),
     ]
     StatusName = models.CharField(max_length=255, choices=STATUS_CHOICES, default=YET_TO_PAY)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     CreatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
 
     def __str__(self):
@@ -118,7 +119,7 @@ class Discount(models.Model):
     DiscountedPayment = models.FloatField(default=0)
     Description = models.TextField(null=True, blank=True)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
@@ -154,12 +155,12 @@ class Payments(models.Model):
     PaymentType = models.CharField(max_length=255, choices=PAYMENT_TYPE)
     PaymentMethod = models.CharField(max_length=255, choices=PAYMENT_MENTHOD)
     CourseId = models.ForeignKey(Courses, on_delete=models.CASCADE)
-    PaymentDate = models.DateTimeField(default=timezone.now)
+    PaymentDate = models.DateTimeField(default=datetime.datetime.now())
     TransactionId = models.CharField(max_length=100)
     Amount = models.DecimalField(max_digits=8, decimal_places=2,null=False, blank=False)
     PaymentStatus = models.ForeignKey(PaymentStatus, on_delete=models.CASCADE,null=False, blank=False)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
@@ -172,9 +173,9 @@ class UserRoles(models.Model):
     Description = models.CharField(max_length=255)
     IsActive = models.BooleanField()
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return self.Name
@@ -197,8 +198,8 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.created_date = timezone.now()
-        self.updated_date = timezone.now()
+            self.created_date = datetime.datetime.now()
+        self.updated_date = datetime.datetime.now()
         return super().save(*args, **kwargs)
 
     def get_full_name(self):
@@ -216,7 +217,7 @@ class ManagementStaff(models.Model):
     LoginId = models.ForeignKey(User, on_delete=models.CASCADE)
     IsActive = models.BooleanField()
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
@@ -227,7 +228,7 @@ class TrainingStaff(models.Model):
     LoginId = models.ForeignKey(User, on_delete=models.CASCADE)
     IsActive = models.BooleanField()
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
@@ -244,7 +245,7 @@ class TrainerQualifications(models.Model):
     CertificateValidTill = models.DateTimeField()
     TrainerHead = models.BooleanField(default = False)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
     TrainerId = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE)
@@ -254,16 +255,16 @@ class ProofOfIdentty(models.Model):
     Type = models.CharField(max_length=255)
     Value = models.CharField(max_length=255)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
 
 class trainer_head_table(models.Model):
     trainer_head = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE, related_name='trainer_head_allocations', null=True, blank=True)
     IsActive = models.BooleanField()
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
 
     def __str__(self):
@@ -275,16 +276,9 @@ class TrainingBatches(models.Model):
     Course_details = models.ForeignKey(Courses, on_delete=models.CASCADE, null=False, blank=False)
     TrainerId = models.ForeignKey(TrainingStaff, on_delete=models.CASCADE, null=False, blank=False)
     trainer_head = models.ForeignKey(trainer_head_table, on_delete=models.CASCADE, related_name='training_batches_as_head', null=True, blank=True)
-    MeetingURL = models.CharField(max_length=500)
-    StartDate = models.DateField()
-    EndDate = models.DateField()
-    Duration = models.IntegerField()
-    StartTime = models.TimeField()
-    EndTime = models.TimeField()
-    IsActive = models.BooleanField()
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
+    UpdatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255)
 
     def __str__(self):
@@ -296,7 +290,7 @@ class StudentBatchAllocation(models.Model):
     Student_Details = models.ManyToManyField("StudentDetails")
     BatchID = models.ForeignKey(TrainingBatches, on_delete=models.CASCADE)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
@@ -309,32 +303,12 @@ class StudentDetails(models.Model):
     PaymentDetails = models.ForeignKey(Payments, on_delete=models.CASCADE, null=True, blank=True)
     Language_Id = models.ForeignKey(Languages, on_delete=models.CASCADE, null=True)
     CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
+    CreatedDate = models.DateTimeField(default=datetime.datetime.now())
     UpdatedBy = models.CharField(max_length=255, null=True, blank=True)
     UpdatedDate = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return str(self.StudentID.name)
-
-class CourseStatus(models.Model):
-    ID = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=100)
-    Description = models.CharField(max_length=255, null=True, blank=True)
-    IsActive = models.BooleanField()
-    CreatedBy = models.CharField(max_length=255)
-    CreatedDate = models.DateTimeField(default=timezone.now)
-    UpdatedBy = models.CharField(max_length=255)
-    UpdatedDate = models.DateTimeField(default=timezone.now)
-
-class StudentStudyMetirials(models.Model):
-    StudyMaterialID = models.AutoField(primary_key=True)
-    CourseID = models.ForeignKey(Courses, on_delete=models.CASCADE,null=True,blank=False)
-    MaterialType =  models.CharField(max_length=100)
-    File = models.FileField(upload_to='studymaterials')
-    CreatedDate = models.DateTimeField(auto_now_add=True)
-    UploadedBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_student_studymaterials')
-    createdby = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_student_studymaterials')
-    uploadesdate = models.DateTimeField(auto_now_add=True)
 
 
 class Message(models.Model):
