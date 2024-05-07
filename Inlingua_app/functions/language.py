@@ -61,7 +61,8 @@ def edit_lang(request, id):
         if user.is_staff and user.is_superuser:
             if request.method == 'POST':
                 role_name = request.POST.get('RoleName')
-                if not Languages.objects.filter(Name=role_name).exists():
+
+                if not Languages.objects.filter(Name=role_name).exists() and role_name != '':
                     update_langu = Languages.objects.get(ID=id)
 
                     update_langu.Name = role_name
@@ -95,22 +96,3 @@ def edit_lang(request, id):
     else:
         pass  # Handle authentication failure if needed
 
-def delete_langu(request, id):
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        user = User.objects.get(id=user_id)
-
-        if user.is_staff and user.is_superuser:
-            try:
-                update_langu = Languages.objects.get(pk=id)
-                update_langu.delete()
-
-                messages.success(request, f"{update_langu.Name} has been deleted successfully from the system.")
-                return redirect('tables')
-            except UserRoles.DoesNotExist:
-                raise Http404("Role does not exist")
-        else:
-            messages.error(request, 'You do not have permission to perform this action!')
-            return redirect('home')
-    else:
-        pass  # Handle authentication failure if needed

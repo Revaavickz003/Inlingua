@@ -23,54 +23,60 @@ def payment_view(request,id):
                 discount = 0
                                                                           
             if request.method == 'POST':
-                PaymentTypeId = request.POST.get('PaymentTypeId')
-                PaymentMethodId = request.POST.get('PaymentMethodId')
-                TransactionId = request.POST.get('TransactionId')
-                Amount = request.POST.get('Amount')
-                IsDiscountApplied = request.POST.get('Discount')
-                DiscountedPayment = request.POST.get('DiscountedPayment')
-                Description = request.POST.get('Description')
+                try:
+                    PaymentTypeId = request.POST.get('PaymentTypeId')
+                    PaymentMethodId = request.POST.get('PaymentMethodId')
+                    TransactionId = request.POST.get('TransactionId')
+                    Amount = request.POST.get('Amount')
+                    IsDiscountApplied = request.POST.get('Discount')
+                    DiscountedPayment = request.POST.get('DiscountedPayment')
+                    Description = request.POST.get('Description')
 
+                    print(PaymentTypeId)
+                    studentdetails = StudentDetails.objects.get(ID=id)
+                    course = Courses.objects.get(ID=int(studentdetails.BatchID.Course_details.ID))
+        
+                    if float(Amount) + float(total_amount) + float(discount)  == int(Course_cost):
+                        Paymentstatus, created = PaymentStatus.objects.get_or_create(StatusName='Completed', defaults={'CreatedBy': 'System', 'UpdatedBy': 'System'})
+                    else:
+                        Paymentstatus, created = PaymentStatus.objects.get_or_create(StatusName='Pending', defaults={'CreatedBy': 'System', 'UpdatedBy': 'System'})
 
-                studentdetails = StudentDetails.objects.get(ID=id)
-                course = Courses.objects.get(ID=int(studentdetails.BatchID.Course_details.ID))
-    
-                if float(Amount) + float(total_amount) + float(discount)  == int(Course_cost):
-                    Paymentstatus, created = PaymentStatus.objects.get_or_create(StatusName='Completed', defaults={'CreatedBy': 'System', 'UpdatedBy': 'System'})
-                else:
-                    Paymentstatus, created = PaymentStatus.objects.get_or_create(StatusName='Pending', defaults={'CreatedBy': 'System', 'UpdatedBy': 'System'})
+                    if float(Amount) <= int(Course_cost) and int(pending_amountprint) >= float(Amount):
+                        pass
+                    else:
+                        messages.warning(request, "Invalid transaction details entered!")
+                        return render(request, 'inlingua/payment.html')
 
-                if float(Amount) <= int(Course_cost) and int(pending_amountprint) >= float(Amount):
-                    pass
-                else:
-                    messages.warning(request, "Invalid transaction details entered!")
-                    return render(request, 'inlingua/payment.html')
-
-                if IsDiscountApplied == "on":
-                    new_discount = Discount.objects.create(
-                        StudentDetails=studentdetails,
-                        IsDiscountApplied=True,
-                        DiscountedPayment=DiscountedPayment,
-                        Description=Description,
-                        CreatedBy=user.name,
-                    )
-                    new_discount.save()
-
-                new_payment = Payments.objects.create(
-                    StudentDetails=studentdetails,
-                    PaymentType=PaymentTypeId,
-                    PaymentMethod=PaymentMethodId,
-                    CourseId=course,
-                    TransactionId=TransactionId,
-                    Amount=float(Amount),
-                    PaymentStatus=Paymentstatus,
-                    CreatedBy=user.name,
-                    UpdatedBy=user.name,
-                )
-                new_payment.save()
-                messages.success(request, f'Hello {user.username}, {studentdetails.StudentID.name} payment {Amount} has been added successfully!')
-                return redirect('students')
-            
+                    if IsDiscountApplied == "on":
+                        new_discount = Discount.objects.create(
+                            StudentDetails=studentdetails,
+                            IsDiscountApplied=True,
+                            DiscountedPayment=DiscountedPayment,
+                            Description=Description,
+                            CreatedBy=user.name,
+                        )
+                        new_discount.save()
+                    if TransactionId != '' and PaymentMethodId != 'Select a payment' and PaymentTypeId != 'PaymentTypeId' :
+                        new_payment = Payments.objects.create(
+                            StudentDetails=studentdetails,
+                            PaymentType=PaymentTypeId,
+                            PaymentMethod=PaymentMethodId,
+                            CourseId=course,
+                            TransactionId=TransactionId,
+                            Amount=float(Amount),
+                            PaymentStatus=Paymentstatus,
+                            CreatedBy=user.name,
+                            UpdatedBy=user.name,
+                        )
+                        new_payment.save()
+                        messages.success(request, f'Hello {user.username}, {studentdetails.StudentID.name} payment {Amount} has been added successfully!')
+                        return redirect('students')
+                    else:
+                        messages.error(request, 'Fill all details ')
+                        return redirect('students')
+                except Exception as e:
+                    messages.error(request, f'Hello {user.username},{e}')
+                    return redirect('students')
         context ={
             'User': user,
             'Students':'active',

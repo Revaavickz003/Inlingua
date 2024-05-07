@@ -62,6 +62,7 @@ def home(request):
                 'user': user,
                 'student_details': student_details,
                 'training_batches':training_batches,
+                'Notifcaions': Message.objects.filter(receiver=user, created_date__date=datetime.datetime.today()),
             })
         else:
             messages.error(request, "Account is inactive.")

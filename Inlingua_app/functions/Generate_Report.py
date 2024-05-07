@@ -61,13 +61,13 @@ def GenerateReport(request, id):
         ["Mobile Number", strudent_batch.TrainerId.LoginId.Mobile_Number],
         ["Email ID", strudent_batch.TrainerId.LoginId.username],
         ["Batch Name", strudent_batch.Name],
-        ["Duration", strudent_batch.Duration],
+        ["Duration", strudent_batch.Course_details.Duration],
         ["Language Name", strudent_batch.Course_details.LanguageID.Name],
         ["Language Level", strudent_batch.Course_details.LevelID.Name],
         ["Start Date", strudent_batch.Course_details.StartDate],
         ["End Date", strudent_batch.Course_details.EndtDate],
         ["Start Time", strudent_batch.Course_details.StartTime],
-        ["End Time", strudent_batch.EndTime],
+        ["End Time", strudent_batch.Course_details.EndTime],
         
     ]
     table = Table(data2, colWidths=[2*inch, 4*inch])

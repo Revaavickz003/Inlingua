@@ -9,8 +9,8 @@
     <div class="d-flex align-items-center justify-content-between">
         <p class="m-0 p-0 mx-3">{{user.name}}</p>
         <div class="header_img">
-            {% if User.user_img %}
-                <img src="{{ User.user_img.url }}" alt="User Img">
+            {% if request.user.user_img %}
+                <img src="{{ request.user.user_img.url }}" alt="User Img">
             {% else %}
                 <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img" style="width: 35px; height: 35px;">
             {% endif %}

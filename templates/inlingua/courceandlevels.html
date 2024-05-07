@@ -343,7 +343,7 @@ Batchs, Courses and Levels
                             </select>
                         </div>
                         {% endif %}
-                        
+                        {% if not BatchInfo %}
                         <div class="col-12  col-md-4">
                             <label for="gmeeturl" class="form-label text-white">
                                 {% if BatchInfo %}
@@ -367,7 +367,7 @@ Batchs, Courses and Levels
                             name="gmeeturl" 
                             >
                         </div>
-
+                        {% endif %}
                         {% if course_info %}
                         <div class="col-12  col-md-4">
                             <label for="" class="form-label text-white">Course status</label>
@@ -385,18 +385,7 @@ Batchs, Courses and Levels
                             </div>
                             <p class="m-0 p-0 text-white">{{course_info.Course_status}} / 100</p>
                         </div>
-                        <div class="col-12  col-md-4">
-                            <label for="" class="form-label text-white">Course Materials</label>
-                            <div class="form-control bg-dark"
-                                style="border: 1px solid #444444;">
-                                <a href="#" class="">
-                                    {% if course_info.Course_metirials %}
-                                        {{course_info.Course_metirials}}
-                                    {% else %}
-                                        No Files
-                                    {% endif %}</a>
-                            </div>
-                        </div>
+                        
                         <div class="col-12  col-md-4">
                             <label for="satrdate" class="form-label text-white">Cost</label>
                             <input class="form-control bg-dark text-white" type="text" id="satrdate"  
@@ -404,7 +393,7 @@ Batchs, Courses and Levels
                              name="satrdate" readonly>
                         </div>
                         {% endif %}
-                        {% if BatchInfo or course_info %}
+                        {% if course_info %}
                         <div class="col-12  col-md-4">
                             <label for="satr_date" class="form-label text-white">Start Date</label>
                             <input class="form-control bg-dark text-white" type="text" id="satr_date"  

@@ -61,28 +61,19 @@ class Courses(models.Model):
     class_active = models.BooleanField(default=False)
     Cost = models.FloatField()
     Course_metirials = models.FileField(
-        upload_to='uploads/Study_materials/',
+        upload_to='Course/Study materials/',
         blank=True,
         null=True,
-        validators=[
-            FileExtensionValidator(allowed_extensions=['pdf',])
-        ]
     )
     Assessment = models.FileField(
-        upload_to='uploads/Assessment/',
+        upload_to='Course/Assessment/',
         blank=True,
         null=True,
-        validators=[
-            FileExtensionValidator(allowed_extensions=['pdf',])
-        ]
     )
     Recorded_Session = models.FileField(
-        upload_to='uploads/Recorded_Session/',
+        upload_to='Course/Recorded_Session/',
         blank=True,
         null=True,
-        validators=[
-            FileExtensionValidator(allowed_extensions=['mp4',])
-        ]
     )
     
     Course_status = models.IntegerField(default=0)
@@ -183,7 +174,7 @@ class UserRoles(models.Model):
 class User(AbstractUser):
     name = models.CharField(max_length=225, blank=False, null=False)
     Mobile_Number = models.IntegerField(null=True, blank=True)
-    user_img = models.ImageField(upload_to='Uploads/Users/Profiles/', blank=True, null=True)
+    user_img = models.ImageField(upload_to='Users/Profiles/', blank=True, null=True)
     Address = models.CharField(max_length=400, null=True, blank=True)
     created_by = models.CharField(max_length=255)
     updated_by = models.CharField(max_length=255, null=True, blank=True)
@@ -298,6 +289,7 @@ class StudentDetails(models.Model):
     userid = models.CharField(max_length=8, blank=True, null=True)
     ID = models.AutoField(primary_key=True)
     StudentID = models.ForeignKey(User, on_delete=models.CASCADE)
+    certificate = models.ImageField(upload_to='Students/Certificate/', null=True, blank=True)
     BatchID = models.ForeignKey(TrainingBatches, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     PaymentDetails = models.ForeignKey(Payments, on_delete=models.CASCADE, null=True, blank=True)
