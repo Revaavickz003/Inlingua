@@ -13,9 +13,9 @@ def batches(request, id):
             Training_Batches = TrainingBatches.objects.get(ID=id)
             if request.method == 'POST':
                 Class_completed = request.POST.get('Class_completed')
-                Study_Material = request.POST.get('Study_Material')
-                Recorded_Session = request.POST.get('Recorded_Session')
-                Assessment = request.POST.get('Assessment')
+                Study_Material = request.FILES.get('Study_Material')
+                Recorded_Session = request.FILES.get('Recorded_Session')
+                Assessment = request.FILES.get('Assessment')
 
                 update_course = Training_Batches.Course_details
 

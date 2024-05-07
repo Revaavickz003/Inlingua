@@ -53,7 +53,7 @@ Add student | Inlingua
                         <input class="form-control bg-dark text-white" type="file" accept="image/*" id="studentphoto" name="studentphoto">
                     </div>
                     <div class="col-lg-4">
-                        <label for="mobilenumber" class="form-label text-white">Language Details</label>
+                        <label for="languageid" class="form-label text-white">Language Details</label>
                         <select class="form-control bg-dark text-white" name="languageid" id="languageid">
                             <option>Select Language</option>
                             {% for language in languages %}
@@ -62,8 +62,8 @@ Add student | Inlingua
                         </select>
                     </div>
                     <div class="col-lg-4">
-                        <label for="mobilenumber" class="form-label text-white">Batch Details</label>
-                        <select class="form-control bg-dark text-white" name="Batchid" id="">
+                        <label for="Batchid" class="form-label text-white">Batch Details</label>
+                        <select class="form-control bg-dark text-white" name="Batchid" id="Batchid">
                             <option>Select Batch</option>
                             {% for batch in batches %}
                             <option value="{{batch.ID}}">{{batch.Name}} | {{batch.Course_details.LevelID.Name}}</option>

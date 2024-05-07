@@ -27,36 +27,42 @@ Home page | Inlingua
     <div class="home-nav-barcontainer d-flex p-3">
         <a href="{% url 'home' %}"><img src="{% static 'img/imgs/L1.png' %}" alt="" width="200px"></a>
         <div class="Notifcaions">
-            <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}{{student_details.userid}}">
+            <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;" type="button"
+                class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#{{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}{{student_details.userid}}">
                 <div style="position: relative;">
                     <i class="fa fa-bell fw-bold fs-4"></i>
                     {% if Notifcaions %}
-                    <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 0; right: 0; border: 2px solid #FFF;"></p>
+                    <p class="m-0 p-1"
+                        style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 0; right: 0; border: 2px solid #FFF;">
+                    </p>
                     {% endif %}
-                </div>    
+                </div>
             </div>
         </div>
     </div>
 </div>
-  <!-- Modal -->
-  <div class="modal fade" id="{{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}{{student_details.userid}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade"
+    id="{{trainer_qualifications.userid}}{{Trainer_Qualifications.userid}}{{student_details.userid}}" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for Notifcaions in Notifcaions %}
+                <p>{{Notifcaions.content}}</p>
+                <hr>
+                {% endfor %}
+            </div>
         </div>
-        <div class="modal-body">
-          {% for Notifcaions in Notifcaions %}
-          <p>{{Notifcaions.content}}</p>
-          <hr>
-          {% endfor %}
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 <div class="profile-container  container mt-3 mb-3">
-    
+
 
     <!-- Modal view batch-->
     <div class="row">
@@ -112,56 +118,86 @@ Home page | Inlingua
 
                     {% if user.is_staff %}
                     {% if Training_Batches %}
-                    <button style="color:#FF751A;" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#updatebatch{{trainer_qualifications.userid}}">Update batch</button>
+                    <button style="color:#FF751A;" type="button" class="btn btn-dark" data-bs-toggle="modal"
+                        data-bs-target="#updatebatch{{trainer_qualifications.userid}}">Update batch</button>
                     {% if user.is_staff %}
-    <div class="modal fade" id="updatebatch{{trainer_qualifications.userid}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">{{Training_Batches}} | {{Training_Batches.Course_details}} - {{Training_Batches.Course_details.LevelID}} ( {{Training_Batches.Course_details.LevelID.Code}} ) </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="col-12 mb-3">
-                        <label for="Class_completed">Class completed</label>
-                        <input class="form-control mt-2" type="number" name="Class_completed" id="Class_completed" value="{{ Training_Batches.Course_details.Course_status }}">
+                    <div class="modal fade" id="updatebatch{{trainer_qualifications.userid}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{Training_Batches}} |
+                                        {{Training_Batches.Course_details}} -
+                                        {{Training_Batches.Course_details.LevelID}} (
+                                        {{Training_Batches.Course_details.LevelID.Code}} ) </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <form action="" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="col-12 mb-3">
+                                                <label for="Class_completed">Class completed</label>
+                                                <input class="form-control mt-2" type="number" name="Class_completed"
+                                                    id="Class_completed"
+                                                    value="{{ Training_Batches.Course_details.Course_status }}">
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <label for="Study_Material">Study Material (PDF)</label>
+                                                <input type="file" class="form-control mt-2" accept=".pdf"
+                                                    name="Study_Material" id="Study_Material">
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <label for="Recorded_Session">Recorded Session (MP4)</label>
+                                                <input type="file" class="form-control mt-2" accept=".mp4"
+                                                    name="Recorded_Session" id="Recorded_Session">
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <label for="Assessment">Assessment (PDF)</label>
+                                                <input type="file" class="form-control mt-2" accept=".pdf"
+                                                    name="Assessment" id="Assessment">
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12 mb-3">
-                        <label for="Study_Material">Study Material (PDF)</label>
-                        <input type="file" class="form-control mt-2" accept=".pdf"  name="Study_Material" id="Study_Material" value="{{ Training_Batches.Course_details.Course_metirials }}">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label for="Recorded_Session">Recorded Session (MP4)</label>
-                        <input type="file" class="form-control mt-2" accept=".mp4"  name="Recorded_Session" id="Recorded_Session" value="{{ Training_Batches.Course_details.Recorded_Session }}">
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label for="Assessment">Assessment (PDF)</label>
-                        <input  type="file" class="form-control mt-2" accept=".pdf" name="Assessment" id="Assessment" value="{{ Training_Batches.Course_details.Assessment }}">
-                    </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-        </form>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-                    {% else %}
-                    <a href="{% url 'logout' %}" style="color:#FF751A;" type="button" class="btn btn-dark px-5">Log out</a>
                     {% endif %}
                     {% else %}
-                    <a href="#" class="btn btn-dark"><i class='bx bx-download mr-3'></i> Get Certificate</a>
+                    <a href="{% url 'logout' %}" style="color:#FF751A;" type="button" class="btn btn-dark px-5">Log
+                        out</a>
                     {% endif %}
-
-
+                    {% else %}
+                    {% if training_batches.Course_details.Course_status == 100 %}
+                    <a href="{% if  student_details.certificate %} {{ student_details.certificate.url }} {% endif %}" class="btn btn-dark"><i class='bx bx-download mr-3'></i> Get Certificate</a>
+                    {% else %}
+                    <a href="#" class="btn btn-dark" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#getnotacertificate"><i class='bx bx-download mr-3'></i> Get Certificate</a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="getnotacertificate" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Alert Message</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p style="color: #FF751A;">Sorry, please complete the course after you receive a certificate.</p style="color: #FF751A;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
                 </div>
             </div>
-
             <div class="col-lg-4 mt-3 mt-lg-0 d-lg-none">
                 <div class="course-full-container container bg-dark">
                     <div class="container-fuild">
@@ -197,8 +233,12 @@ Home page | Inlingua
                             </div>
                         </div>
                         <div class="course-details-rainers mt-4">
-                            <p class="m-0 text-white"><span class="letter-orange">Duration </span>: {{Training_batch.Course_details.StartDate |date:"d-m-Y" }} - {{course_details.EndtDate|date:"d-m-Y" }}</p>
-                            <p class="m-0 text-white"><span class="letter-orange">Session Time </span>: {{course_details.StartTime|time:"g.i A" }} - {{ course_details.EndTime|time:"g.i A" }}</p>
+                            <p class="m-0 text-white"><span class="letter-orange">Duration </span>:
+                                {{Training_batch.Course_details.StartDate |date:"d-m-Y" }} -
+                                {{course_details.EndtDate|date:"d-m-Y" }}</p>
+                            <p class="m-0 text-white"><span class="letter-orange">Session Time </span>:
+                                {{course_details.StartTime|time:"g.i A" }} - {{ course_details.EndTime|time:"g.i A" }}
+                            </p>
                             {% if user.role_id == "Student" %}
                             <p class="m-0 text-white"><span class="letter-orange">Trainer </span>: Manoj Kumar</p>
                             {% endif %}
@@ -210,10 +250,10 @@ Home page | Inlingua
                             <input type="submit" class="btn btn-primary" value="Submit">
                             <a href="" target="_blank">Join Class</a>
                             {% endif %}
-                                {% if user.is_staff %}
-                                <a href="">End Class</a>
-                                {% else %}
-                                <a href="{% url 'logout' %}" class="logout">Log out</a>
+                            {% if user.is_staff %}
+                            <a href="">End Class</a>
+                            {% else %}
+                            <a href="{% url 'logout' %}" class="logout">Log out</a>
                             {% endif %}
                         </div>
                     </div>
@@ -245,7 +285,8 @@ Home page | Inlingua
                     </div>
                     {% else %}
                     <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                        <a href="" style="width: 100%; text-decoration: none;">
+                        <a href="{{training_batches.Course_details.Course_metirials.url}}"
+                            style="width: 100%; text-decoration: none;" target="_blank">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
                                     <img src="{% static 'img/imgs/Book.svg' %}" alt="">
@@ -255,7 +296,8 @@ Home page | Inlingua
                         </a>
                     </div>
                     <div class="col-lg-4  d-flex align-items-center justify-content-center">
-                        <a href="" style="width: 100%; text-decoration: none;">
+                        <a href="{{training_batches.Course_details.Assessment.url}}"
+                            style="width: 100%; text-decoration: none;" target="_blank">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
                                     <img src="{% static 'img/imgs/Pen.svg' %}" alt="">
@@ -265,7 +307,8 @@ Home page | Inlingua
                         </a>
                     </div>
                     <div class="col-lg-4  d-flex align-items-center justify-content-center">
-                        <a href="" style="width: 100%; text-decoration: none;">
+                        <a href="{{training_batches.Course_details.Recorded_Session.url}}"
+                            style="width: 100%; text-decoration: none;" target="_blank">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
                                     <img src="{% static 'img/imgs/Youtube.svg' %}" alt="">
@@ -330,15 +373,28 @@ Home page | Inlingua
                         </div>
                         <div class="course-details-rainers mt-4">
                             <p class="m-0 text-white"><span class="letter-orange">Duration </span>:
+                                {% if Training_Batches %}
                                 {{Training_Batches.Course_details.StartDate|date:"d-m-Y" }} -
-                                {{Training_Batches.Course_details.EndtDate|date:"d-m-Y"}}</p>
-                                <p class="m-0 text-white"><span class="letter-orange">Session Time </span>:
+                                {{Training_Batches.Course_details.EndtDate|date:"d-m-Y"}}
+                                {% else %}
+                                {{training_batches.Course_details.StartDate|date:"d-m-Y"}} -
+                                {{training_batches.Course_details.EndtDate|date:"d-m-Y"}}
+                                {% endif %}
+                            </p>
+                            <p class="m-0 text-white"><span class="letter-orange">Session Time </span>:
+                                {% if Training_Batches %}
                                 {{Training_Batches.Course_details.StartTime}} -
-                                {{Training_Batches.Course_details.EndTime}}</p>
+                                {{Training_Batches.Course_details.EndTime}}
+                                {% else %}
+                                {{training_batches.Course_details.StartTime}} -
+                                {{training_batches.Course_details.EndTime}}
+                                {% endif %}
+                            </p>
 
                             {% if user.is_staff %}
                             {% if Training_Batches.Course_details.class_active %}
-                            <a href="{{Training_Batches.Course_details.Course_link}}" target="_blank" class="btn alert-primary mt-3 w-100">Join Class</a>
+                            <a href="{{Training_Batches.Course_details.Course_link}}" target="_blank"
+                                class="btn alert-primary mt-3 w-100">Join Class</a>
                             {% endif %}
                             {% else %}
                             <p class="m-0 text-white"><span class="letter-orange">Trainer </span>:
@@ -360,15 +416,18 @@ Home page | Inlingua
                                 style="color: #FF751A; background-color:#FFF; border-radius: 20px;">Logout</a>
                             {% else %}
                             {% if user.is_staff %}
-                                {% if Training_Batches.Course_details.class_active %}
-                                <a href="{% url 'endclass' id=Training_Batches.ID classid=Training_Batches.Course_details.ID %}">End Class</a>
-                                {% else %}
-                                <a href="{% url 'start_class' id=Training_Batches.ID classid=Training_Batches.Course_details.ID %}">Start Class</a>
-                                {% endif %}
+                            {% if Training_Batches.Course_details.class_active %}
+                            <a
+                                href="{% url 'endclass' id=Training_Batches.ID classid=Training_Batches.Course_details.ID %}">End
+                                Class</a>
                             {% else %}
-                            <a href="{% if training_batches.Course_details.class_active %}{{training_batches.Course_details.Course_link}} " target="_blank {% endif %}"
-                            
-                             >Join Class</a>
+                            <a
+                                href="{% url 'start_class' id=Training_Batches.ID classid=Training_Batches.Course_details.ID %}">Start
+                                Class</a>
+                            {% endif %}
+                            {% else %}
+                            <a href="{% if training_batches.Course_details.class_active %}{{training_batches.Course_details.Course_link}} "
+                                target="_blank {% endif %}">Join Class</a>
                             {% endif %}
                             <a href="{% url 'logout' %}" class="logout">Log out</a>
                             {% endif %}
@@ -382,7 +441,7 @@ Home page | Inlingua
                 </div>
                 {% endif %}
             </div>
-            
+
         </div>
         <script>
 

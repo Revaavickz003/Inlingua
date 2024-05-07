@@ -96,18 +96,30 @@ def edit_batchs(request,id):
                 Courses_Details = request.POST['Courses_Details']
                 Trainer = request.POST['Trainer']
                 
-                Courses_Details = Courses.objects.get(ID = int(Courses_Details))
-                Trainer = TrainingStaff.objects.get(ID = int(Trainer))
-                updatebatch = TrainingBatches.objects.get(ID = id)
-                updatebatch.Name = batchname
-                updatebatch.Course_details = Courses_Details
-                updatebatch.TrainerId = Trainer
-                updatebatch.UpdatedBy=user.name
-                updatebatch.UpdatedDate= datetime.datetime.now()
-                updatebatch.save()
-                
-                messages.info(request,"The Batch has been updated successfully")
-                return redirect('courceandlevels_table')
+                try:
+                    Courses_Details = Courses.objects.get(ID = int(Courses_Details))
+                except:
+                    Courses_Details = None
+                try:
+                    Trainer = TrainingStaff.objects.get(ID = int(Trainer))
+                except:
+                    Trainer = None
+                try:
+                    updatebatch = TrainingBatches.objects.get(ID = id)
+                except:
+                    updatebatch = None
+                if batchname != '' :
+                    updatebatch.Name = batchname
+                    updatebatch.Course_details = Courses_Details
+                    updatebatch.TrainerId = Trainer
+                    updatebatch.UpdatedBy=user.name
+                    updatebatch.UpdatedDate= datetime.datetime.now()
+                    updatebatch.save()
+                    messages.info(request,"The Batch has been updated successfully")
+                    return redirect('courceandlevels_table')
+                else:
+                    messages.error(request,"Please fill all the fields")
+                    return redirect('courceandlevels_table')
             else:
                 batch_info = TrainingBatches.objects.get(ID=id)
                 all_course = Courses.objects.all()
@@ -237,17 +249,30 @@ def edit_cources(request,id):
                 coursename = request.POST['batchname']
                 level = request.POST['Level_Details']
                 language = request.POST['language_details']
-                level = Level.objects.get(ID = int(level))
-                language = Languages.objects.get(ID = int(language))
-                updatecorse = Courses.objects.get(ID = id)
-                updatecorse.Name = coursename
-                updatecorse.LevelID = level
-                updatecorse.LanguageID = language
-                updatecorse.UpdatedBy=user.name
-                updatecorse.UpdatedDate= datetime.datetime.now()
-                updatecorse.save()
-                messages.info(request,"Course has been updated Successfully.")
-                return redirect('courceandlevels_table')
+                try:
+                    level = Level.objects.get(ID = int(level))
+                except:
+                    messages.error(request, "Select Level")
+                    return redirect('courceandlevels_table')
+                try:
+                    language = Languages.objects.get(ID = int(language))
+                except:
+                    messages.error(request, "Select Language")
+                    return redirect('courceandlevels_table')
+
+                if coursename != '':
+                    updatecorse = Courses.objects.get(ID = id)
+                    updatecorse.Name = coursename
+                    updatecorse.LevelID = level
+                    updatecorse.LanguageID = language
+                    updatecorse.UpdatedBy=user.name
+                    updatecorse.UpdatedDate= datetime.datetime.now()
+                    updatecorse.save()
+                    messages.info(request,"Course has been updated Successfully.")
+                    return redirect('courceandlevels_table')
+                else:
+                    messages.info(request,"Fill correct details...")
+                    return redirect('courceandlevels_table')
             else:
                 try:
                     course_info = Courses.objects.get(ID=id)
@@ -286,8 +311,8 @@ def add_level(request):
                         new_level = Level.objects.create(
                             Name=level_name, 
                             Code=level_code,
-                            CreatedBy=user.name,
-                            UpdatedBy=user.name,
+                            CreatedBy=request.user.name,
+                            UpdatedBy=request.user.name,
                             )
                         new_level.save()
                         messages.success(request,"New level added successfully")
@@ -311,21 +336,23 @@ def edit_level(request,id):
     if request.user.is_authenticated:
         user_id = request.user.id
         user = User.objects.get(id=user_id)
-
         if user.is_staff:
             if request.user.is_superuser:
                 if request.method == 'POST':
                     level_name = request.POST['batchname']
                     level_code = request.POST['gmeeturl']
-
-                    level_updated = Level.objects.get(ID=id)
-                    level_updated.Name = level_name
-                    level_updated.Code = level_code
-                    level_updated.UpdatedBy = user.name
-                    level_updated.UpdatedDate = datetime.datetime.now()
-                    level_updated.save()
-                    messages.success(request,"Level has been updated Successfully")
-                    return redirect('courceandlevels_table')
+                    if level_name != '' and level_code != '':
+                        level_updated = Level.objects.get(ID=id)
+                        level_updated.Name = level_name
+                        level_updated.Code = level_code
+                        level_updated.UpdatedBy = user.name
+                        level_updated.UpdatedDate = datetime.datetime.now()
+                        level_updated.save()
+                        messages.success(request,"Level has been updated Successfully")
+                        return redirect('courceandlevels_table')
+                    else:
+                        messages.success(request,"Fill all details")
+                        return redirect('courceandlevels_table')
                 else:
                     try:
                         level_info = Level.objects.get(ID=id)
