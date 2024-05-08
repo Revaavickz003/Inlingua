@@ -285,7 +285,10 @@ Home page | Inlingua
                     </div>
                     {% else %}
                     <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                        <a href="{{training_batches.Course_details.Course_metirials.url}}"
+                        <a href="
+                        {% if training_batches.Course_details.Course_metirials %}
+                        {{training_batches.Course_details.Course_metirials.url}}
+                        {%  endif %}"
                             style="width: 100%; text-decoration: none;" target="_blank">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
@@ -296,7 +299,10 @@ Home page | Inlingua
                         </a>
                     </div>
                     <div class="col-lg-4  d-flex align-items-center justify-content-center">
-                        <a href="{{training_batches.Course_details.Assessment.url}}"
+                        <a href="
+                        {% if training_batches.Course_details.Assessment %}
+                        {{training_batches.Course_details.Assessment.url}}
+                        {% endif %}"
                             style="width: 100%; text-decoration: none;" target="_blank">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
@@ -307,7 +313,10 @@ Home page | Inlingua
                         </a>
                     </div>
                     <div class="col-lg-4  d-flex align-items-center justify-content-center">
-                        <a href="{{training_batches.Course_details.Recorded_Session.url}}"
+                        <a href="
+                        {% if training_batches.Course_details.Recorded_Session %}
+                        {{training_batches.Course_details.Recorded_Session.url}}
+                        {% endif %}"
                             style="width: 100%; text-decoration: none;" target="_blank">
                             <div class="container-fuild mt-3 d-flex d-lg-block align-items-center">
                                 <div class="contant bg-dark">
