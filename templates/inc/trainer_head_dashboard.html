@@ -13,9 +13,9 @@
                 <div class="profile d-flex align-items-center ">
                     <div class="image me-4" style="border-radius: 50%; overflow: hidden">
                         {% if user.user_img %}
-                        <img src="{{user.user_img.url}}" width="100px" alt="User Img">
+                        <img src="{{user.user_img.url}}" width="100px" height="100px" alt="User Img">
                         {% else %}
-                        <img src="{% static 'img/imgs/profile icon.jpg' %}" width="100px" alt="User Img">
+                        <img src="{% static 'img/imgs/profile icon.jpg' %}" width="10px" height="100px" alt="User Img">
                         {% endif %}
                     </div>
                     <div class="prifile-name">
@@ -57,7 +57,9 @@
                 <div class="notify bg-white" style="width: fit-content; border-radius: 10px; padding: 1rem;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{Trainer_Qualifications.userid}}">
                     <div style="position: relative;">
                         <i class="fa fa-bell fw-bold fs-4"></i>
+                        {% if Notifcaions %}
                         <p class="m-0 p-1" style="background-color: rgba(255, 117, 25, 1); width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 0; right: 0; border: 2px solid #FFF;"></p>
+                        {% endif %}
                     </div>    
                 </div>
             </div>
